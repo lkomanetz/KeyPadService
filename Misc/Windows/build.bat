@@ -3,6 +3,9 @@
 mkdir Build
 pushd Build
 
-cl -Zi -I ..\Headers ..\Test_Win32.cpp User32.lib
+del /q *
+for /d %%x in (*) do @rd /s /q "%%x"
+
+cl -EHsc -Zi -I ..\Headers ..\Test_Win32.cpp User32.lib
 
 popd
