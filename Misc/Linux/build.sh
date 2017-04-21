@@ -2,6 +2,7 @@
 mkdir ../../Build
 pushd ../../Build
 
-g++ -o test -I ../Headers ../*Linux.cpp
+rm *
+g++ -o test -I ../Headers -I ../Linux/Headers ../Linux/*.cpp ../Code/*.cpp -std=c++11
 
 popd
