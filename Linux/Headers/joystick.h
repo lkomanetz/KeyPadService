@@ -23,6 +23,7 @@ public:
 	~Joystick();
 	bool buttonPressed(int button);
 	void readEvent();
+	void initialize();
 	char* getName() { return _name; }
 	int getButtonCount() { return _buttonCount; }
 	int getAxisCount() { return _axisCount; }

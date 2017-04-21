@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 
 	delete p;
 
-	Joystick js;
+	Joystick js = p->getJoystick();
 	cout << "Name: " << js.getName() << endl;
 	cout << "Button Count: " << js.getButtonCount() << endl;
 	cout << "Axis Count: " << js.getAxisCount() << endl;
