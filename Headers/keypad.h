@@ -1,30 +1,22 @@
 #ifndef KEYPAD_H
 #define KEYPAD_H
 
-using namespace std;
-
-#include <unordered_map>
 #include <keymapping.h>
+#include <joystick.h>
 
-typedef unsigned long ControllerButton;
-typedef unsigned long KeyboardButton;
-
-struct KeyBind {
-	ControllerButton source;
-	KeyboardButton destination;
-};
+using namespace std;
 
 class Program {
 private:
-	unordered_map<ControllerButton, KeyboardButton> _bindings;
+	KeyMapping _keyMap;
+
+protected:
+	Joystick* _joystick;
 
 public:
 	~Program();
-	void addBinding(KeyBind);
-	void removeBinding(KeyBind);
-	void updateBinding(KeyBind);
-	virtual void initializeController() = 0;
-	unordered_map<ControllerButton, KeyboardButton> getBindings() { return _bindings; }
+	KeyMapping* getKeyMap() { return &_keyMap; }
+	Joystick* getJoystick() const { return _joystick; }
 };
 
 #endif

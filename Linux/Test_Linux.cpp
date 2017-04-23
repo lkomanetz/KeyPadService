@@ -2,11 +2,11 @@
 #include <iostream>
 #include <assert.h>
 #include <linuxprogram.h>
-#include <joystick.h>
 
 using namespace std;
 
-void printBindings(unordered_map<ControllerButton, KeyboardButton>);
+void assertKeymapSize(KeyMapping* keyMap, int expectedSize);
+void display(LinuxJoystick*);
 
 int main(int argc, char** argv) {
 	LinuxProgram* p = new LinuxProgram();
@@ -15,25 +15,26 @@ int main(int argc, char** argv) {
 	keyMap.source = 0;
 	keyMap.destination = 1;
 
-	p->addBinding(keyMap);
-	p->addBinding(keyMap);
+	p->getKeyMap()->addBinding(keyMap);
+	p->getKeyMap()->addBinding(keyMap);
 
-	auto bindings = p->getBindings();
-	printBindings(bindings);
+	KeyMapping* map = p->getKeyMap();
 
-	assert(bindings.size() == 1);
-	assert(bindings.begin()->first == keyMap.source);
+	assertKeymapSize(map, 1);
+	assert(p->getKeyMap()->getKeyboardButtonFor(keyMap.source) == keyMap.destination);
 
+	LinuxJoystick* js = p->getJoystick();
+	display(js);
 	delete p;
-
-	Joystick js = p->getJoystick();
-	cout << "Name: " << js.getName() << endl;
-	cout << "Button Count: " << js.getButtonCount() << endl;
-	cout << "Axis Count: " << js.getAxisCount() << endl;
 }
 
-void printBindings(unordered_map<ControllerButton, KeyboardButton> bindings) {
-	for (auto element : bindings) {
-		std::cout << element.first << "::" << element.second << std::endl;
-	}
+void display(LinuxJoystick* js) {
+	cout << "Name: " << js->getName() << endl;
+	cout << "Status: " << js->isActive() << endl;
+	cout << "Button Count: " << js->getButtonCount() << endl;
+	cout << "Axis Count: " << js->getAxisCount() << endl;
+}
+
+void assertKeymapSize(KeyMapping* keyMap, int expectedSize) {
+	assert(keyMap->size() == expectedSize);
 }

@@ -2,19 +2,27 @@
 #define KEYMAPPING_H
 
 #include <unordered_map>
-//TODO(Logan) -> Fix this issue where the ControllerButton and KeyboardButton typedefs aren't working.
-#include <keypad.h>
 
 using namespace std;
+
+typedef unsigned long ControllerButton;
+typedef unsigned long KeyboardButton;
+
+struct KeyBind {
+	ControllerButton source;
+	KeyboardButton destination;
+};
 
 class KeyMapping {
 private:
 	unordered_map<ControllerButton, KeyboardButton> _bindings;
 
 public:
+	~KeyMapping();
 	void addBinding(KeyBind);
 	void removeBinding(KeyBind);
 	void updateBinding(KeyBind);
+	int size() { return _bindings.size(); }
 	KeyboardButton getKeyboardButtonFor(ControllerButton);
 };
 
