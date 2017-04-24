@@ -5,6 +5,8 @@
 
 using namespace std;
 
+#define JOY_DEV "/dev/input/js0"
+
 void assertKeymapSize(KeyMapping* keyMap, int expectedSize);
 void display(LinuxJoystick*);
 
@@ -25,6 +27,16 @@ int main(int argc, char** argv) {
 
 	LinuxJoystick* js = p->getJoystick();
 	display(js);
+
+	while (true) {
+		js->getState();
+
+		if (!js->isActive()) {
+			cout << "State:  NOT ACTIVE" << endl;
+			break;
+		}
+	}
+
 	delete p;
 }
 

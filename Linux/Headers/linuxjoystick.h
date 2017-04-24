@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <joystick.h>
+#include <keymapping.h>
 
 typedef unsigned char EventType;
 typedef unsigned char ActionIndex;
@@ -17,23 +18,27 @@ typedef short EventValue;
 #define JS_EVENT_BUTTON 0x01 // Button is pressed/released
 #define JS_EVENT_AXIS 0x02 // Joystick has moved
 #define JS_EVENT_INIT 0x03 // Initial state of joystick
+*/
 #define MIN_AXIS_VALUE -32768
 #define MAX_AXI_VALUE 32768
-*/
+
+
+using namespace std;
 
 class LinuxJoystick : public Joystick {
 private:
+	unordered_map<ControllerButton, short> _currentButtonStates;
+	js_event* p_event;
 	int _axisCount;
 	int _buttonCount;
 	int _joystickFd;
 	bool _active;
-	js_event* p_event;
 	char _name[256];
 
 public:
 	LinuxJoystick();
 	virtual ~LinuxJoystick();
-	bool buttonPressed(int button);
+	bool buttonPressed(ControllerButton button);
 	void readEvent();
 	void initialize();
 	void getState();
