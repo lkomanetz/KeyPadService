@@ -16,7 +16,7 @@ protected:
 public:
 	~Program();
 	KeyMapping* getKeyMap() { return &_keyMap; }
-	Joystick* getJoystick() const { return _joystick; }
+	virtual Joystick* getJoystick() const { return _joystick; }
 };
 
 #endif

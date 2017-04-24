@@ -9,7 +9,7 @@ private:
 
 public:
 	LinuxProgram();
-	virtual LinuxJoystick* getJoystick();
+	virtual LinuxJoystick* getJoystick() const;
 };
 
 #endif

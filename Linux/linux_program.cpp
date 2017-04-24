@@ -5,6 +5,6 @@ LinuxProgram::LinuxProgram() {
 	_joystick->initialize();
 }
 
-LinuxJoystick* LinuxProgram::getJoystick() {
+LinuxJoystick* LinuxProgram::getJoystick() const {
 	return dynamic_cast<LinuxJoystick*>(_joystick);
 }
