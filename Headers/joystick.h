@@ -3,6 +3,8 @@
 
 #include <keymapping.h>
 
+//TODO(Logan) -> Move value constants either in define statements or constants scoped to a namespace.
+
 class Joystick {
 private:
 	bool _active;
