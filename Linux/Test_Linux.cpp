@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
 	display(js);
 
 	while (true) {
+		// Right now this is calling std::cout to display what the state is.
 		js->fillState();
 
 		if (!js->isActive()) {
