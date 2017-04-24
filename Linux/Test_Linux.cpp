@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 	display(js);
 
 	while (true) {
-		js->getState();
+		js->fillState();
 
 		if (!js->isActive()) {
 			cout << "State:  NOT ACTIVE" << endl;

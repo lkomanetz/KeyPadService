@@ -32,7 +32,7 @@ bool LinuxJoystick::buttonPressed(const ControllerButton button) {
 }
 
 //TODO(Logan) -> Implement this method to get the current state of the controller.
-void LinuxJoystick::getState() {
+void LinuxJoystick::fillState() {
 	int bytesRead = read(_joystickFd, p_event, sizeof(js_event));
 
 	if (bytesRead == -1)
@@ -40,6 +40,7 @@ void LinuxJoystick::getState() {
 
 	switch (p_event->type & ~JS_EVENT_INIT) {
 		case JS_EVENT_BUTTON:
+			_currentButtonStates[p_event->number] = p_event->value;
 			std::cout << static_cast<int>(p_event->number) << ": " << p_event->value << std::endl;
 			break;
 	}
