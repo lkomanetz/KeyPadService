@@ -26,11 +26,6 @@ void LinuxJoystick::initialize() {
 	_active = _joystickFd >= 0;
 }
 
-//TODO(Logan) -> Implement this method for Linux joystick support.
-bool LinuxJoystick::buttonPressed(const ControllerButton button) {
-	return _currentButtonStates[button] == 1;
-}
-
 //TODO(Logan) -> Implement this method to get the current state of the controller.
 void LinuxJoystick::fillState() {
 	int bytesRead = read(_joystickFd, p_event, sizeof(js_event));
@@ -39,9 +34,11 @@ void LinuxJoystick::fillState() {
 		return;
 
 	switch (p_event->type & ~JS_EVENT_INIT) {
+		case JS_EVENT_AXIS:
+			_currentAxisStates[static_cast<ControllerButton>(p_event->number)] = p_event->value;
+			break;
 		case JS_EVENT_BUTTON:
 			_currentButtonStates[p_event->number] = p_event->value;
-			std::cout << static_cast<int>(p_event->number) << ": " << p_event->value << std::endl;
 			break;
 	}
 }

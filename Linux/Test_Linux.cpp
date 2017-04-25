@@ -29,12 +29,21 @@ int main(int argc, char** argv) {
 	display(js);
 
 	while (true) {
-		// Right now this is calling std::cout to display what the state is.
+		usleep(1000);
 		js->fillState();
 
 		if (!js->isActive()) {
 			cout << "State:  NOT ACTIVE" << endl;
 			break;
+		}
+
+		//TODO(Logan) -> Figure out a way to handle left/right/up/down instead of just axis values.
+		short value = js->getAxisValue(ControllerButtons::DPAD_RIGHT);
+		if (value > 0) {
+			cout << "Axis 6: " << value << endl;
+		}
+		if (js->buttonPressed(ControllerButtons::A_BUTTON)) {
+			cout << "A is pressed!" << endl;
 		}
 	}
 
