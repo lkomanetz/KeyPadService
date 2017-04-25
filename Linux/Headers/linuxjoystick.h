@@ -19,6 +19,11 @@ typedef short EventValue;
 
 using namespace std;
 
+struct ButtonPressedEventArgs {
+	ControllerButton button;
+	bool isPressed;
+};
+
 class LinuxJoystick : public Joystick {
 private:
 	unordered_map<ControllerButton, short> _currentButtonStates;
@@ -29,6 +34,7 @@ private:
 	int _joystickFd;
 	bool _active;
 	char _name[256];
+	void (*_buttonPressed)(ButtonPressedEventArgs);
 
 public:
 	LinuxJoystick();
@@ -41,6 +47,7 @@ public:
 	int getAxisCount() { return _axisCount; }
 	short getAxisValue(const short axis) { return _currentAxisStates[axis]; }
 	bool isActive() { return _active; }
+	void setOnButtonPressedEvent(void (*buttonPressed)(ButtonPressedEventArgs)) { _buttonPressed = buttonPressed; }
 };
 
 #endif

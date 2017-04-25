@@ -39,6 +39,12 @@ void LinuxJoystick::fillState() {
 			break;
 		case JS_EVENT_BUTTON:
 			_currentButtonStates[p_event->number] = p_event->value;
+			if (_buttonPressed != NULL) {
+				ButtonPressedEventArgs args;
+				args.button = p_event->number;
+				args.isPressed = p_event->value == 1;
+				_buttonPressed(args);
+			}
 			break;
 	}
 }
