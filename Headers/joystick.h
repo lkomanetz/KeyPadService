@@ -2,8 +2,11 @@
 #define JOYSTICK_H
 
 #include <keymapping.h>
+#include <functional>
 
-//TODO(Logan) -> Move value constants either in define statements or constants scoped to a namespace.
+#define MIN_AXIS_VALUE -32768
+#define MAX_AXIS_VALUE 32768
+
 namespace ControllerButtons {
 	const ControllerButton A_BUTTON = 0;
 	const ControllerButton B_BUTTON = 1;
@@ -19,16 +22,19 @@ namespace ControllerButtons {
 	const ControllerButton DPAD_RIGHT = 6;
 }
 
+struct ButtonPressedEventArgs {
+	ControllerButton button;
+	bool isPressed;
+};
+
 class Joystick {
 private:
 	bool _active;
 
 public:
-	virtual bool buttonPressed(const ControllerButton button) = 0;	
 	virtual void fillState() = 0;
 	virtual void initialize() = 0;
 	bool isActive() { return _active; }
-
 };
 
 #endif

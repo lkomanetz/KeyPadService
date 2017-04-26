@@ -26,25 +26,20 @@ void LinuxJoystick::initialize() {
 	_active = _joystickFd >= 0;
 }
 
-//TODO(Logan) -> Implement this method to get the current state of the controller.
 void LinuxJoystick::fillState() {
-	int bytesRead = read(_joystickFd, p_event, sizeof(js_event));
+	while (true) {
+		int bytesRead = read(_joystickFd, p_event, sizeof(js_event));
 
-	if (bytesRead == -1)
-		return;
+		if (bytesRead == -1)
+			return;
 
-	switch (p_event->type & ~JS_EVENT_INIT) {
-		case JS_EVENT_AXIS:
-			_currentAxisStates[static_cast<ControllerButton>(p_event->number)] = p_event->value;
-			break;
-		case JS_EVENT_BUTTON:
-			_currentButtonStates[p_event->number] = p_event->value;
-			if (_buttonPressed != NULL) {
-				ButtonPressedEventArgs args;
-				args.button = p_event->number;
-				args.isPressed = p_event->value == 1;
-				_buttonPressed(args);
-			}
-			break;
+		switch (p_event->type & ~JS_EVENT_INIT) {
+			case JS_EVENT_AXIS:
+				_currentAxisStates[static_cast<ControllerButton>(p_event->number)] = p_event->value;
+				break;
+			case JS_EVENT_BUTTON:
+				_buttonStates[p_event->number] = p_event->value;
+				break;
+		}
 	}
 }

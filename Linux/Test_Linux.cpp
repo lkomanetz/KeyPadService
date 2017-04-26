@@ -30,7 +30,6 @@ int main(int argc, char** argv) {
 
 	while (true) {
 		usleep(1000);
-		js->fillState();
 
 		if (!js->isActive()) {
 			cout << "State:  NOT ACTIVE" << endl;
@@ -38,16 +37,25 @@ int main(int argc, char** argv) {
 		}
 
 		//TODO(Logan) -> Figure out a way to handle left/right/up/down instead of just axis values.
+		/*
 		short value = js->getAxisValue(ControllerButtons::DPAD_RIGHT);
 		if (value > 0) {
 			cout << "Axis 6: " << value << endl;
 		}
-		if (js->buttonPressed(ControllerButtons::A_BUTTON)) {
+		*/
+		if (js->isButtonPressed(ControllerButtons::A_BUTTON)) {
 			cout << "A is pressed!" << endl;
+		}
+		if (js->isButtonPressed(ControllerButtons::B_BUTTON)) {
+			cout << "B is pressed!" << endl;
+		}
+		if (js->isButtonPressed(ControllerButtons::RIGHT_SHOULDER_BUTTON)) {
+			break;
 		}
 	}
 
 	delete p;
+	return 0;
 }
 
 void display(LinuxJoystick* js) {
