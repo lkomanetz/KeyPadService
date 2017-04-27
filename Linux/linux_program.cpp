@@ -20,9 +20,12 @@ LinuxJoystick* LinuxProgram::getJoystick() const {
 void* LinuxProgram::getJoystickState(void* obj) {
 	bool exitThread = reinterpret_cast<LinuxProgram*>(obj)->_exitThread;
 	Joystick* js = reinterpret_cast<LinuxProgram*>(obj)->getJoystick();
+
+	std::cout << "I am starting to get Joystick state!" << std::endl;
 	while (!exitThread) {
 		js->fillState();
 	}
+	
 	std::cout << "I am done!" << std::endl;
 	pthread_exit(NULL);
 }

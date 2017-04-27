@@ -26,7 +26,6 @@ int main(int argc, char** argv) {
 	assert(p->getKeyMap()->getKeyboardButtonFor(keyMap.source) == keyMap.destination);
 
 	LinuxJoystick* js = p->getJoystick();
-	display(js);
 
 	while (true) {
 		usleep(1000);
