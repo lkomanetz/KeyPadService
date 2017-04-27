@@ -1,5 +1,11 @@
 #include <../Headers/keypad.h>
 
+Program::Program() {
+	_joystick = NULL;
+}
+
 Program::~Program() {
-	delete _joystick;
+	if (_joystick) {
+		delete _joystick;
+	}
 }

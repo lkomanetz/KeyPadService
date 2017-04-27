@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <keypad.h>
+#include <windowsprogram.h>
 
 const ControllerButton DPAD_UP = 0x0001;
 const ControllerButton DPAD_DOWN = 0x0002;
@@ -17,24 +18,10 @@ const ControllerButton BUTTON_B = 0x2000;
 const ControllerButton BUTTON_X = 0x4000;
 const ControllerButton BUTTON_Y = 0x8000;
 
-int CALLBACK WinMain(
-	HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPSTR lpCmdLine,
-	int nCmdShow
-) {
+using namespace std;
 
-	KeyBind keyMap = {};
-	keyMap.destination = 1;
-	keyMap.source = BUTTON_A;
-
-	if (keyMap.destination == 1) {
-		MessageBox(NULL, "Destination is 1", "Test", MB_OK | MB_ICONINFORMATION);
-	}
-
-	if (keyMap.source == BUTTON_A) {
-		MessageBox(NULL, "Button is A", "Test", MB_OK | MB_ICONINFORMATION);
-	}
-
+int main(int argc, char** argv) {
+	WindowsProgram* program = new WindowsProgram();
+	delete program;
 	return 0;
 }
