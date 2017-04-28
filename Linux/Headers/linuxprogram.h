@@ -9,11 +9,10 @@ class LinuxProgram : public Program {
 private:
 	pthread_t _jsStateThread;
 	static void* getJoystickState(void*);
-	bool _exitThread;
 
 public:
 	LinuxProgram();
-	~LinuxProgram();
+	virtual ~LinuxProgram();
 	virtual LinuxJoystick* getJoystick() const;
 };
 

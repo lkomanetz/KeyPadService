@@ -11,13 +11,14 @@ private:
 	KeyMapping _keyMap;
 
 protected:
-	Joystick* _joystick;
+	Joystick* p_joystick;
 
 public:
 	Program();
 	virtual ~Program();
+	static bool isRunning;
 	KeyMapping* getKeyMap() { return &_keyMap; }
-	virtual Joystick* getJoystick() const { return _joystick; }
+	virtual Joystick* getJoystick() const { return p_joystick; }
 };
 
 #endif

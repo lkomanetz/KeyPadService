@@ -1,11 +1,14 @@
 #include <../Headers/keypad.h>
 
+bool Program::isRunning = false;
+
 Program::Program() {
-	_joystick = NULL;
+	Program::isRunning = true;
+	p_joystick = NULL;
 }
 
 Program::~Program() {
-	if (_joystick) {
-		delete _joystick;
+	if (p_joystick) {
+		delete p_joystick;
 	}
 }

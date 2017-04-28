@@ -5,8 +5,6 @@
 
 using namespace std;
 
-#define JOY_DEV "/dev/input/js0"
-
 void assertKeymapSize(KeyMapping* keyMap, int expectedSize);
 void display(LinuxJoystick*);
 
@@ -54,6 +52,7 @@ int main(int argc, char** argv) {
 	}
 
 	delete p;
+	usleep(1000);
 	return 0;
 }
 
