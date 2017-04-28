@@ -1,4 +1,5 @@
 #include <linuxprogram.h>
+#include <iostream>
 
 LinuxProgram::LinuxProgram() {
 	p_joystick = new LinuxJoystick();
@@ -21,5 +22,22 @@ void* LinuxProgram::getJoystickState(void* obj) {
 
 	while (Program::isRunning) {
 		js->fillState();
+		Joystick_State state = js->getCurrentState();
+
+		for (auto it : state.buttonStates) {
+			if (it.second == 1) {
+				std::cout << "Button '" << it.first << "' is pressed!" << std::endl;
+			}
+		}
+
+		// TODO(Logan) -> I still have to figure out how to handle axis values
+		for (auto it : state.axisStates) {
+			std::cout << "Axis '" << it.first << "' Value " << it.second << std::endl;
+			/*
+			if (it.second == 32768 || it.second == -32768) {
+				std::cout << "Axis '" << it.first << "' is pressed!" << std::endl;
+			}
+			*/
+		}
 	}
 }

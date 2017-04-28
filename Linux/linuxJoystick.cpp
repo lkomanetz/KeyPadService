@@ -31,13 +31,14 @@ void LinuxJoystick::fillState() {
 
 		if (bytesRead == -1)
 			return;
-
+		
+		ControllerButton evtNum = static_cast<ControllerButton>(p_event->number);
 		switch (p_event->type & ~JS_EVENT_INIT) {
 			case JS_EVENT_AXIS:
-				_currentAxisStates[static_cast<ControllerButton>(p_event->number)] = p_event->value;
+				_state.axisStates[evtNum] = p_event->value;
 				break;
 			case JS_EVENT_BUTTON:
-				_buttonStates[p_event->number] = p_event->value;
+				_state.buttonStates[evtNum] = p_event->value;
 				break;
 		}
 	}

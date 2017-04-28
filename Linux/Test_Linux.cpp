@@ -6,22 +6,17 @@
 using namespace std;
 
 void assertKeymapSize(KeyMapping* keyMap, int expectedSize);
-void display(LinuxJoystick*);
+KeyMapping buildMap();
 
 int main(int argc, char** argv) {
 	LinuxProgram* p = new LinuxProgram();
+	KeyMapping keyMap = buildMap();
 
-	KeyBind keyMap = {};
-	keyMap.source = 0;
-	keyMap.destination = 1;
-
-	p->getKeyMap()->addBinding(keyMap);
-	p->getKeyMap()->addBinding(keyMap);
-
+	p->setKeyMap(keyMap);
 	KeyMapping* map = p->getKeyMap();
 
-	assertKeymapSize(map, 1);
-	assert(p->getKeyMap()->getKeyboardButtonFor(keyMap.source) == keyMap.destination);
+	assertKeymapSize(map, 4);
+	assert(p->getKeyMap()->getKeyboardButtonFor(ControllerButtons::A_BUTTON) == 90);
 
 	LinuxJoystick* js = p->getJoystick();
 
@@ -40,6 +35,7 @@ int main(int argc, char** argv) {
 			cout << "Axis 6: " << value << endl;
 		}
 		*/
+		/*
 		if (js->isButtonPressed(ControllerButtons::A_BUTTON)) {
 			cout << "A is pressed!" << endl;
 		}
@@ -49,6 +45,7 @@ int main(int argc, char** argv) {
 		if (js->isButtonPressed(ControllerButtons::RIGHT_SHOULDER_BUTTON)) {
 			break;
 		}
+		*/
 	}
 
 	delete p;
@@ -56,11 +53,29 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-void display(LinuxJoystick* js) {
-	cout << "Name: " << js->getName() << endl;
-	cout << "Status: " << js->isActive() << endl;
-	cout << "Button Count: " << js->getButtonCount() << endl;
-	cout << "Axis Count: " << js->getAxisCount() << endl;
+KeyMapping buildMap() {
+	KeyMapping map;
+	for (int i = 0; i < 4; ++i) {
+		KeyBind bind;
+		bind.source = i;
+		switch (i) {
+			case 0:
+				bind.destination = 90; // Z Key
+				break;
+			case 1:
+				bind.destination = 88; // X Key
+				break;
+			case 2:
+				bind.destination = 32; // Space bar
+				break;
+			case 3:
+				bind.destination = 13; // Enter
+				break;
+		}
+
+		map.addBinding(bind);
+	}
+	return map;
 }
 
 void assertKeymapSize(KeyMapping* keyMap, int expectedSize) {

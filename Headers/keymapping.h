@@ -5,7 +5,7 @@
 
 using namespace std;
 
-typedef short ControllerButton;
+typedef unsigned short ControllerButton;
 typedef unsigned long KeyboardButton;
 
 struct KeyBind {

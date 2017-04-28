@@ -9,18 +9,33 @@
 #include <joystick.h>
 #include <keymapping.h>
 
-typedef unsigned char EventType;
-typedef unsigned char ActionIndex;
-typedef short EventValue;
-
 #define JOY_DEV "/dev/input/js0"
+
+namespace ControllerButtons {
+	const ControllerButton A_BUTTON = 0;
+	const ControllerButton B_BUTTON = 1;
+	const ControllerButton X_BUTTON = 2;
+	const ControllerButton Y_BUTTON = 3;
+	const ControllerButton LEFT_SHOULDER_BUTTON = 4;
+	const ControllerButton RIGHT_SHOULDER_BUTTON = 5;
+	const ControllerButton BACK_BUTTON = 6;
+	const ControllerButton MENU_BUTTON = 7;
+	const ControllerButton HOME_BUTTON = 8;
+	const ControllerButton LEFT_STICK_BUTTON = 9;
+	const ControllerButton RIGHT_STICK_BUTTON = 10;
+	const ControllerButton DPAD_RIGHT = 6;
+}
+
+struct Joystick_State {
+	unordered_map<ControllerButton, short> buttonStates;
+	unordered_map<short, short> axisStates;
+};
 
 using namespace std;
 
 class LinuxJoystick : public Joystick {
 private:
-	unordered_map<ControllerButton, short> _buttonStates;
-	unordered_map<short, short> _currentAxisStates;
+	Joystick_State _state;
 	js_event* p_event;
 	int _axisCount;
 	int _buttonCount;
@@ -33,11 +48,12 @@ public:
 	virtual ~LinuxJoystick();
 	virtual void initialize();
 	virtual void fillState();
-	virtual bool isButtonPressed(ControllerButton button) { return _buttonStates[button] == 1; }
+	virtual Joystick_State getCurrentState() { return _state; }
+	virtual bool isButtonPressed(ControllerButton button) { return _state.buttonStates[button] == 1; }
 	char* getName() { return _name; }
 	int getButtonCount() { return _buttonCount; }
 	int getAxisCount() { return _axisCount; }
-	short getAxisValue(const short axis) { return _currentAxisStates[axis]; }
+	short getAxisValue(const short axis) { return _state.axisStates[axis]; }
 	bool isActive() { return _active; }
 };
 

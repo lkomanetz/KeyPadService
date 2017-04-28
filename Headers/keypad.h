@@ -18,6 +18,7 @@ public:
 	virtual ~Program();
 	static bool isRunning;
 	KeyMapping* getKeyMap() { return &_keyMap; }
+	void setKeyMap(KeyMapping map) { _keyMap = map; }
 	virtual Joystick* getJoystick() const { return p_joystick; }
 };
 
