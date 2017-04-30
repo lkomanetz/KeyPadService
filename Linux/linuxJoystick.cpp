@@ -1,4 +1,5 @@
 #include <linuxjoystick.h>
+#include <iostream>
 
 LinuxJoystick::LinuxJoystick() {
 	p_event = new js_event;
@@ -42,4 +43,30 @@ void LinuxJoystick::fillState() {
 				break;
 		}
 	}
+}
+
+bool LinuxJoystick::isButtonPressed(ControllerButton button) {
+	if (!this->isAxisButton(button))
+		return _state.buttonStates[button] == 1;
+
+	std::cout << "Button '" << button << "' Value: '" << _state.axisStates[button] << std::endl;
+	/*
+	short value = _state.axisStates[button];
+	if ((button == ControllerButtons::DPAD_LEFT || button == ControllerButtons::DPAD_DOWN) &&
+		value < 0)
+		return true;
+	else if ((button == ControllerButtons::DPAD_RIGHT || button == ControllerButtons::DPAD_UP) &&
+		value > 0)
+		return true;
+	else
+		return false;
+	*/
+	return false;
+}
+
+bool LinuxJoystick::isAxisButton(ControllerButton button) {
+	return (button == ControllerButtons::DPAD_DOWN ||
+		button == ControllerButtons::DPAD_RIGHT ||
+		button == ControllerButtons::DPAD_LEFT ||
+		button == ControllerButtons::DPAD_UP);
 }

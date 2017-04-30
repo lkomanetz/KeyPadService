@@ -30,14 +30,14 @@ void* LinuxProgram::getJoystickState(void* obj) {
 			}
 		}
 
-		// TODO(Logan) -> I still have to figure out how to handle axis values
-		for (auto it : state.axisStates) {
-			std::cout << "Axis '" << it.first << "' Value " << it.second << std::endl;
-			/*
-			if (it.second == 32768 || it.second == -32768) {
-				std::cout << "Axis '" << it.first << "' is pressed!" << std::endl;
-			}
-			*/
-		}
+		//TODO(Logan)-> DPAD_DOWN and DPAD_RIGHT aren't working
+		if (js->isButtonPressed(ControllerButtons::DPAD_LEFT))
+			std::cout << "Left dpad pressed" << std::endl;
+		else if (js->isButtonPressed(ControllerButtons::DPAD_RIGHT))
+			std::cout << "Right dpad pressed" << std::endl;
+		else if (js->isButtonPressed(ControllerButtons::DPAD_UP))
+			std::cout << "Up dpad pressed" << std::endl;
+		else if (js->isButtonPressed(ControllerButtons::DPAD_DOWN))
+			std::cout << "Down dpad pressed" << std::endl;
 	}
 }

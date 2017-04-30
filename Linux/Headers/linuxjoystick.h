@@ -24,6 +24,9 @@ namespace ControllerButtons {
 	const ControllerButton LEFT_STICK_BUTTON = 9;
 	const ControllerButton RIGHT_STICK_BUTTON = 10;
 	const ControllerButton DPAD_RIGHT = 6;
+	const ControllerButton DPAD_LEFT = 6;
+	const ControllerButton DPAD_UP = 7;
+	const ControllerButton DPAD_DOWN = 7;
 }
 
 struct Joystick_State {
@@ -42,6 +45,8 @@ private:
 	int _joystickFd;
 	bool _active;
 	char _name[256];
+	
+	bool isAxisButton(ControllerButton button);
 
 public:
 	LinuxJoystick();
@@ -49,7 +54,7 @@ public:
 	virtual void initialize();
 	virtual void fillState();
 	virtual Joystick_State getCurrentState() { return _state; }
-	virtual bool isButtonPressed(ControllerButton button) { return _state.buttonStates[button] == 1; }
+	virtual bool isButtonPressed(ControllerButton button);
 	char* getName() { return _name; }
 	int getButtonCount() { return _buttonCount; }
 	int getAxisCount() { return _axisCount; }

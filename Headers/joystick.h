@@ -16,6 +16,7 @@ private:
 public:
 	virtual void fillState() = 0;
 	virtual void initialize() = 0;
+	virtual bool isButtonPressed(ControllerButton button) = 0;
 	virtual Joystick_State getCurrentState() = 0;
 	bool isActive() { return _active; }
 };
