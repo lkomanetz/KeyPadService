@@ -29,21 +29,14 @@ namespace ControllerButtons {
 	const ControllerButton DPAD_DOWN = 7;
 }
 
-struct Joystick_State {
-	unordered_map<ControllerButton, short> buttonStates;
-	unordered_map<short, short> axisStates;
-};
-
 using namespace std;
 
 class LinuxJoystick : public Joystick {
 private:
-	Joystick_State _state;
 	js_event* p_event;
 	int _axisCount;
 	int _buttonCount;
 	int _joystickFd;
-	bool _active;
 	char _name[256];
 	
 	bool isAxisButton(ControllerButton button);
@@ -53,13 +46,11 @@ public:
 	virtual ~LinuxJoystick();
 	virtual void initialize();
 	virtual void fillState();
-	virtual Joystick_State getCurrentState() { return _state; }
 	virtual bool isButtonPressed(ControllerButton button);
 	char* getName() { return _name; }
 	int getButtonCount() { return _buttonCount; }
 	int getAxisCount() { return _axisCount; }
 	short getAxisValue(const short axis) { return _state.axisStates[axis]; }
-	bool isActive() { return _active; }
 };
 
 #endif
