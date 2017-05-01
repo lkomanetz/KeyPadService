@@ -10,6 +10,8 @@
 #include <keymapping.h>
 
 #define JOY_DEV "/dev/input/js0"
+#define HORIZONTAL_AXIS 6
+#define VERTICAL_AXIS 7
 
 namespace ControllerButtons {
 	const ControllerButton A_BUTTON = 0;
@@ -23,10 +25,10 @@ namespace ControllerButtons {
 	const ControllerButton HOME_BUTTON = 8;
 	const ControllerButton LEFT_STICK_BUTTON = 9;
 	const ControllerButton RIGHT_STICK_BUTTON = 10;
-	const ControllerButton DPAD_RIGHT = 6;
-	const ControllerButton DPAD_LEFT = 6;
-	const ControllerButton DPAD_UP = 7;
-	const ControllerButton DPAD_DOWN = 7;
+	const ControllerButton DPAD_RIGHT = 6; // DPAD_LEFT and DPAD_RIGHT axis is 6
+	const ControllerButton DPAD_LEFT = 7;
+	const ControllerButton DPAD_UP = 8; // DPAD_UP and DPAD_DOWN axis is 7
+	const ControllerButton DPAD_DOWN = 9;
 }
 
 using namespace std;

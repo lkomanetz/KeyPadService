@@ -34,9 +34,36 @@ void LinuxJoystick::fillState() {
 			return;
 		
 		ControllerButton evtNum = static_cast<ControllerButton>(p_event->number);
+
+		//TODO(Logan) -> Look at possibly refactoring this into a separate method.
 		switch (p_event->type & ~JS_EVENT_INIT) {
 			case JS_EVENT_AXIS:
-				_state.axisStates[evtNum] = p_event->value;
+				if ((evtNum == HORIZONTAL_AXIS || evtNum == VERTICAL_AXIS) ||
+					p_event->value == 0) {
+					
+					_state.axisStates[ControllerButtons::DPAD_DOWN] = 0;
+					_state.axisStates[ControllerButtons::DPAD_UP] = 0;
+					_state.axisStates[ControllerButtons::DPAD_RIGHT] = 0;
+					_state.axisStates[ControllerButtons::DPAD_LEFT] = 0;
+				}
+
+				if ((evtNum == HORIZONTAL_AXIS || evtNum == VERTICAL_AXIS) &&
+					p_event->value != 0) {
+					
+					if (evtNum == HORIZONTAL_AXIS && p_event->value < 0) {
+						_state.axisStates[ControllerButtons::DPAD_LEFT] = p_event->value;
+					}
+					else if (evtNum == HORIZONTAL_AXIS && p_event->value > 0) {
+						_state.axisStates[ControllerButtons::DPAD_RIGHT] = p_event->value;
+					}
+
+					if (evtNum == VERTICAL_AXIS && p_event->value < 0) {
+						_state.axisStates[ControllerButtons::DPAD_UP] = p_event->value;
+					}
+					else if (evtNum == VERTICAL_AXIS && p_event->value > 0) {
+						_state.axisStates[ControllerButtons::DPAD_DOWN] = p_event->value;
+					}
+				}
 				break;
 			case JS_EVENT_BUTTON:
 				_state.buttonStates[evtNum] = p_event->value;
@@ -49,21 +76,13 @@ bool LinuxJoystick::isButtonPressed(ControllerButton button) {
 	if (!this->isAxisButton(button))
 		return _state.buttonStates[button] == 1;
 
-	std::cout << "Button '" << button << "' Value: '" << _state.axisStates[button] << std::endl;
-	/*
-	short value = _state.axisStates[button];
-	if ((button == ControllerButtons::DPAD_LEFT || button == ControllerButtons::DPAD_DOWN) &&
-		value < 0)
-		return true;
-	else if ((button == ControllerButtons::DPAD_RIGHT || button == ControllerButtons::DPAD_UP) &&
-		value > 0)
-		return true;
-	else
-		return false;
-	*/
-	return false;
+	return _state.axisStates[button] != 0;
 }
 
+/*
+ * Linux's Joystick.h treats the dpad buttons as if they were a joystick axis.  So I decided
+ * that the directional pad buttons would be considered "axis buttons".
+ */
 bool LinuxJoystick::isAxisButton(ControllerButton button) {
 	return (button == ControllerButtons::DPAD_DOWN ||
 		button == ControllerButtons::DPAD_RIGHT ||
