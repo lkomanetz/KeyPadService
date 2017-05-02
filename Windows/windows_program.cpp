@@ -1,3 +1,4 @@
+//TODO(Logan) -> Get rid of unnecessary cout statements.
 #include <windowsprogram.h>
 #include <iostream>
 
