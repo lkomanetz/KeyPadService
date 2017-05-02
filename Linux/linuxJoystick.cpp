@@ -1,5 +1,4 @@
 #include <linuxjoystick.h>
-#include <iostream>
 
 LinuxJoystick::LinuxJoystick() {
 	p_event = new js_event;

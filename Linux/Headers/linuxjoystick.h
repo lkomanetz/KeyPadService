@@ -25,10 +25,10 @@ namespace ControllerButtons {
 	const ControllerButton HOME_BUTTON = 8;
 	const ControllerButton LEFT_STICK_BUTTON = 9;
 	const ControllerButton RIGHT_STICK_BUTTON = 10;
-	const ControllerButton DPAD_RIGHT = 6; // DPAD_LEFT and DPAD_RIGHT axis is 6
-	const ControllerButton DPAD_LEFT = 7;
-	const ControllerButton DPAD_UP = 8; // DPAD_UP and DPAD_DOWN axis is 7
-	const ControllerButton DPAD_DOWN = 9;
+	const ControllerButton DPAD_RIGHT = 11;
+	const ControllerButton DPAD_LEFT = 12;
+	const ControllerButton DPAD_UP = 13;
+	const ControllerButton DPAD_DOWN = 14;
 }
 
 using namespace std;
