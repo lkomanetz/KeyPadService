@@ -30,7 +30,6 @@ void* LinuxProgram::getJoystickState(void* obj) {
 			}
 		}
 
-		//TODO(Logan)-> DPAD_DOWN and DPAD_RIGHT aren't working
 		if (js->isButtonPressed(ControllerButtons::DPAD_LEFT))
 			std::cout << "Left dpad pressed" << std::endl;
 		else if (js->isButtonPressed(ControllerButtons::DPAD_RIGHT))

@@ -2,13 +2,11 @@
 
 WindowsJoystick::WindowsJoystick() {
 	_controllerNumber = 0;
-	ZeroMemory(&_state, sizeof(Joystick_State));
 }
 
 WindowsJoystick::~WindowsJoystick() { }
 
 void WindowsJoystick::initialize() {
-
 }
 
 bool WindowsJoystick::isButtonPressed(ControllerButton button) {
