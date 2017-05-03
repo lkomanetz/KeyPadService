@@ -37,7 +37,7 @@ void LinuxJoystick::fillState() {
 		//TODO(Logan) -> Look at possibly refactoring this into a separate method.
 		switch (p_event->type & ~JS_EVENT_INIT) {
 			case JS_EVENT_AXIS:
-				if ((evtNum == HORIZONTAL_AXIS || evtNum == VERTICAL_AXIS) ||
+				if ((evtNum == HORIZONTAL_AXIS || evtNum == VERTICAL_AXIS) &&
 					p_event->value == 0) {
 					
 					_state.axisStates[ControllerButtons::DPAD_DOWN] = 0;
