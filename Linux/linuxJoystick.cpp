@@ -50,22 +50,22 @@ void LinuxJoystick::fillState() {
 					p_event->value != 0) {
 					
 					if (evtNum == HORIZONTAL_AXIS && p_event->value < 0) {
-						_state.axisStates[ControllerButtons::DPAD_LEFT] = p_event->value;
+						_state.axisStates[ControllerButtons::DPAD_LEFT] = true;
 					}
 					else if (evtNum == HORIZONTAL_AXIS && p_event->value > 0) {
-						_state.axisStates[ControllerButtons::DPAD_RIGHT] = p_event->value;
+						_state.axisStates[ControllerButtons::DPAD_RIGHT] = true;
 					}
 
 					if (evtNum == VERTICAL_AXIS && p_event->value < 0) {
-						_state.axisStates[ControllerButtons::DPAD_UP] = p_event->value;
+						_state.axisStates[ControllerButtons::DPAD_UP] = true;
 					}
 					else if (evtNum == VERTICAL_AXIS && p_event->value > 0) {
-						_state.axisStates[ControllerButtons::DPAD_DOWN] = p_event->value;
+						_state.axisStates[ControllerButtons::DPAD_DOWN] = true;
 					}
 				}
 				break;
 			case JS_EVENT_BUTTON:
-				_state.buttonStates[evtNum] = p_event->value;
+				_state.buttonStates[evtNum] = p_event->value == 1;
 				break;
 		}
 	}

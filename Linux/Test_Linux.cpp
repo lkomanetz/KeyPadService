@@ -27,25 +27,6 @@ int main(int argc, char** argv) {
 			cout << "State:  NOT ACTIVE" << endl;
 			break;
 		}
-
-		//TODO(Logan) -> Figure out a way to handle left/right/up/down instead of just axis values.
-		/*
-		short value = js->getAxisValue(ControllerButtons::DPAD_RIGHT);
-		if (value > 0) {
-			cout << "Axis 6: " << value << endl;
-		}
-		*/
-		/*
-		if (js->isButtonPressed(ControllerButtons::A_BUTTON)) {
-			cout << "A is pressed!" << endl;
-		}
-		if (js->isButtonPressed(ControllerButtons::B_BUTTON)) {
-			cout << "B is pressed!" << endl;
-		}
-		if (js->isButtonPressed(ControllerButtons::RIGHT_SHOULDER_BUTTON)) {
-			break;
-		}
-		*/
 	}
 
 	delete p;

@@ -8,7 +8,7 @@
 #define MAX_AXIS_VALUE 32768
 
 struct Joystick_State {
-	unordered_map<ControllerButton, short> buttonStates;
+	unordered_map<ControllerButton, bool> buttonStates;
 	unordered_map<short, short> axisStates;
 };
 
