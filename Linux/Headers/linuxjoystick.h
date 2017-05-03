@@ -13,24 +13,6 @@
 #define HORIZONTAL_AXIS 6
 #define VERTICAL_AXIS 7
 
-namespace ControllerButtons {
-	const ControllerButton A_BUTTON = 0;
-	const ControllerButton B_BUTTON = 1;
-	const ControllerButton X_BUTTON = 2;
-	const ControllerButton Y_BUTTON = 3;
-	const ControllerButton LEFT_SHOULDER_BUTTON = 4;
-	const ControllerButton RIGHT_SHOULDER_BUTTON = 5;
-	const ControllerButton BACK_BUTTON = 6;
-	const ControllerButton MENU_BUTTON = 7;
-	const ControllerButton HOME_BUTTON = 8;
-	const ControllerButton LEFT_STICK_BUTTON = 9;
-	const ControllerButton RIGHT_STICK_BUTTON = 10;
-	const ControllerButton DPAD_RIGHT = 11;
-	const ControllerButton DPAD_LEFT = 12;
-	const ControllerButton DPAD_UP = 13;
-	const ControllerButton DPAD_DOWN = 14;
-}
-
 using namespace std;
 
 class LinuxJoystick : public Joystick {

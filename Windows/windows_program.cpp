@@ -28,8 +28,9 @@ WindowsJoystick* WindowsProgram::getJoystick() {
 }
 
 DWORD WINAPI WindowsProgram::getJoystickState(void* args) {
+	Joystick* js = reinterpret_cast<WindowsProgram*>(args)->getJoystick();
 	while (Program::isRunning) {
-
+		js->fillState();
 	}
 
 	std::cout << "Getting joystick stick is done" << std::endl;

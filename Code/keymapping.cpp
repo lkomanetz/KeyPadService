@@ -1,4 +1,7 @@
 #include <keymapping.h>
+#include <iostream>
+
+using namespace std;
 
 KeyMapping::~KeyMapping() {
 	_bindings.clear();
