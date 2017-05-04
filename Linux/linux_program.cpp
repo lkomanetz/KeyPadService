@@ -2,6 +2,10 @@
 #include <iostream>
 
 LinuxProgram::LinuxProgram() {
+	int fd = open("/dev/input/event4", O_RDWR | O_NONBLOCK);
+	if (fd == -1)
+		std::cout << "Unable to open keyboard" << std::endl;
+
 	p_joystick = new LinuxJoystick();
 	p_joystick->initialize();
 	pthread_create(&_jsStateThread, NULL, &LinuxProgram::getJoystickState, this);
@@ -11,6 +15,7 @@ LinuxProgram::~LinuxProgram() {
 	Program::isRunning = false;
 	pthread_join(_jsStateThread, NULL);
 	pthread_cancel(_jsStateThread);
+	XCloseDisplay(p_display);
 }
 
 LinuxJoystick* LinuxProgram::getJoystick() const {
@@ -18,8 +23,9 @@ LinuxJoystick* LinuxProgram::getJoystick() const {
 }
 
 void* LinuxProgram::getJoystickState(void* obj) {
-	Joystick* js = reinterpret_cast<LinuxProgram*>(obj)->getJoystick();
-	KeyMapping* keyMap = reinterpret_cast<LinuxProgram*>(obj)->getKeyMap();
+	LinuxProgram* program = reinterpret_cast<LinuxProgram*>(obj);
+	Joystick* js = program->getJoystick();
+	KeyMapping* keyMap = program->getKeyMap();
 
 	while (Program::isRunning) {
 		js->fillState();
@@ -40,7 +46,8 @@ void* LinuxProgram::getJoystickState(void* obj) {
 		}
 		else if (js->isButtonPressed(ControllerButtons::A_BUTTON)) {
 			kb = keyMap->getKeyboardButtonFor(ControllerButtons::A_BUTTON);
-			std::cout << "A button maps to '" << kb << "'" << std::endl;
+			program->sendKeyPress(kb);
+			// std::cout << "A button maps to '" << kb << "'" << std::endl;
 		}
 		else if (js->isButtonPressed(ControllerButtons::B_BUTTON)) {
 			kb = keyMap->getKeyboardButtonFor(ControllerButtons::B_BUTTON);
@@ -76,4 +83,10 @@ void* LinuxProgram::getJoystickState(void* obj) {
 			std::cout << "Home button pressed" << std::endl;
 		}
 	}
+}
+
+void LinuxProgram::sendKeyPress(KeyboardButton button) {
+}
+
+void LinuxProgram::getCurrentFocusedWindow() {
 }

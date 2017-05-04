@@ -19,6 +19,7 @@ public:
 	static bool isRunning;
 	KeyMapping* getKeyMap() { return &_keyMap; }
 	void setKeyMap(KeyMapping map) { _keyMap = map; }
+	virtual void sendKeyPress(KeyboardButton button) = 0;
 	virtual Joystick* getJoystick() const { return p_joystick; }
 };
 
