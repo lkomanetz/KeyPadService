@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <winuser.h>
 #include <keypad.h>
+#include <windowskeyboard.h>
 #include <windowsprogram.h>
 
 using namespace std;
@@ -33,27 +34,14 @@ int main(int argc, char** argv) {
 void testKbInput() {
 	Sleep(5000);
 	KeyboardButton right = 0x41;
+	WindowsKeyboard* pKb = new WindowsKeyboard();
 
-	KEYBDINPUT kb = {};
-	INPUT input = {};
+	for (int i = 0; i < 4; ++i) {
+		pKb->sendKeyPress(&right);
+		pKb->sendKeyRelease(&right);
+		Sleep(1000);
+	}
 
-	kb.wVk = right;
-	kb.dwFlags = 0;
-	input.type = INPUT_KEYBOARD;
-	input.ki = kb;
-
-	// What I'm doing here is seeing how sending two key-down inputs work.
-	// This sends to "a" values as expected.
-	SendInput(1, &input, sizeof(input));
-	SendInput(1, &input, sizeof(input));
-
-	ZeroMemory(&kb, sizeof(KEYBDINPUT));
-	ZeroMemory(&input, sizeof(INPUT));
-
-	kb.dwFlags = KEYEVENTF_KEYUP;
-	kb.wVk = right;
-	input.type = INPUT_KEYBOARD;
-	input.ki = kb;
-
-	SendInput(1, &input, sizeof(input));
+	delete pKb;
+	pKb = NULL;
 }
