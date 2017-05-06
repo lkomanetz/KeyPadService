@@ -23,7 +23,7 @@ public:
 	void removeBinding(KeyBind);
 	void updateBinding(KeyBind);
 	int size() { return _bindings.size(); }
-	KeyboardButton getKeyboardButtonFor(ControllerButton);
+	KeyboardButton* getKeyboardButtonFor(ControllerButton); 
 };
 
 #endif

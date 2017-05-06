@@ -1,10 +1,14 @@
-//TODO(Logan) -> Get rid of unnecessary cout statements.
 #include <windowsprogram.h>
-#include <iostream>
 
 WindowsProgram::WindowsProgram() {
 	p_joystick = new WindowsJoystick();
 	p_joystick->initialize();
+	p_joystick->buttonPressed = [&](ControllerButton btn) { 
+		_keyboard.sendKeyPress(getKeyMap()->getKeyboardButtonFor(btn));
+	};
+	p_joystick->buttonReleased = [&](ControllerButton btn) {
+		_keyboard.sendKeyRelease(getKeyMap()->getKeyboardButtonFor(btn));
+	};
 
 	_threadHandle = CreateThread(
 		NULL,
@@ -17,7 +21,6 @@ WindowsProgram::WindowsProgram() {
 }
 
 WindowsProgram::~WindowsProgram() {
-	std::cout << "Destructing Windows Program" << std::endl;
 	Program::isRunning = false;
 	WaitForSingleObject(_threadHandle, INFINITE);
 	CloseHandle(_threadHandle);
@@ -32,7 +35,5 @@ DWORD WINAPI WindowsProgram::getJoystickState(void* args) {
 	while (Program::isRunning) {
 		js->fillState();
 	}
-
-	std::cout << "Getting joystick stick is done" << std::endl;
 	return 0;
 }

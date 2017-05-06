@@ -73,7 +73,7 @@ void LinuxJoystick::fillState() {
 
 bool LinuxJoystick::isButtonPressed(ControllerButton button) {
 	if (!this->isAxisButton(button))
-		return _state.buttonStates[button] == 1;
+		return _state.buttonStates[button];
 
 	return _state.axisStates[button] != 0;
 }

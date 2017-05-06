@@ -10,6 +10,7 @@ void WindowsKeyboard::sendKeyPress(KeyboardButton* buttons) {
 	input.ki = kb;
 
 	SendInput(1, &input, sizeof(input));
+	Sleep(25);
 }
 
 void WindowsKeyboard::sendKeyRelease(KeyboardButton* buttons) {

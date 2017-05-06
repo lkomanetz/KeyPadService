@@ -1,24 +1,17 @@
 #include <windowsjoystick.h>
-#include <iostream>
-
-//TODO(Logan)->Get rid of unnecessary cout statements
-using namespace std;
 
 WindowsJoystick::WindowsJoystick() {
 	_controllerNumber = 0;
 }
 
 WindowsJoystick::~WindowsJoystick() { }
-
-void WindowsJoystick::initialize() {
-}
+void WindowsJoystick::initialize() { }
 
 bool WindowsJoystick::isButtonPressed(ControllerButton button) {
-	return true;
+	return _state.buttonStates[button];
 }
 
 void WindowsJoystick::fillState() {
-	cout << "Getting Windows Joystick state." << endl;
 	XINPUT_STATE state;
 	ZeroMemory(&state, sizeof(XINPUT_STATE));
 
@@ -33,6 +26,7 @@ void WindowsJoystick::fillState() {
 	}
 
 	XINPUT_GAMEPAD gp = state.Gamepad;
+	Joystick_State previousState = _state;
 
 	_state.buttonStates[ControllerButtons::A_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_A) != 0;
 	_state.buttonStates[ControllerButtons::B_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_B) != 0;
@@ -48,4 +42,19 @@ void WindowsJoystick::fillState() {
 	_state.buttonStates[ControllerButtons::DPAD_DOWN] = (gp.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) != 0;
 	_state.buttonStates[ControllerButtons::DPAD_LEFT] = (gp.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0;
 	_state.buttonStates[ControllerButtons::DPAD_RIGHT] = (gp.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) != 0;
+
+	determineIfPressedOrReleased(ControllerButtons::A_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::B_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::X_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::Y_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::LEFT_SHOULDER_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::RIGHT_SHOULDER_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::LEFT_STICK_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::RIGHT_STICK_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::BACK_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::MENU_BUTTON, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::DPAD_UP, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::DPAD_DOWN, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::DPAD_RIGHT, _state, previousState);
+	determineIfPressedOrReleased(ControllerButtons::DPAD_LEFT, _state, previousState);
 }

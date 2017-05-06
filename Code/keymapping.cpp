@@ -19,6 +19,6 @@ void KeyMapping::updateBinding(KeyBind binding) {
 	_bindings[binding.source] = binding.destination;
 }
 
-KeyboardButton KeyMapping::getKeyboardButtonFor(ControllerButton button) {
-	return _bindings[button];
+KeyboardButton* KeyMapping::getKeyboardButtonFor(ControllerButton button) {
+	return &_bindings[button];
 }

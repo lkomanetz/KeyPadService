@@ -8,23 +8,47 @@
 using namespace std;
 
 void testKbInput();
+KeyMapping buildMap();
 
 int main(int argc, char** argv) {
-	/*
 	WindowsProgram* program = new WindowsProgram();
+	program->setKeyMap(buildMap());
 	WindowsJoystick* js = program->getJoystick();
 
 	while (true) {
-		Sleep(1000);
 		if (!js->isActive())
 			break;
 	}
 
 	delete program;
-	*/
 
-	testKbInput();
+	// testKbInput();
 	return 0;
+}
+
+KeyMapping buildMap() {
+	KeyMapping map;
+	for (int i = 0; i < 4; ++i) {
+		KeyBind bind;
+		bind.source = i;
+		switch (i) {
+			case 0:
+				bind.destination = 0x41; // A Key
+				break;
+			case 1:
+				bind.destination = 0x42; // B Key
+				break;
+			case 2:
+				bind.destination = 0x43; // C Key
+				break;
+			case 3:
+				bind.destination = 0x44; // D Key
+				break;
+		}
+
+		map.addBinding(bind);
+	}
+	return map;
 }
 
 /*

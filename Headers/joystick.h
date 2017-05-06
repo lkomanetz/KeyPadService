@@ -37,9 +37,12 @@ protected:
 	bool _active;
 
 public:
+	std::function<void(ControllerButton)> buttonPressed;
+	std::function<void(ControllerButton)> buttonReleased;
 	virtual void fillState() = 0;
 	virtual void initialize() = 0;
 	virtual bool isButtonPressed(ControllerButton button) = 0;
+	virtual void determineIfPressedOrReleased(ControllerButton button, Joystick_State currentState, Joystick_State previousState);
 	virtual Joystick_State getCurrentState() { return _state; }
 	bool isActive() { return _active; }
 };
