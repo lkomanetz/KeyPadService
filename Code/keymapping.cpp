@@ -20,5 +20,6 @@ void KeyMapping::updateBinding(KeyBind binding) {
 }
 
 KeyboardButton* KeyMapping::getKeyboardButtonFor(ControllerButton button) {
+	std::cout << "Controller Button " << button << std::endl;
 	return &_bindings[button];
 }

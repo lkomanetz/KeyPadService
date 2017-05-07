@@ -21,6 +21,7 @@ public:
 	virtual ~WindowsProgram();
 	virtual WindowsJoystick* getJoystick();
 	virtual WindowsKeyboard* getKeyboard() { return &_keyboard; }
+	virtual void start();
 	void sendKeyPress(KeyboardButton button) { _keyboard.sendKeyPress(&button); }
 
 };

@@ -5,7 +5,6 @@ WindowsJoystick::WindowsJoystick() {
 }
 
 WindowsJoystick::~WindowsJoystick() { }
-void WindowsJoystick::initialize() { }
 
 bool WindowsJoystick::isButtonPressed(ControllerButton button) {
 	return _state.buttonStates[button];

@@ -15,6 +15,7 @@ int main(int argc, char** argv) {
 	program->setKeyMap(buildMap());
 	WindowsJoystick* js = program->getJoystick();
 
+	program->start();
 	while (true) {
 		if (!js->isActive())
 			break;
@@ -29,24 +30,38 @@ int main(int argc, char** argv) {
 KeyMapping buildMap() {
 	KeyMapping map;
 	for (int i = 0; i < 4; ++i) {
-		KeyBind bind;
+		KeyBind bind {};
 		bind.source = i;
 		switch (i) {
 			case 0:
-				bind.destination = 0x41; // A Key
-				break;
-			case 1:
-				bind.destination = 0x42; // B Key
+				bind.destination = 0x5A; // Z Key
 				break;
 			case 2:
-				bind.destination = 0x43; // C Key
+				bind.destination = 0x58; // X Key
 				break;
-			case 3:
-				bind.destination = 0x44; // D Key
+			case 6:
+				bind.destination = 0x20; // Space bar
+				break;
+			case 7:
+				bind.destination = 0x0D; // Enter
+				break;
+			case 11:
+				bind.destination = 0x27; // Right-arrow
+				break;
+			case 12:
+				bind.destination = 0x25; // Left-arrow
+				break;
+			case 13:
+				bind.destination = 0x26; // Up-arrow
+				break;
+			case 14:
+				bind.destination = 0x28; // Down-arrow
 				break;
 		}
 
-		map.addBinding(bind);
+		if (bind.destination != 0) {
+			map.addBinding(bind);
+		}
 	}
 	return map;
 }

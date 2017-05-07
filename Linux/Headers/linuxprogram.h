@@ -22,6 +22,7 @@ public:
 	virtual ~LinuxProgram();
 	virtual LinuxJoystick* getJoystick() const;
 	virtual void sendKeyPress(KeyboardButton button);
+	virtual void start();
 	void getCurrentFocusedWindow();
 };
 

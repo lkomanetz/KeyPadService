@@ -4,8 +4,6 @@
 LinuxProgram::LinuxProgram() {
 	// this->getCurrentFocusedWindow();
 	p_joystick = new LinuxJoystick();
-	p_joystick->initialize();
-	pthread_create(&_jsStateThread, NULL, &LinuxProgram::getJoystickState, this);
 }
 
 LinuxProgram::~LinuxProgram() {
@@ -13,6 +11,15 @@ LinuxProgram::~LinuxProgram() {
 	pthread_join(_jsStateThread, NULL);
 	pthread_cancel(_jsStateThread);
 	XCloseDisplay(p_display);
+}
+
+void LinuxProgram::start() {
+	pthread_create(
+		&_jsStateThread,
+		NULL,
+		&LinuxProgram::getJoystickState,
+		this
+	);
 }
 
 LinuxJoystick* LinuxProgram::getJoystick() const {

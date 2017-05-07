@@ -28,7 +28,6 @@ private:
 public:
 	LinuxJoystick();
 	virtual ~LinuxJoystick();
-	virtual void initialize();
 	virtual void fillState();
 	virtual bool isButtonPressed(ControllerButton button);
 	char* getName() { return _name; }

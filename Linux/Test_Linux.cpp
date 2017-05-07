@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
 
 	LinuxJoystick* js = p->getJoystick();
 
+	p->start();
 	while (true) {
 		usleep(1000);
 

@@ -2,17 +2,6 @@
 
 LinuxJoystick::LinuxJoystick() {
 	p_event = new js_event;
-	this->initialize();
-}
-
-LinuxJoystick::~LinuxJoystick() {
-	if (p_event)
-		delete p_event;
-
-	close(_joystickFd);
-}
-
-void LinuxJoystick::initialize() {
 	_joystickFd = 0;
 	_active = false;
 
@@ -23,6 +12,13 @@ void LinuxJoystick::initialize() {
 
 	fcntl(_joystickFd, F_SETFL, O_NONBLOCK);
 	_active = _joystickFd >= 0;
+}
+
+LinuxJoystick::~LinuxJoystick() {
+	if (p_event)
+		delete p_event;
+
+	close(_joystickFd);
 }
 
 void LinuxJoystick::fillState() {
