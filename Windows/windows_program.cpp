@@ -4,8 +4,6 @@
 WindowsProgram::WindowsProgram() {
 	p_joystick = new WindowsJoystick();
 	p_joystick->buttonPressed = [&](ControllerButton btn) { 
-		KeyboardButton* button = getKeyMap()->getKeyboardButtonFor(btn);
-		std::cout << "Button " << *button << " pressed!" << std::endl;
 		_keyboard.sendKeyPress(getKeyMap()->getKeyboardButtonFor(btn));
 	};
 	p_joystick->buttonReleased = [&](ControllerButton btn) {
