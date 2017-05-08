@@ -7,7 +7,6 @@
 
 using namespace std;
 
-void testKbInput();
 KeyMapping buildMap();
 
 int main(int argc, char** argv) {
@@ -17,16 +16,17 @@ int main(int argc, char** argv) {
 
 	program->start();
 	while (true) {
-		if (!js->isActive())
+		if (!js->isActive()) {
+			cout << "No controller connected..." << endl;
 			break;
+		}
 	}
 
 	delete program;
-
-	// testKbInput();
 	return 0;
 }
 
+//TODO(Logan)->I want to be able to load a binding profile from the file system.
 KeyMapping buildMap() {
 	KeyMapping map;
 	for (int i = 0; i < 15; ++i) {
@@ -64,23 +64,4 @@ KeyMapping buildMap() {
 		}
 	}
 	return map;
-}
-
-/*
- * The whole point of this is to see how sending keyboard input works in Windows.  Should give me an idea
- * on how to extract this into a class.
- */
-void testKbInput() {
-	Sleep(5000);
-	KeyboardButton right = 0x41;
-	WindowsKeyboard* pKb = new WindowsKeyboard();
-
-	for (int i = 0; i < 4; ++i) {
-		pKb->sendKeyPress(&right);
-		pKb->sendKeyRelease(&right);
-		Sleep(1000);
-	}
-
-	delete pKb;
-	pKb = NULL;
 }

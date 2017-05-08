@@ -6,6 +6,8 @@
 
 using namespace std;
 
+//TODO(Logan)->Create a FileReader and possibly FileWriter classes. These
+// classes should be platform independent.
 class Program {
 private:
 	KeyMapping _keyMap;
