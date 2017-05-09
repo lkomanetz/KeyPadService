@@ -42,18 +42,18 @@ void WindowsJoystick::fillState() {
 	_state.buttonStates[ControllerButtons::DPAD_LEFT] = (gp.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0;
 	_state.buttonStates[ControllerButtons::DPAD_RIGHT] = (gp.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) != 0;
 
-	determineIfPressedOrReleased(ControllerButtons::A_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::B_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::X_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::Y_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::LEFT_SHOULDER_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::RIGHT_SHOULDER_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::LEFT_STICK_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::RIGHT_STICK_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::BACK_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::MENU_BUTTON, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::DPAD_UP, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::DPAD_DOWN, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::DPAD_RIGHT, _state, previousState);
-	determineIfPressedOrReleased(ControllerButtons::DPAD_LEFT, _state, previousState);
+	determineButtonState(ControllerButtons::A_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::B_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::X_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::Y_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::LEFT_SHOULDER_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::RIGHT_SHOULDER_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::LEFT_STICK_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::RIGHT_STICK_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::BACK_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::MENU_BUTTON, _state, previousState);
+	determineButtonState(ControllerButtons::DPAD_UP, _state, previousState);
+	determineButtonState(ControllerButtons::DPAD_DOWN, _state, previousState);
+	determineButtonState(ControllerButtons::DPAD_RIGHT, _state, previousState);
+	determineButtonState(ControllerButtons::DPAD_LEFT, _state, previousState);
 }

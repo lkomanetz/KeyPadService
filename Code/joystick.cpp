@@ -1,6 +1,7 @@
 #include <joystick.h>
 
-void Joystick::determineIfPressedOrReleased(
+//TODO(Logan)->Move this code into Joystick_State class once created.
+void Joystick::determineButtonState(
 	ControllerButton button,
 	Joystick_State currentState,
 	Joystick_State previousState
