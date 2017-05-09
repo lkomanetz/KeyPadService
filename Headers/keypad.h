@@ -1,6 +1,9 @@
 #ifndef KEYPAD_H
 #define KEYPAD_H
 
+#include <string>
+#include <fstream>
+#include <keybindconverter.h>
 #include <keymapping.h>
 #include <joystick.h>
 
@@ -11,6 +14,8 @@ using namespace std;
 class Program {
 private:
 	KeyMapping _keyMap;
+
+	void loadKeyMap(string fileLoc);
 
 protected:
 	Joystick* p_joystick;

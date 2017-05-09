@@ -8,6 +8,8 @@ using namespace std;
 typedef unsigned short ControllerButton;
 typedef unsigned long KeyboardButton;
 
+const KeyboardButton NO_BUTTON = 500;
+
 struct KeyBind {
 	ControllerButton source;
 	KeyboardButton destination;
@@ -22,7 +24,7 @@ public:
 	void addBinding(KeyBind);
 	void removeBinding(KeyBind);
 	void updateBinding(KeyBind);
-	int size() { return _bindings.size(); }
+	int length() { return _bindings.size(); }
 	KeyboardButton* getKeyboardButtonFor(ControllerButton); 
 };
 
