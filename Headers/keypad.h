@@ -7,7 +7,7 @@
 #include <keymapping.h>
 #include <joystick.h>
 
-#define FILE_LOCATION "../keybindings.txt"
+#define FILE_LOCATION "keybindings.txt"
 
 using namespace std;
 
