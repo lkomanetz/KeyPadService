@@ -38,6 +38,7 @@ DWORD WINAPI WindowsProgram::getJoystickState(void* args) {
 	Joystick* js = reinterpret_cast<WindowsProgram*>(args)->getJoystick();
 	while (Program::isRunning) {
 		js->fillState();
+		Sleep(25);
 	}
 	return 0;
 }
