@@ -5,8 +5,10 @@ bool Program::isRunning = false;
 Program::Program() {
 	Program::isRunning = true;
 	p_joystick = NULL;
+}
 
-	loadKeyMap(FILE_LOCATION);
+Program::Program(char* fileLocation) : Program() {
+	loadKeyMap(fileLocation);
 }
 
 Program::~Program() {

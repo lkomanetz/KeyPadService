@@ -6,10 +6,16 @@
 using namespace std;
 
 void assertKeymapSize(KeyMapping* keyMap, int expectedSize);
-KeyMapping buildMap();
+// KeyMapping buildMap();
 
 int main(int argc, char** argv) {
-	LinuxProgram* p = new LinuxProgram();
+	if (argc != 2) {
+		std::cerr << "Usage: " << argv[0] << " <FILE_LOCATION>" << std::endl;
+		return -1;
+	}
+
+	LinuxProgram* p = new LinuxProgram(argv[1]);
+	/*
 	KeyMapping keyMap = buildMap();
 
 	p->setKeyMap(keyMap);
@@ -18,6 +24,7 @@ int main(int argc, char** argv) {
 	assertKeymapSize(map, 4);
 	assert(p->getKeyMap()->getKeyboardButtonFor(ControllerButtons::A_BUTTON) == 90);
 
+	*/
 	LinuxJoystick* js = p->getJoystick();
 
 	p->start();
@@ -35,6 +42,7 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
+/*
 KeyMapping buildMap() {
 	KeyMapping map;
 	for (int i = 0; i < 4; ++i) {
@@ -59,7 +67,7 @@ KeyMapping buildMap() {
 	}
 	return map;
 }
-
+*/
 void assertKeymapSize(KeyMapping* keyMap, int expectedSize) {
 	assert(keyMap->size() == expectedSize);
 }

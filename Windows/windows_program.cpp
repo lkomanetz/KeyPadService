@@ -1,7 +1,9 @@
 #include <windowsprogram.h>
 #include <iostream>
 
-WindowsProgram::WindowsProgram() {
+WindowsProgram::WindowsProgram(char* fileLocation) :
+	Program(fileLocation) {
+
 	p_joystick = new WindowsJoystick();
 	p_joystick->buttonPressed = [&](ControllerButton btn) { 
 		_keyboard.sendKeyPress(getKeyMap()->getKeyboardButtonFor(btn));

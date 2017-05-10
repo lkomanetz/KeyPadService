@@ -18,7 +18,7 @@ private:
 	static void* getJoystickState(void*);
 
 public:
-	LinuxProgram();
+	LinuxProgram(char* fileLocation);
 	virtual ~LinuxProgram();
 	virtual LinuxJoystick* getJoystick() const;
 	virtual void sendKeyPress(KeyboardButton button);

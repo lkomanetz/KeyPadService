@@ -23,6 +23,7 @@ protected:
 
 public:
 	Program();
+	Program(char* fileLocation);
 	virtual ~Program();
 	static bool isRunning;
 	KeyMapping* getKeyMap() { return &_keyMap; }

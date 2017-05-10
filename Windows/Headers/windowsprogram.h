@@ -17,7 +17,7 @@ protected:
 	static DWORD WINAPI getJoystickState(void* args);
 
 public:
-	WindowsProgram();
+	WindowsProgram(char* fileLocation);
 	virtual ~WindowsProgram();
 	virtual WindowsJoystick* getJoystick();
 	virtual WindowsKeyboard* getKeyboard() { return &_keyboard; }
