@@ -27,33 +27,18 @@ void WindowsJoystick::fillState() {
 	XINPUT_GAMEPAD gp = state.Gamepad;
 	Joystick_State previousState = _state;
 
-	_state.buttonStates[ControllerButtons::A_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_A) != 0;
-	_state.buttonStates[ControllerButtons::B_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_B) != 0;
-	_state.buttonStates[ControllerButtons::X_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_X) != 0;
-	_state.buttonStates[ControllerButtons::Y_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_Y) != 0;
-	_state.buttonStates[ControllerButtons::LEFT_SHOULDER_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) != 0;
-	_state.buttonStates[ControllerButtons::RIGHT_SHOULDER_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) != 0;
-	_state.buttonStates[ControllerButtons::LEFT_STICK_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_LEFT_THUMB) != 0;
-	_state.buttonStates[ControllerButtons::RIGHT_STICK_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB) != 0;
-	_state.buttonStates[ControllerButtons::BACK_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_BACK) != 0;
-	_state.buttonStates[ControllerButtons::MENU_BUTTON] = (gp.wButtons & XINPUT_GAMEPAD_START) != 0;
-	_state.buttonStates[ControllerButtons::DPAD_UP] = (gp.wButtons & XINPUT_GAMEPAD_DPAD_UP) != 0;
-	_state.buttonStates[ControllerButtons::DPAD_DOWN] = (gp.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) != 0;
-	_state.buttonStates[ControllerButtons::DPAD_LEFT] = (gp.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0;
-	_state.buttonStates[ControllerButtons::DPAD_RIGHT] = (gp.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) != 0;
-
-	determineButtonState(ControllerButtons::A_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::B_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::X_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::Y_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::LEFT_SHOULDER_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::RIGHT_SHOULDER_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::LEFT_STICK_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::RIGHT_STICK_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::BACK_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::MENU_BUTTON, _state, previousState);
-	determineButtonState(ControllerButtons::DPAD_UP, _state, previousState);
-	determineButtonState(ControllerButtons::DPAD_DOWN, _state, previousState);
-	determineButtonState(ControllerButtons::DPAD_RIGHT, _state, previousState);
-	determineButtonState(ControllerButtons::DPAD_LEFT, _state, previousState);
+	setButtonState(ControllerButtons::A_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_A) != 0, previousState);
+	setButtonState(ControllerButtons::B_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_B) != 0, previousState);
+	setButtonState(ControllerButtons::X_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_X) != 0, previousState);
+	setButtonState(ControllerButtons::Y_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_Y) != 0, previousState);
+	setButtonState(ControllerButtons::LEFT_SHOULDER_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) != 0, previousState);
+	setButtonState(ControllerButtons::RIGHT_SHOULDER_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) != 0, previousState);
+	setButtonState(ControllerButtons::LEFT_STICK_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_LEFT_THUMB) != 0, previousState);
+	setButtonState(ControllerButtons::RIGHT_STICK_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB) != 0, previousState);
+	setButtonState(ControllerButtons::BACK_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_BACK) != 0, previousState);
+	setButtonState(ControllerButtons::MENU_BUTTON, (gp.wButtons & XINPUT_GAMEPAD_START) != 0, previousState);
+	setButtonState(ControllerButtons::DPAD_UP, (gp.wButtons & XINPUT_GAMEPAD_DPAD_UP) != 0, previousState);
+	setButtonState(ControllerButtons::DPAD_DOWN, (gp.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) != 0, previousState);
+	setButtonState(ControllerButtons::DPAD_LEFT, (gp.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0, previousState);
+	setButtonState(ControllerButtons::DPAD_RIGHT, (gp.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) != 0, previousState);
 }

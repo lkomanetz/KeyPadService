@@ -1,17 +1,17 @@
 #include <joystick.h>
 
-//TODO(Logan)->Move this code into Joystick_State class once created.
-void Joystick::determineButtonState(
-	ControllerButton button,
-	Joystick_State currentState,
+void Joystick::setButtonState(
+	ControllerButton btn,
+	bool value,
 	Joystick_State previousState
 ) {
-	if (currentState.buttonStates[button] == true) {
-		buttonPressed(button);
-	}
-	else if (previousState.buttonStates[button] == true &&
-		currentState.buttonStates[button] == false) {
+	_state.buttonStates[btn] = value;
 
-		buttonReleased(button);
+	if (value == true) {
+		buttonPressed(btn);
 	}
+	else if (previousState.buttonStates[btn] == true && value == false) {
+		buttonReleased(btn);
+	}
+
 }

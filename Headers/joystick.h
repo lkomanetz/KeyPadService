@@ -7,9 +7,6 @@
 #define MIN_AXIS_VALUE -32768
 #define MAX_AXIS_VALUE 32768
 
-//TODO(Logan)->Make this into a class
-//TODO(Logan)->Create setButtonState() method
-//TODO(Logan)->Create setAxisState() method
 struct Joystick_State {
 	unordered_map<ControllerButton, bool> buttonStates;
 	unordered_map<short, short> axisStates;
@@ -44,7 +41,7 @@ public:
 	std::function<void(ControllerButton)> buttonReleased;
 	virtual void fillState() = 0;
 	virtual bool isButtonPressed(ControllerButton button) = 0;
-	virtual void determineButtonState(ControllerButton button, Joystick_State currentState, Joystick_State previousState);
+	void setButtonState(ControllerButton btn, bool value, Joystick_State previousState);
 	virtual Joystick_State getCurrentState() { return _state; }
 	bool isActive() { return _active; }
 };

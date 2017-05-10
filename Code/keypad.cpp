@@ -6,7 +6,7 @@ Program::Program() {
 	Program::isRunning = true;
 	p_joystick = NULL;
 
-	loadKeyMap("../keybindings.txt");
+	loadKeyMap(FILE_LOCATION);
 }
 
 Program::~Program() {
