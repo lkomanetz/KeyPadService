@@ -4,9 +4,11 @@
 #include <keypad.h>
 #include <windowskeyboard.h>
 #include <windowsprogram.h>
+#include <csignal>
 
 using namespace std;
 
+//TODO(Logan) -> Use signals to end the application gracefully
 int main(int argc, char** argv) {
 	if (argc != 2) {
 		std::cerr << "Usage: " << argv[0] << " <FILE_LOCATION>" << std::endl;
@@ -22,6 +24,7 @@ int main(int argc, char** argv) {
 			cerr << "No controller connected..." << endl;
 			break;
 		}
+		Sleep(25);
 	}
 
 	delete program;
