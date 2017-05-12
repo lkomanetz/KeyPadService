@@ -24,6 +24,7 @@ private:
 	char _name[256];
 	
 	bool isAxisButton(ControllerButton button);
+	void sendButtonPressedEvents();
 
 public:
 	LinuxJoystick();

@@ -3,14 +3,15 @@
 
 LinuxProgram::LinuxProgram(char* fileLocation) :
 	Program(fileLocation) {
-	// this->getCurrentFocusedWindow();
+
+	_fd = open("dev/input/event4", O_RDWR | O_NONBLOCK);
 	p_joystick = new LinuxJoystick();
 	p_joystick->buttonPressed = [&](ControllerButton btn) {
-		std::cout << btn << " button is pressed" << std::endl;
-	}
+		sendKeyEvent(btn, 1);
+	};
 	p_joystick->buttonReleased = [&](ControllerButton btn) {
-		std::cout << btn << " button was released" << std::endl;
-	}
+		sendKeyEvent(btn, 0);
+	};
 }
 
 LinuxProgram::~LinuxProgram() {
@@ -18,6 +19,8 @@ LinuxProgram::~LinuxProgram() {
 	pthread_join(_jsStateThread, NULL);
 	pthread_cancel(_jsStateThread);
 	XCloseDisplay(p_display);
+	ioctl(_fd, UI_DEV_DESTROY);
+	close(_fd);
 }
 
 void LinuxProgram::start() {
@@ -40,29 +43,35 @@ void* LinuxProgram::getJoystickState(void* obj) {
 
 	while (Program::isRunning) {
 		js->fillState();
+		usleep(1);
 	}
 }
 
-void LinuxProgram::sendKeyPress(KeyboardButton button) {
+void LinuxProgram::sendKeyEvent(KeyboardButton button, short keyEvent) {
 	int n = 0;
-	int fd = open("/dev/input/event4", O_RDWR | O_NONBLOCK);
-	if (fd == -1) {
-		std::cout << "Unable to open keyboard socket" << std::endl;
-		return;
-	}
 	input_event evt;
 	evt.type = EV_KEY;
-	evt.value = 1;
+	evt.value = keyEvent;
 	evt.code = KEY_A;
-	gettimeofday(&evt.time, 0);
-	n = write(fd, &evt, sizeof(input_event));
+	n = write(_fd, &evt, sizeof(input_event));
+	if (n < 0) {
+		std::cout << "Failed to write keypress" << std::endl;
+	}
+	else {
+		evt.type = EV_SYN;
+		evt.code = 0;
+		evt.value = 0;
+		write(_fd, &evt, sizeof(input_event));
+	}
 
+	/*
 	evt.value = 0;
 	evt.code = KEY_A;
 	gettimeofday(&evt.time, 0);
 	n = write(fd, &evt, sizeof(input_event));
-	close(fd);
-	std::cout << "done" << std::endl;
+	*/
+	// std::cout << "done" << std::endl;
+	/*
 	/*
 	XKeyEvent evt = {};
 	evt.display = p_display;
@@ -86,6 +95,9 @@ void LinuxProgram::sendKeyPress(KeyboardButton button) {
 }
 
 void LinuxProgram::getCurrentFocusedWindow() {
+	if (p_display != NULL)
+		XCloseDisplay(p_display);
+
 	p_display = XOpenDisplay(0);
 	if (p_display == NULL) {
 		std::cout << "NO DISPLAY" << std::endl;
