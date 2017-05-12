@@ -6,6 +6,7 @@
 #include <keybindconverter.h>
 #include <keymapping.h>
 #include <joystick.h>
+#include <keyboard.h>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ private:
 
 protected:
 	Joystick* p_joystick;
+	Keyboard* p_keyboard;
 
 public:
 	Program();
@@ -26,7 +28,6 @@ public:
 	KeyMapping* getKeyMap() { return &_keyMap; }
 	void setKeyMap(KeyMapping map) { _keyMap = map; }
 	virtual void sendKeyPress(KeyboardButton button) = 0;
-	virtual void start() = 0;
 	virtual Joystick* getJoystick() const { return p_joystick; }
 };
 

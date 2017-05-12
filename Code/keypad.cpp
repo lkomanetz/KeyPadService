@@ -15,6 +15,10 @@ Program::~Program() {
 	if (p_joystick) {
 		delete p_joystick;
 	}
+
+	if (p_keyboard) {
+		delete p_keyboard;
+	}
 }
 
 void Program::loadKeyMap(string fileLoc) {

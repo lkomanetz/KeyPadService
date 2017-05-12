@@ -16,14 +16,13 @@ int main(int argc, char** argv) {
 	}
 
 	WindowsProgram* program = new WindowsProgram(argv[1]);
-	WindowsJoystick* js = program->getJoystick();
-
-	program->start();
 	while (true) {
-		if (!js->isActive()) {
-			cerr << "No controller connected..." << endl;
+		if (!program->getJoystick()->isActive()) {
+			cerr << "Controller not connected..." << endl;
 			break;
 		}
+
+		program->getJoystick()->fillState();
 		Sleep(25);
 	}
 

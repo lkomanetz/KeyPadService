@@ -8,21 +8,12 @@
 #include <process.h>
 
 class WindowsProgram : public Program {
-private:
-	DWORD _threadId;
-	HANDLE _threadHandle;
-	WindowsKeyboard _keyboard;
-
-protected:
-	static DWORD WINAPI getJoystickState(void* args);
-
 public:
 	WindowsProgram(char* fileLocation);
 	virtual ~WindowsProgram();
 	virtual WindowsJoystick* getJoystick();
-	virtual WindowsKeyboard* getKeyboard() { return &_keyboard; }
-	virtual void start();
-	void sendKeyPress(KeyboardButton button) { _keyboard.sendKeyPress(&button); }
+	virtual WindowsKeyboard* getKeyboard() { return dynamic_cast<WindowsKeyboard*>(p_keyboard); }
+	void sendKeyPress(KeyboardButton button) { p_keyboard->sendKeyPress(&button); }
 
 };
 
