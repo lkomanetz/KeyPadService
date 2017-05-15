@@ -1,12 +1,8 @@
 #ifndef LINUXPROGRAM_H
 #define LINUXPROGRAM_H
 
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include <linux/input.h>
-#include <linux/uinput.h>
-#include <pthread.h>
 #include <linuxjoystick.h>
+#include <linuxkeyboard.h>
 #include <../../Headers/keypad.h>
 
 class LinuxProgram : public Program {
@@ -16,7 +12,6 @@ private:
 	Window _rootWindow;
 	Window _focusedWindow;
 
-	pthread_t _jsStateThread;
 	static void* getJoystickState(void*);
 
 public:
@@ -25,7 +20,6 @@ public:
 	virtual LinuxJoystick* getJoystick() const;
 	virtual void sendKeyEvent(KeyboardButton button, short keyEvent);
 	virtual void sendKeyPress(KeyboardButton btn) {}
-	virtual void start();
 	void getCurrentFocusedWindow();
 };
 

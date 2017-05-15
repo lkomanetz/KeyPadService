@@ -5,46 +5,27 @@ LinuxProgram::LinuxProgram(char* fileLocation) :
 	Program(fileLocation) {
 
 	_fd = open("dev/input/event4", O_RDWR | O_NONBLOCK);
+	p_keyboard = new LinuxKeyboard();
 	p_joystick = new LinuxJoystick();
 	p_joystick->buttonPressed = [&](ControllerButton btn) {
+		p_keyboard->sendKeyPress(getKeymap()->getKeyboardButtonFor(btn));
 		sendKeyEvent(btn, 1);
 	};
 	p_joystick->buttonReleased = [&](ControllerButton btn) {
+		p_keyboard->sendKeyRelease(getKeymap()->getKeyboardButtonFor(btn));
 		sendKeyEvent(btn, 0);
 	};
 }
 
 LinuxProgram::~LinuxProgram() {
 	Program::isRunning = false;
-	pthread_join(_jsStateThread, NULL);
-	pthread_cancel(_jsStateThread);
 	XCloseDisplay(p_display);
 	ioctl(_fd, UI_DEV_DESTROY);
 	close(_fd);
 }
 
-void LinuxProgram::start() {
-	pthread_create(
-		&_jsStateThread,
-		NULL,
-		&LinuxProgram::getJoystickState,
-		this
-	);
-}
-
 LinuxJoystick* LinuxProgram::getJoystick() const {
 	return dynamic_cast<LinuxJoystick*>(p_joystick);
-}
-
-void* LinuxProgram::getJoystickState(void* obj) {
-	LinuxProgram* program = reinterpret_cast<LinuxProgram*>(obj);
-	Joystick* js = program->getJoystick();
-	KeyMapping* keyMap = program->getKeyMap();
-
-	while (Program::isRunning) {
-		js->fillState();
-		usleep(1);
-	}
 }
 
 void LinuxProgram::sendKeyEvent(KeyboardButton button, short keyEvent) {

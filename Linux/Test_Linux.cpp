@@ -14,13 +14,14 @@ int main(int argc, char** argv) {
 	LinuxProgram* p = new LinuxProgram(argv[1]);
 	LinuxJoystick* js = p->getJoystick();
 
-	p->start();
 	while (true) {
 		if (!js->isActive()) {
 			cout << "State:  NOT ACTIVE" << endl;
 			break;
 		}
-		usleep(1);
+
+		js->fillState();
+		usleep(25);
 	}
 
 	delete p;
