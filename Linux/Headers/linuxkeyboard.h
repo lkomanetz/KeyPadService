@@ -1,6 +1,8 @@
 #ifndef LINUXKEYBOARD_H
 #define LINUXKEYBOARD_H
 
+#include <unistd.h>
+#include <fcntl.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <linux/input.h>
@@ -14,9 +16,13 @@ namespace KeyboardEvents {
 
 class LinuxKeyboard : public Keyboard {
 private:
-	int writeToInputBuffer(KeyboardButton* button);
+	int _fd;
+
+	int writeToInputBuffer(KeyboardButton* button, int kbEvent);
 
 public:
+	LinuxKeyboard();
+	virtual ~LinuxKeyboard();
 	void sendKeyPress(KeyboardButton* buttons);
 	void sendKeyRelease(KeyboardButton* buttons);
 };

@@ -1,4 +1,5 @@
 #include <../Headers/keypad.h>
+#include <iostream>
 
 bool Program::isRunning = false;
 
@@ -24,8 +25,9 @@ Program::~Program() {
 void Program::loadKeyMap(string fileLoc) {
 	_keyMap = {};
 
-	ifstream inFile(fileLoc);
+	ifstream inFile(fileLoc.c_str());
 	if (!inFile) {
+		std::cerr << "Unable to open file '" << fileLoc << "'" << std::endl;
 		return;
 	}
 
@@ -37,6 +39,7 @@ void Program::loadKeyMap(string fileLoc) {
 			continue;
 		}
 
+		//TODO(Logan)-> Make interface for KeyBindConverter since Windows and Linux are different.
 		KeyBind bind = KeyBindConverter::toKeyBind(line);
 		_keyMap.addBinding(bind);
 	}
