@@ -10,13 +10,11 @@ LinuxProgram::LinuxProgram(char* fileLocation) :
 	//TODO(Logan) -> I need to pass multiple controller buttons that are currently pressed.
 	p_joystick->buttonPressed = [&](ControllerButton btn) {
 		KeyboardButton* kbBtn = getKeyMap()->getKeyboardButtonFor(btn);
-		std::cout << *kbBtn << " Pressed!" << std::endl;
 		p_keyboard->sendKeyPress(getKeyMap()->getKeyboardButtonFor(btn));
 	};
 	//TODO(Logan) -> I need to pass multiple controller buttons that have been released.
 	p_joystick->buttonReleased = [&](ControllerButton btn) {
 		KeyboardButton* kbBtn = getKeyMap()->getKeyboardButtonFor(btn);
-		std::cout << *kbBtn << " Released!" << std::endl;
 		p_keyboard->sendKeyRelease(getKeyMap()->getKeyboardButtonFor(btn));
 	};
 }

@@ -39,7 +39,6 @@ void Program::loadKeyMap(string fileLoc) {
 			continue;
 		}
 
-		//TODO(Logan)-> Make interface for KeyBindConverter since Windows and Linux are different.
 		KeyBind bind = KeyBindConverter::toKeyBind(line);
 		_keyMap.addBinding(bind);
 	}
