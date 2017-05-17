@@ -37,27 +37,27 @@ void LinuxJoystick::fillState() {
 			if ((evtNum == HORIZONTAL_AXIS || evtNum == VERTICAL_AXIS) &&
 				p_event->value == 0) {
 				
-				_state.axisStates[ControllerButtons::DPAD_DOWN] = 0;
-				_state.axisStates[ControllerButtons::DPAD_UP] = 0;
-				_state.axisStates[ControllerButtons::DPAD_RIGHT] = 0;
-				_state.axisStates[ControllerButtons::DPAD_LEFT] = 0;
+				setButtonState(ControllerButtons::DPAD_DOWN, false, previousState);
+				setButtonState(ControllerButtons::DPAD_UP, false, previousState);
+				setButtonState(ControllerButtons::DPAD_RIGHT, false, previousState);
+				setButtonState(ControllerButtons::DPAD_LEFT, false, previousState);
 			}
 
 			if ((evtNum == HORIZONTAL_AXIS || evtNum == VERTICAL_AXIS) &&
 				p_event->value != 0) {
 				
 				if (evtNum == HORIZONTAL_AXIS && p_event->value < 0) {
-					_state.axisStates[ControllerButtons::DPAD_LEFT] = true;
+					setButtonState(ControllerButtons::DPAD_LEFT, true, previousState);
 				}
 				else if (evtNum == HORIZONTAL_AXIS && p_event->value > 0) {
-					_state.axisStates[ControllerButtons::DPAD_RIGHT] = true;
+					setButtonState(ControllerButtons::DPAD_RIGHT, true, previousState);
 				}
 
 				if (evtNum == VERTICAL_AXIS && p_event->value < 0) {
-					_state.axisStates[ControllerButtons::DPAD_UP] = true;
+					setButtonState(ControllerButtons::DPAD_UP, true, previousState);
 				}
 				else if (evtNum == VERTICAL_AXIS && p_event->value > 0) {
-					_state.axisStates[ControllerButtons::DPAD_DOWN] = true;
+					setButtonState(ControllerButtons::DPAD_DOWN, true, previousState);
 				}
 			}
 			break;
@@ -94,6 +94,12 @@ bool LinuxJoystick::isAxisButton(ControllerButton button) {
 void LinuxJoystick::sendButtonPressedEvents() {
 	for (auto it : _state.buttonStates) {
 		if (it.second == true) {
+			buttonPressed(it.first);
+		}
+	}
+
+	for (auto it : _state.axisStates) {
+		if (it.second != 0) {
 			buttonPressed(it.first);
 		}
 	}

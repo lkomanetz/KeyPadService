@@ -13,12 +13,12 @@ LinuxKeyboard::~LinuxKeyboard() {
 }
 
 void LinuxKeyboard::sendKeyPress(KeyboardButton* buttons) {
-	input_event evt;
 	int n = this->writeToInputBuffer(buttons, KeyboardEvents::KEY_PRESS);
 	if (n < 0) {
 		std::cout << "Failed to write keypress" << std::endl;
 	}
 	else {
+		input_event evt;
 		evt.type = EV_SYN;
 		evt.code = 0;
 		evt.value = 0;
@@ -27,12 +27,12 @@ void LinuxKeyboard::sendKeyPress(KeyboardButton* buttons) {
 }
 
 void LinuxKeyboard::sendKeyRelease(KeyboardButton* buttons) {
-	input_event evt;
 	int n = this->writeToInputBuffer(buttons, KeyboardEvents::KEY_RELEASE);
 	if (n < 0) {
 		std::cout << "Failed to write keypress" << std::endl;
 	}
 	else {
+		input_event evt;
 		evt.type = EV_SYN;
 		evt.code = 0;
 		evt.value = 0;
@@ -42,7 +42,6 @@ void LinuxKeyboard::sendKeyRelease(KeyboardButton* buttons) {
 
 //TODO(Logan)-> Remove the hard-coded KEY_A usage.
 int LinuxKeyboard::writeToInputBuffer(KeyboardButton* button, int kbEvent) {
-	std::cout << *button << std::endl;
 	input_event evt;
 	evt.type = EV_KEY;
 	evt.value = kbEvent;
