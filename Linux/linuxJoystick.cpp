@@ -28,49 +28,55 @@ void LinuxJoystick::fillState() {
 		return;
 	}
 	
-	ControllerButton evtNum = static_cast<ControllerButton>(p_event->number);
 	Joystick_State previousState = _state;
 
 	//TODO(Logan) -> Look at possibly refactoring this into a separate method.
 	switch (p_event->type & ~JS_EVENT_INIT) {
-		case JS_EVENT_AXIS:
-			if ((evtNum == HORIZONTAL_AXIS || evtNum == VERTICAL_AXIS) &&
-				p_event->value == 0) {
-				
+		case JS_EVENT_AXIS: {
+			ControllerAxis axis = static_cast<ControllerAxis>(p_event->number);
+			if ((axis == VERTICAL_AXIS) && p_event->value == 0) {
 				setButtonState(ControllerButtons::DPAD_DOWN, false, previousState);
 				setButtonState(ControllerButtons::DPAD_UP, false, previousState);
+			}
+			else if ((axis == HORIZONTAL_AXIS) && p_event->value == 0) {
 				setButtonState(ControllerButtons::DPAD_RIGHT, false, previousState);
 				setButtonState(ControllerButtons::DPAD_LEFT, false, previousState);
 			}
 
-			if ((evtNum == HORIZONTAL_AXIS || evtNum == VERTICAL_AXIS) &&
+			if ((axis == HORIZONTAL_AXIS || axis == VERTICAL_AXIS) &&
 				p_event->value != 0) {
 				
-				if (evtNum == HORIZONTAL_AXIS && p_event->value < 0) {
+				if (axis == HORIZONTAL_AXIS && p_event->value < 0) {
 					setButtonState(ControllerButtons::DPAD_LEFT, true, previousState);
 				}
-				else if (evtNum == HORIZONTAL_AXIS && p_event->value > 0) {
+				else if (axis == HORIZONTAL_AXIS && p_event->value > 0) {
 					setButtonState(ControllerButtons::DPAD_RIGHT, true, previousState);
 				}
 
-				if (evtNum == VERTICAL_AXIS && p_event->value < 0) {
+				if (axis == VERTICAL_AXIS && p_event->value < 0) {
 					setButtonState(ControllerButtons::DPAD_UP, true, previousState);
 				}
-				else if (evtNum == VERTICAL_AXIS && p_event->value > 0) {
+				else if (axis == VERTICAL_AXIS && p_event->value > 0) {
 					setButtonState(ControllerButtons::DPAD_DOWN, true, previousState);
 				}
 			}
 			break;
-		case JS_EVENT_BUTTON:
-			bool wasPressed = isButtonPressed(evtNum);
-			_state.buttonStates[evtNum] = p_event->value == 1;
-			if (wasPressed && _state.buttonStates[evtNum] == false) {
-				buttonReleased(evtNum);
+		}
+		case JS_EVENT_BUTTON: {
+			ControllerButton btn = static_cast<ControllerButton>(p_event->number);
+			setButtonState(btn, p_event-> value == 1, previousState);
+			/*
+			bool wasPressed = isButtonPressed(btn);
+			_state.buttonStates[btn] = p_event->value == 1;
+			if (wasPressed && _state.buttonStates[btn] == false) {
+				buttonReleased(btn);
 			}
+			*/
 			break;
+		}
 	}
 
-	sendButtonPressedEvents();
+	// sendButtonPressedEvents();
 }
 
 bool LinuxJoystick::isButtonPressed(ControllerButton button) {

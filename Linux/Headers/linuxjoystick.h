@@ -13,6 +13,8 @@
 #define HORIZONTAL_AXIS 6
 #define VERTICAL_AXIS 7
 
+typedef unsigned short ControllerAxis;
+
 using namespace std;
 
 class LinuxJoystick : public Joystick {

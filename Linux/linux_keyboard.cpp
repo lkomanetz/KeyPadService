@@ -40,7 +40,6 @@ void LinuxKeyboard::sendKeyRelease(KeyboardButton* buttons) {
 	}
 }
 
-//TODO(Logan)-> Remove the hard-coded KEY_A usage.
 int LinuxKeyboard::writeToInputBuffer(KeyboardButton* button, int kbEvent) {
 	input_event evt;
 	evt.type = EV_KEY;
