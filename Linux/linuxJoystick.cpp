@@ -65,18 +65,9 @@ void LinuxJoystick::fillState() {
 		case JS_EVENT_BUTTON: {
 			ControllerButton btn = static_cast<ControllerButton>(p_event->number);
 			setButtonState(btn, p_event-> value == 1, previousState);
-			/*
-			bool wasPressed = isButtonPressed(btn);
-			_state.buttonStates[btn] = p_event->value == 1;
-			if (wasPressed && _state.buttonStates[btn] == false) {
-				buttonReleased(btn);
-			}
-			*/
 			break;
 		}
 	}
-
-	// sendButtonPressedEvents();
 }
 
 bool LinuxJoystick::isButtonPressed(ControllerButton button) {
