@@ -2,6 +2,7 @@
 #include <iostream>
 #include <assert.h>
 #include <linuxprogram.h>
+#include <linuxprocess.h>
 
 using namespace std;
 
@@ -11,6 +12,9 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
+	Process* process = new LinuxProcess(argv[1]);
+	process->start();
+	/*
 	LinuxProgram* p = new LinuxProgram(argv[1]);
 	LinuxJoystick* js = p->getJoystick();
 
@@ -25,5 +29,7 @@ int main(int argc, char** argv) {
 	}
 
 	delete p;
+	*/
+	delete process;
 	return 0;
 }
