@@ -9,7 +9,7 @@ private:
 	LinuxProgram* _program;
 
 public:
-	LinuxProcess(char* fileLocation);
+	LinuxProcess(Program* program);
 	virtual ~LinuxProcess();
 	void start();
 	void stop();

@@ -38,3 +38,16 @@ LinuxProgram::~LinuxProgram() {
 LinuxJoystick* LinuxProgram::getJoystick() const {
 	return dynamic_cast<LinuxJoystick*>(p_joystick);
 }
+
+void LinuxProgram::run() {
+	LinuxJoystick* js = this->getJoystick();
+	while(true) {
+		if (!js->isActive()) {
+			std::cout << "State:  NOT ACTIVE" << std::endl;
+			break;
+		}
+
+		js->fillState();
+		usleep(25);
+	}
+}
