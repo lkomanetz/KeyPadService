@@ -9,7 +9,7 @@
 
 class WindowsProgram : public Program {
 public:
-	WindowsProgram(char* fileLocation);
+	WindowsProgram(char* fileLocation, MessageLogger* pLogger);
 	virtual ~WindowsProgram();
 	virtual WindowsJoystick* getJoystick();
 	virtual WindowsKeyboard* getKeyboard() { return dynamic_cast<WindowsKeyboard*>(p_keyboard); }

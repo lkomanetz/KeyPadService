@@ -1,8 +1,8 @@
 #include <windowsprogram.h>
 #include <iostream>
 
-WindowsProgram::WindowsProgram(char* fileLocation) :
-	Program(fileLocation) {
+WindowsProgram::WindowsProgram(char* fileLocation, MessageLogger* pLogger) :
+	Program(fileLocation, pLogger) {
 
 	p_keyboard = new WindowsKeyboard();
 	p_joystick = new WindowsJoystick();

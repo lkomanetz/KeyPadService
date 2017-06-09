@@ -7,6 +7,7 @@
 #include <keymapping.h>
 #include <joystick.h>
 #include <keyboard.h>
+#include <messagelogger.h>
 
 using namespace std;
 
@@ -19,10 +20,11 @@ private:
 protected:
 	Joystick* p_joystick;
 	Keyboard* p_keyboard;
+	MessageLogger* p_logger;
 
 public:
 	Program();
-	Program(char* fileLocation);
+	Program(char* fileLocation, MessageLogger* pLogger);
 	virtual ~Program();
 	static bool isRunning;
 	KeyMapping* getKeyMap() { return &_keyMap; }

@@ -1,5 +1,4 @@
 #include <linuxprogram.h>
-#include <iostream>
 
 LinuxProgram::LinuxProgram() {
 	p_keyboard = new LinuxKeyboard();
@@ -15,8 +14,8 @@ LinuxProgram::LinuxProgram() {
 	};
 }
 
-LinuxProgram::LinuxProgram(char* fileLocation) :
-	Program(fileLocation) {
+LinuxProgram::LinuxProgram(char* fileLocation, MessageLogger* pLogger) :
+	Program(fileLocation, pLogger) {
 
 	p_keyboard = new LinuxKeyboard();
 	p_joystick = new LinuxJoystick();
@@ -43,7 +42,7 @@ void LinuxProgram::run() {
 	LinuxJoystick* js = this->getJoystick();
 	while(true) {
 		if (!js->isActive()) {
-			std::cout << "State:  NOT ACTIVE" << std::endl;
+			p_logger->log("State:  NOT ACTIVE");
 			break;
 		}
 

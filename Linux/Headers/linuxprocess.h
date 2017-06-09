@@ -2,10 +2,13 @@
 #define LINUXPROCESS_H
 
 #include <process.h>
+#include <messagelogger.h>
 
 class LinuxProcess : public Process {
+private:
+	MessageLogger* p_logger;
 public:
-	LinuxProcess();
+	LinuxProcess(MessageLogger* pLogger);
 	void start();
 	void stop();
 

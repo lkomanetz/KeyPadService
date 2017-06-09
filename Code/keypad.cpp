@@ -8,7 +8,8 @@ Program::Program() {
 	p_joystick = NULL;
 }
 
-Program::Program(char* fileLocation) : Program() {
+Program::Program(char* fileLocation, MessageLogger* pLogger) : Program() {
+	p_logger = pLogger;
 	loadKeyMap(fileLocation);
 }
 

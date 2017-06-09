@@ -12,7 +12,7 @@ private:
 
 public:
 	LinuxProgram();
-	LinuxProgram(char* fileLocation);
+	LinuxProgram(char* fileLocation, MessageLogger* pLogger);
 	virtual ~LinuxProgram();
 	virtual LinuxJoystick* getJoystick() const;
 	virtual void sendKeyPress(KeyboardButton btn) {}

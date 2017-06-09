@@ -1,4 +1,6 @@
+#include <string>
 #include <iostream>
+#include <consolelogger.h>
 #if PLATFORM_LINUX
 #include <linuxprogram.h>
 #include <linuxprocess.h>
@@ -8,16 +10,20 @@
 #endif
 
 int main (int argc, char** argv) {
+	ConsoleLogger logger;
 	if (argc != 2) {
-		std::cerr << "Usage: " << argv[0] << " <FILE_LOCATION>" << std::endl;
+		std::string msg = "Usage: ";
+		msg.append(argv[0]);
+		msg.append(" <FILE_LOCATION>");
+		logger.log(msg);
 	}
 
 	Program* program = NULL;
 	Process* process = NULL;
 
 #if PLATFORM_LINUX
-	process = new LinuxProcess();
-	program = new LinuxProgram(argv[1]);
+	process = new LinuxProcess(&logger);
+	program = new LinuxProgram(argv[1], &logger);
 #elif PLATFORM_WINDOWS
 	process = new WindowsProcess();
 	program = new WindowsProgram(argv[1]);
@@ -25,6 +31,7 @@ int main (int argc, char** argv) {
 
 	process->start();
 	program->run();
+	process->stop();
 
 	delete process;
 	delete program;
