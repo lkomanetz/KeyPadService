@@ -42,7 +42,7 @@ void LinuxProgram::run() {
 	LinuxJoystick* js = this->getJoystick();
 	while(true) {
 		if (!js->isActive()) {
-			p_logger->log("State:  NOT ACTIVE");
+			p_logger->log("Gamepad State:  NOT ACTIVE");
 			break;
 		}
 
