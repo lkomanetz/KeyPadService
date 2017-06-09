@@ -20,3 +20,16 @@ WindowsProgram::~WindowsProgram() { }
 WindowsJoystick* WindowsProgram::getJoystick() {
 	return dynamic_cast<WindowsJoystick*>(p_joystick);
 }
+
+void WindowsProgram::run() {
+	WindowsJoystick* js = this->getJoystick();
+	while (true) {
+		if (!js->isActive()) {
+			p_logger->log("State:  NOT ACTIVE");
+			break;
+		}
+
+		js->fillState();
+		Sleep(25);
+	}	
+}

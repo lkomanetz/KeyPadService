@@ -11,6 +11,7 @@ class WindowsProgram : public Program {
 public:
 	WindowsProgram(char* fileLocation, MessageLogger* pLogger);
 	virtual ~WindowsProgram();
+	virtual void run();
 	virtual WindowsJoystick* getJoystick();
 	virtual WindowsKeyboard* getKeyboard() { return dynamic_cast<WindowsKeyboard*>(p_keyboard); }
 	void sendKeyPress(KeyboardButton button) { p_keyboard->sendKeyPress(&button); }

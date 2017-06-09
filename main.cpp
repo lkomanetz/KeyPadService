@@ -25,8 +25,8 @@ int main (int argc, char** argv) {
 	process = new LinuxProcess(&logger);
 	program = new LinuxProgram(argv[1], &logger);
 #elif PLATFORM_WINDOWS
-	process = new WindowsProcess();
-	program = new WindowsProgram(argv[1]);
+	process = new WindowsProcess(&logger);
+	program = new WindowsProgram(argv[1], &logger);
 #endif
 
 	process->start();
