@@ -1,19 +1,19 @@
-#ifndef LINUXPROGRAM_H
-#define LINUXPROGRAM_H
+#ifndef LINUXKEYPAD_H
+#define LINUXKEYPAD_H
 
 #include <linuxjoystick.h>
 #include <linuxkeyboard.h>
 #include <../../Headers/keypad.h>
 
-class LinuxProgram : public Program {
+class LinuxKeypad : public Program {
 private:
 
 	static void* getJoystickState(void*);
 
 public:
-	LinuxProgram();
-	LinuxProgram(char* fileLocation, MessageLogger* pLogger);
-	virtual ~LinuxProgram();
+	LinuxKeypad();
+	LinuxKeypad(char* fileLocation, MessageLogger* pLogger);
+	virtual ~LinuxKeypad();
 	virtual LinuxJoystick* getJoystick() const;
 	virtual void sendKeyPress(KeyboardButton btn) {}
 	virtual void run();

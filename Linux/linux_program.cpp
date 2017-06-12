@@ -1,6 +1,6 @@
-#include <linuxprogram.h>
+#include <linuxkeypad.h>
 
-LinuxProgram::LinuxProgram() {
+LinuxKeypad::LinuxKeypad() {
 	p_keyboard = new LinuxKeyboard();
 	p_joystick = new LinuxJoystick();
 
@@ -14,8 +14,8 @@ LinuxProgram::LinuxProgram() {
 	};
 }
 
-LinuxProgram::LinuxProgram(char* fileLocation, MessageLogger* pLogger) :
-	Program(fileLocation, pLogger) {
+LinuxKeypad::LinuxKeypad(char* fileLocation, MessageLogger* pLogger) :
+	Keypad(fileLocation, pLogger) {
 
 	p_keyboard = new LinuxKeyboard();
 	p_joystick = new LinuxJoystick();
@@ -30,15 +30,15 @@ LinuxProgram::LinuxProgram(char* fileLocation, MessageLogger* pLogger) :
 	};
 }
 
-LinuxProgram::~LinuxProgram() {
-	Program::isRunning = false;
+LinuxKeypad::~LinuxKeypad() {
+	Keypad::isRunning = false;
 }
 
-LinuxJoystick* LinuxProgram::getJoystick() const {
+LinuxJoystick* LinuxKeypad::getJoystick() const {
 	return dynamic_cast<LinuxJoystick*>(p_joystick);
 }
 
-void LinuxProgram::run() {
+void LinuxKeypad::run() {
 	LinuxJoystick* js = this->getJoystick();
 	while(true) {
 		if (!js->isActive()) {

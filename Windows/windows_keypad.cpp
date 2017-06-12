@@ -1,7 +1,7 @@
-#include <windowsprogram.h>
+#include <windowskeypad.h>
 #include <iostream>
 
-WindowsProgram::WindowsProgram(char* fileLocation, MessageLogger* pLogger) :
+WindowsKeypad::WindowsKeypad(char* fileLocation, MessageLogger* pLogger) :
 	Program(fileLocation, pLogger) {
 
 	p_keyboard = new WindowsKeyboard();
@@ -15,13 +15,13 @@ WindowsProgram::WindowsProgram(char* fileLocation, MessageLogger* pLogger) :
 	};
 }
 
-WindowsProgram::~WindowsProgram() { }
+WindowsKeypad::~WindowsKeypad() { }
 
-WindowsJoystick* WindowsProgram::getJoystick() {
+WindowsJoystick* WindowsKeypad::getJoystick() {
 	return dynamic_cast<WindowsJoystick*>(p_joystick);
 }
 
-void WindowsProgram::run() {
+void WindowsKeypad::run() {
 	WindowsJoystick* js = this->getJoystick();
 	while (true) {
 		if (!js->isActive()) {

@@ -1,5 +1,5 @@
-#ifndef KEYPAD_H
-#define KEYPAD_H
+#ifndef PROGRAM_H
+#define PROGRAM_H
 
 #include <string>
 #include <fstream>
