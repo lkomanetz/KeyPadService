@@ -15,7 +15,7 @@ LinuxKeypad::LinuxKeypad() {
 }
 
 LinuxKeypad::LinuxKeypad(char* fileLocation, MessageLogger* pLogger) :
-	Keypad(fileLocation, pLogger) {
+	Program(fileLocation, pLogger) {
 
 	p_keyboard = new LinuxKeyboard();
 	p_joystick = new LinuxJoystick();
@@ -31,7 +31,7 @@ LinuxKeypad::LinuxKeypad(char* fileLocation, MessageLogger* pLogger) :
 }
 
 LinuxKeypad::~LinuxKeypad() {
-	Keypad::isRunning = false;
+	Program::isRunning = false;
 }
 
 LinuxJoystick* LinuxKeypad::getJoystick() const {

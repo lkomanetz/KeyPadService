@@ -3,7 +3,7 @@
 
 #include <linuxjoystick.h>
 #include <linuxkeyboard.h>
-#include <../../Headers/keypad.h>
+#include <../../Headers/program.h>
 
 class LinuxKeypad : public Program {
 private:

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <consolelogger.h>
 #if PLATFORM_LINUX
-#include <linuxprogram.h>
+#include <linuxkeypad.h>
 #include <linuxprocess.h>
 #elif PLATFORM_WINDOWS
 #include <windowskeypad.h>
