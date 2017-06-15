@@ -9,6 +9,7 @@ private:
 	MessageLogger* p_logger;
 public:
 	LinuxProcess(MessageLogger* pLogger);
+	int initialize();
 	void start();
 	void stop();
 

@@ -11,3 +11,7 @@ void LinuxProcess::start() {
 void LinuxProcess::stop() {
 	p_logger->log("KeyPad process stopped...");
 }
+
+int LinuxProcess::initialize() {
+	p_logger->log("KeyPad process initializing...");
+}
