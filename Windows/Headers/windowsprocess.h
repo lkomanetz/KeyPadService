@@ -10,11 +10,12 @@
 class WindowsProcess : public Process {
 private:
 	MessageLogger* p_logger;
-	SERVICE_STATUS _serviceStatus;
-	SERVICE_STATUS_HANDLE _statusHandle;
-	HANDLE _serviceStopEvent;
+	static SERVICE_STATUS _serviceStatus;
+	static SERVICE_STATUS_HANDLE _statusHandle;
+	static HANDLE _serviceStopEvent;
 
 	static void WINAPI serviceMain(DWORD argc, LPSTR *argv);
+	static void WINAPI serviceCtrlHandler(DWORD controlCode);
 
 public:
 	WindowsProcess(MessageLogger* pLogger);
