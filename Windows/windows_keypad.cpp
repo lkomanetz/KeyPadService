@@ -23,9 +23,10 @@ WindowsJoystick* WindowsKeypad::getJoystick() {
 
 void WindowsKeypad::run() {
 	WindowsJoystick* js = this->getJoystick();
-	while (true) {
+	while (Program::isRunning) {
 		if (!js->isActive()) {
 			p_logger->log("Gamepad State:  NOT ACTIVE");
+			Program::isRunning = false;
 			break;
 		}
 
