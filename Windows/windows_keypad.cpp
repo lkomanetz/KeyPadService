@@ -1,5 +1,4 @@
 #include <windowskeypad.h>
-#include <iostream>
 
 WindowsKeypad::WindowsKeypad(char* fileLocation, MessageLogger* pLogger) :
 	Program(fileLocation, pLogger) {
@@ -13,6 +12,8 @@ WindowsKeypad::WindowsKeypad(char* fileLocation, MessageLogger* pLogger) :
 	p_joystick->buttonReleased = [&](ControllerButton btn) {
 		p_keyboard->sendKeyRelease(getKeyMap()->getKeyboardButtonFor(btn));
 	};
+
+	this->setupSignalHandler();
 }
 
 WindowsKeypad::~WindowsKeypad() { }
@@ -33,4 +34,17 @@ void WindowsKeypad::run() {
 		js->fillState();
 		Sleep(25);
 	}	
+}
+
+void WindowsKeypad::setupSignalHandler() {
+	SetConsoleCtrlHandler(&WindowsKeypad::signalHandler, TRUE);
+}
+
+BOOL WINAPI WindowsKeypad::signalHandler(DWORD signal) {
+	if (signal == CTRL_C_EVENT || signal == CTRL_CLOSE_EVENT) {
+		Program::isRunning = false;
+		return TRUE;
+	}
+
+	return FALSE;
 }

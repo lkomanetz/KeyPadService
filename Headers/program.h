@@ -22,6 +22,8 @@ protected:
 	Keyboard* p_keyboard;
 	MessageLogger* p_logger;
 
+	virtual void setupSignalHandler() = 0;
+
 public:
 	Program();
 	Program(char* fileLocation, MessageLogger* pLogger);

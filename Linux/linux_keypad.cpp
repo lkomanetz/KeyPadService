@@ -28,6 +28,8 @@ LinuxKeypad::LinuxKeypad(char* fileLocation, MessageLogger* pLogger) :
 		KeyboardButton* kbBtn = getKeyMap()->getKeyboardButtonFor(btn);
 		p_keyboard->sendKeyRelease(getKeyMap()->getKeyboardButtonFor(btn));
 	};
+
+	this->setupSignalHandler();
 }
 
 LinuxKeypad::~LinuxKeypad() {
@@ -49,4 +51,13 @@ void LinuxKeypad::run() {
 		js->fillState();
 		usleep(25);
 	}
+}
+
+void LinuxKeypad::setupSignalHandler() {
+	signal(SIGHUP, LinuxKeypad::signalHandler);
+	signal(SIGINT, LinuxKeypad::signalHandler);
+}
+
+void LinuxKeypad::signalHandler(int signalNum) {
+	Program::isRunning = false;	
 }

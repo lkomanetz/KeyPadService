@@ -8,6 +8,12 @@
 #include <process.h>
 
 class WindowsKeypad : public Program {
+private:
+	static BOOL signalHandler(DWORD signalNum);
+
+protected:
+	void setupSignalHandler();
+
 public:
 	WindowsKeypad(char* fileLocation, MessageLogger* pLogger);
 	virtual ~WindowsKeypad();

@@ -7,8 +7,11 @@
 
 class LinuxKeypad : public Program {
 private:
-
+	static void signalHandler(int signalNum);
 	static void* getJoystickState(void*);
+
+protected:
+	void setupSignalHandler();
 
 public:
 	LinuxKeypad();
