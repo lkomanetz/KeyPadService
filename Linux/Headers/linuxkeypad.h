@@ -1,6 +1,7 @@
 #ifndef LINUXKEYPAD_H
 #define LINUXKEYPAD_H
 
+#include <csignal>
 #include <linuxjoystick.h>
 #include <linuxkeyboard.h>
 #include <../../Headers/program.h>

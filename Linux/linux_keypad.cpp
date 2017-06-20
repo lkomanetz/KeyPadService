@@ -42,7 +42,7 @@ LinuxJoystick* LinuxKeypad::getJoystick() const {
 
 void LinuxKeypad::run() {
 	LinuxJoystick* js = this->getJoystick();
-	while(true) {
+	while(Program::isRunning) {
 		if (!js->isActive()) {
 			p_logger->log("Gamepad State:  NOT ACTIVE");
 			break;
