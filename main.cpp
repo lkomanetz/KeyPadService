@@ -1,6 +1,7 @@
 #include <string>
 #include <consolelogger.h>
 #include <csignal>
+#include <iostream>
 
 #if PLATFORM_LINUX
 #include <linuxkeypad.h>
@@ -9,7 +10,11 @@
 
 #endif
 
+// TODO(Logan) -> I need to get rid of this preprocessor because it's bad composition.
+#if PLATFORM_WINDOWS
 BOOL winSignalHandler(DWORD signalNum);
+#endif
+
 void linuxSignalHandler(int signalNum);
 void cleanResources();
 
@@ -44,8 +49,14 @@ int main (int argc, char** argv) {
 
 void linuxSignalHandler(int signalNum) {
 	Program::isRunning = false;
+	delete program;
+	program = NULL;
+
+	exit(signalNum);
 }
 
+// TODO(Logan) -> I really need to refactor this.  I shouldn't need this preprocessor.
+#if PLATFORM_WINDOWS
 BOOL WINAPI winSignalHandler(DWORD signal) {
 	if (signal == CTRL_C_EVENT || signal == CTRL_CLOSE_EVENT) {
 		Program::isRunning = false;
@@ -54,3 +65,4 @@ BOOL WINAPI winSignalHandler(DWORD signal) {
 
 	return FALSE;
 }
+#endif

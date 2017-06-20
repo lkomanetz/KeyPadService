@@ -11,6 +11,7 @@ Program::Program() {
 Program::Program(char* fileLocation, MessageLogger* pLogger) : Program() {
 	p_logger = pLogger;
 	loadKeyMap(fileLocation);
+	pLogger->log("KeyPad service running...");
 }
 
 Program::~Program() {
@@ -21,6 +22,7 @@ Program::~Program() {
 	if (p_keyboard) {
 		delete p_keyboard;
 	}
+	p_logger->log("KeyPad service stopped...");
 }
 
 void Program::loadKeyMap(string fileLoc) {
