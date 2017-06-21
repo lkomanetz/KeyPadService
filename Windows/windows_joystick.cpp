@@ -2,6 +2,7 @@
 
 WindowsJoystick::WindowsJoystick() {
 	_controllerNumber = 0;
+	_active = true;
 }
 
 WindowsJoystick::~WindowsJoystick() { }
