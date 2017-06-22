@@ -2,6 +2,7 @@
 #define MESSAGELOGGER_H
 
 #include <string>
+#include <ctime>
 
 class MessageLogger {
 public:
