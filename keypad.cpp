@@ -1,5 +1,6 @@
 #include <string>
 #include <consolelogger.h>
+#include <filelogger.h>
 
 #if PLATFORM_LINUX
 #include <linuxkeypad.h>
@@ -11,7 +12,7 @@
 Program* program = NULL;
 
 int main (int argc, char** argv) {
-	ConsoleLogger logger;
+	FileLogger logger("test.txt");
 	if (argc != 2) {
 		std::string msg = "Usage: ";
 		msg.append(argv[0]);

@@ -5,6 +5,9 @@
 #include <ctime>
 
 class MessageLogger {
+protected:
+	const char* getCurrentLocalTime();
+
 public:
 	virtual void log(const std::string msg) = 0;
 };
