@@ -10,6 +10,7 @@ Program::Program() {
 
 Program::Program(char* fileLocation, MessageLogger* pLogger) : Program() {
 	p_logger = pLogger;
+	//TODO(Logan) -> Figure out why not finding the keybindings file causes weird behavior.
 	loadKeyMap(fileLocation);
 	pLogger->log("KeyPad service running...");
 }
@@ -36,10 +37,8 @@ void Program::loadKeyMap(string fileLoc) {
 		throw errorMsg.c_str();
 	}
 
-	while (inFile) {
-		string line;
-		getline(inFile, line);
-
+	string line;
+	while (getline(inFile, line)) {
 		if (line.length() == 0) {
 			continue;
 		}
