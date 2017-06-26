@@ -30,8 +30,10 @@ void Program::loadKeyMap(string fileLoc) {
 
 	ifstream inFile(fileLoc.c_str());
 	if (!inFile) {
-		std::cerr << "Unable to open file '" << fileLoc << "'" << std::endl;
-		return;
+		std::string errorMsg = "Unable to open file '";
+		errorMsg.append(fileLoc);
+		errorMsg.append("'");
+		throw errorMsg.c_str();
 	}
 
 	while (inFile) {
