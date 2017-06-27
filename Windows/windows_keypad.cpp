@@ -37,7 +37,7 @@ void WindowsKeypad::run() {
 }
 
 void WindowsKeypad::setupSignalHandler() {
-	SetConsoleCtrlHandler(&WindowsKeypad::signalHandler, TRUE);
+	SetConsoleCtrlHandler((PHANDLER_ROUTINE)WindowsKeypad::signalHandler, TRUE);
 }
 
 BOOL WINAPI WindowsKeypad::signalHandler(DWORD signal) {

@@ -9,7 +9,7 @@
 
 class WindowsKeypad : public Program {
 private:
-	static BOOL signalHandler(DWORD signalNum);
+	static BOOL WINAPI signalHandler(DWORD signalNum);
 
 protected:
 	void setupSignalHandler();

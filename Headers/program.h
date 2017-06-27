@@ -15,7 +15,7 @@ class Program {
 private:
 	KeyMapping _keyMap;
 
-	void loadKeyMap(string fileLoc);
+	int loadKeyMap(string fileLoc);
 
 protected:
 	Joystick* p_joystick;

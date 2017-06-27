@@ -10,8 +10,16 @@ Program::Program() {
 
 Program::Program(char* fileLocation, MessageLogger* pLogger) : Program() {
 	p_logger = pLogger;
-	//TODO(Logan) -> Figure out why not finding the keybindings file causes weird behavior.
-	loadKeyMap(fileLocation);
+	p_logger->log("Attempting to start service...");
+
+	int returnCode = loadKeyMap(fileLocation);
+	if (returnCode == -1) {
+		std::string msg = "Unable to load '";
+		msg.append(fileLocation);
+		msg.append("'");
+		throw msg.c_str();
+	}
+
 	pLogger->log("KeyPad service running...");
 }
 
@@ -26,15 +34,12 @@ Program::~Program() {
 	p_logger->log("KeyPad service stopped...");
 }
 
-void Program::loadKeyMap(string fileLoc) {
+int Program::loadKeyMap(string fileLoc) {
 	_keyMap = {};
 
 	ifstream inFile(fileLoc.c_str());
 	if (!inFile) {
-		std::string errorMsg = "Unable to open file '";
-		errorMsg.append(fileLoc);
-		errorMsg.append("'");
-		throw errorMsg.c_str();
+		return -1;
 	}
 
 	string line;
@@ -47,4 +52,5 @@ void Program::loadKeyMap(string fileLoc) {
 		_keyMap.addBinding(bind);
 	}
 
+	return 0;
 }

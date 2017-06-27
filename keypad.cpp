@@ -24,8 +24,10 @@ int main (int argc, char** argv) {
 	}
 	catch (const char* ex) {
 		logger.log(ex);
-		Program::isRunning = false;
-		return -1;
+		if (program) {
+			Program::isRunning = false;
+		}
+		return 0;
 	}
 
 	if (program) {
@@ -44,5 +46,4 @@ Program* getProgramForPlatform(const char* keybindingsLoc, MessageLogger* pLogge
 #else
 	throw "Unsupported platform...";
 #endif
-
 }
