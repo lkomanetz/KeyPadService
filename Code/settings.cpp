@@ -1,14 +1,14 @@
 #include <settings.h>
 
 Settings::Settings() {
-	_fileName = "settings.txt";
+	_fileName = "W:\\KeyPad\\Build\\settings.txt";
 	_delimiter = "=";
 }
 
 void Settings::load() {
 	std::ifstream inFile(_fileName);
 	if (!inFile) {
-		throw "Unable to load settings...";
+		throw std::runtime_error("Unable to load settings...");
 	}
 
 	std::string lineOfText;

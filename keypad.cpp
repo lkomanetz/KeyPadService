@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <exception>
 #include <consolelogger.h>
 #include <filelogger.h>
 #include <settings.h>
@@ -22,14 +23,14 @@ int main (int argc, char** argv) {
 		program = getProgramForPlatform(settings.getKeybindingsLocation().c_str(), &logger);
 		program->run();
 	}
-	catch (const std::exception& ex) {
+	catch (std::exception& ex) {
 		logger.log(ex.what());
-		if (program) {
-			Program::isRunning = false;
-		}
+	}
+	catch (...) {
+		logger.log("Unknown exception occurred...");
 	}
 
-	if (program) {
+	if (program != NULL) {
 		delete program;
 		program = NULL;
 	}

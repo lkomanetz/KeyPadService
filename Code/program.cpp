@@ -18,10 +18,12 @@ Program::Program(char* fileLocation, MessageLogger* pLogger) : Program() {
 Program::~Program() {
 	if (p_joystick) {
 		delete p_joystick;
+		p_joystick = NULL;
 	}
 
 	if (p_keyboard) {
 		delete p_keyboard;
+		p_keyboard = NULL;
 	}
 	p_logger->log("KeyPad service stopped...");
 }
@@ -31,11 +33,7 @@ void Program::loadKeyMap(string fileLoc) {
 
 	ifstream inFile(fileLoc.c_str());
 	if (!inFile) {
-		std::string msg = "Unable to load '";
-		msg.append(fileLoc);
-		msg.append("'");
-
-		throw std::runtime_error(msg);
+		throw std::runtime_error("Unable to load '" + fileLoc + "'");
 	}
 
 	string line;
