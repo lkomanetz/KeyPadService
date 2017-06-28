@@ -1,4 +1,4 @@
-#include <string>
+#include <stdexcept>
 #include <consolelogger.h>
 #include <filelogger.h>
 #include <settings.h>
@@ -22,12 +22,11 @@ int main (int argc, char** argv) {
 		program = getProgramForPlatform(settings.getKeybindingsLocation().c_str(), &logger);
 		program->run();
 	}
-	catch (const char* ex) {
-		logger.log(ex);
+	catch (const std::exception& ex) {
+		logger.log(ex.what());
 		if (program) {
 			Program::isRunning = false;
 		}
-		return 0;
 	}
 
 	if (program) {
@@ -44,6 +43,6 @@ Program* getProgramForPlatform(const char* keybindingsLoc, MessageLogger* pLogge
 #elif PLATFORM_WINDOWS
 	return new WindowsKeypad(const_cast<char*>(keybindingsLoc), pLogger);
 #else
-	throw "Unsupported platform...";
+	throw std::runtime_exception("Unsupported platform...");
 #endif
 }

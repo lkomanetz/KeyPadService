@@ -1,5 +1,4 @@
 #include <../Headers/program.h>
-#include <iostream>
 
 bool Program::isRunning = false;
 
@@ -12,14 +11,7 @@ Program::Program(char* fileLocation, MessageLogger* pLogger) : Program() {
 	p_logger = pLogger;
 	p_logger->log("Attempting to start service...");
 
-	int returnCode = loadKeyMap(fileLocation);
-	if (returnCode == -1) {
-		std::string msg = "Unable to load '";
-		msg.append(fileLocation);
-		msg.append("'");
-		throw msg.c_str();
-	}
-
+	loadKeyMap(fileLocation);
 	pLogger->log("KeyPad service running...");
 }
 
@@ -34,12 +26,16 @@ Program::~Program() {
 	p_logger->log("KeyPad service stopped...");
 }
 
-int Program::loadKeyMap(string fileLoc) {
+void Program::loadKeyMap(string fileLoc) {
 	_keyMap = {};
 
 	ifstream inFile(fileLoc.c_str());
 	if (!inFile) {
-		return -1;
+		std::string msg = "Unable to load '";
+		msg.append(fileLoc);
+		msg.append("'");
+
+		throw std::runtime_error(msg);
 	}
 
 	string line;
@@ -51,6 +47,4 @@ int Program::loadKeyMap(string fileLoc) {
 		KeyBind bind = KeyBindConverter::toKeyBind(line);
 		_keyMap.addBinding(bind);
 	}
-
-	return 0;
 }

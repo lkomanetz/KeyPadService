@@ -11,6 +11,16 @@
 			"cwd": "/${workspaceRoot}",
 			"environment": [],
 			"externalConsole": true
+		},
+		{
+			"name": "(Linux) Launch",
+			"program": "${workspaceRoot}/Build/keypad",
+			"request": "launch",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "/${workspaceRoot}",
+			"environment": [],
+			"externalConsole": true
 		}
 	]
 }

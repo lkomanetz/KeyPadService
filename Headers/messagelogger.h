@@ -5,6 +5,9 @@
 #include <ctime>
 
 class MessageLogger {
+private:
+	std::string _currentDateTimeStr;
+
 protected:
 	const char* getCurrentLocalTime();
 

@@ -1,4 +1,5 @@
 #include <filelogger.h>
+#include <iostream>
 
 FileLogger::FileLogger(const char* fileLocation) {
 	_fileLocation = fileLocation;
@@ -10,5 +11,5 @@ void FileLogger::log(std::string msg) {
 		return;
 	}
 
-	outFile << this->getCurrentLocalTime() << " -> " << msg << std::endl;
+	outFile << this->getCurrentLocalTime() << " -> " <<  msg << std::endl;
 }
