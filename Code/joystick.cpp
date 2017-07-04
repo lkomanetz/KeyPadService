@@ -1,5 +1,9 @@
 #include <joystick.h>
 
+Joystick::Joystick(MessageLogger* pLogger) {
+	p_logger = pLogger;
+}
+
 void Joystick::setButtonState(
 	ControllerButton btn,
 	bool value,

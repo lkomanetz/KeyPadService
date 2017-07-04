@@ -1,7 +1,7 @@
 #include <settings.h>
 
 Settings::Settings() {
-	_fileName = "W:\\KeyPad\\Build\\settings.txt";
+	_fileName = "settings.txt";
 	_delimiter = "=";
 }
 

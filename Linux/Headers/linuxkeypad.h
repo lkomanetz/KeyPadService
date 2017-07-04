@@ -11,15 +11,17 @@ private:
 	static void signalHandler(int signalNum);
 	static void* getJoystickState(void*);
 
+	void initializeJoystickEvents();
+
 protected:
 	void setupSignalHandler();
 
 public:
-	LinuxKeypad();
 	LinuxKeypad(char* fileLocation, MessageLogger* pLogger);
 	virtual ~LinuxKeypad();
 	virtual LinuxJoystick* getJoystick() const;
 	virtual void sendKeyPress(KeyboardButton btn) {}
+	virtual void sleep(int sleepMs);
 	virtual void run();
 	void getCurrentFocusedWindow();
 };

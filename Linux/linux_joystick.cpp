@@ -1,34 +1,42 @@
 #include <linuxjoystick.h>
 
-LinuxJoystick::LinuxJoystick() {
+LinuxJoystick::LinuxJoystick(MessageLogger* pLogger) : 
+	Joystick(pLogger) {
+
 	p_event = new js_event;
-	_joystickFd = 0;
-	_active = false;
-
-	_joystickFd = open(JOY_DEV, O_RDONLY | O_NONBLOCK);
-	ioctl(_joystickFd, JSIOCGAXES, &_axisCount);
-	ioctl(_joystickFd, JSIOCGBUTTONS, &_buttonCount);
-	ioctl(_joystickFd, JSIOCGNAME(256), &_name);
-
-	fcntl(_joystickFd, F_SETFL, O_NONBLOCK);
-	_active = _joystickFd >= 0;
+	_joystickFd = -1;
 }
 
 LinuxJoystick::~LinuxJoystick() {
-	if (p_event)
+	if (p_event) {
 		delete p_event;
+		p_event = NULL;
+	}
 
 	close(_joystickFd);
+	if (_active) {
+		p_logger->log("Joystick disconnected");
+	}
+}
+
+void LinuxJoystick::connect() {
+	_joystickFd = open(JOY_DEV, O_RDONLY | O_NONBLOCK);
+	fcntl(_joystickFd, F_SETFL, O_NONBLOCK);
+
+	_active = _joystickFd >= 0;
+	if (_active) {
+		p_logger->log("Joystick connected");
+	}
 }
 
 void LinuxJoystick::fillState() {
+	Joystick_State previousState = _state;
+
 	int bytesRead = read(_joystickFd, p_event, sizeof(js_event));
 	if (bytesRead == -1) {
 		sendButtonPressedEvents();
 		return;
 	}
-	
-	Joystick_State previousState = _state;
 
 	//TODO(Logan) -> Look at possibly refactoring this into a separate method.
 	switch (p_event->type & ~JS_EVENT_INIT) {

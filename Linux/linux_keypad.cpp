@@ -1,34 +1,13 @@
 #include <linuxkeypad.h>
 
-LinuxKeypad::LinuxKeypad() {
-	p_keyboard = new LinuxKeyboard();
-	p_joystick = new LinuxJoystick();
-
-	p_joystick->buttonPressed = [&](ControllerButton btn) {
-		KeyboardButton* kbBtn = getKeyMap()->getKeyboardButtonFor(btn);
-		p_keyboard->sendKeyPress(getKeyMap()->getKeyboardButtonFor(btn));
-	};
-	p_joystick->buttonReleased = [&](ControllerButton btn) {
-		KeyboardButton* kbBtn = getKeyMap()->getKeyboardButtonFor(btn);
-		p_keyboard->sendKeyRelease(getKeyMap()->getKeyboardButtonFor(btn));
-	};
-}
-
 LinuxKeypad::LinuxKeypad(char* fileLocation, MessageLogger* pLogger) :
 	Program(fileLocation, pLogger) {
 
-	p_keyboard = new LinuxKeyboard();
-	p_joystick = new LinuxJoystick();
+	p_keyboard = new LinuxKeyboard(p_logger);
+	p_joystick = new LinuxJoystick(p_logger);
 
-	p_joystick->buttonPressed = [&](ControllerButton btn) {
-		KeyboardButton* kbBtn = getKeyMap()->getKeyboardButtonFor(btn);
-		p_keyboard->sendKeyPress(getKeyMap()->getKeyboardButtonFor(btn));
-	};
-	p_joystick->buttonReleased = [&](ControllerButton btn) {
-		KeyboardButton* kbBtn = getKeyMap()->getKeyboardButtonFor(btn);
-		p_keyboard->sendKeyRelease(getKeyMap()->getKeyboardButtonFor(btn));
-	};
 
+	this->initializeJoystickEvents();
 	this->setupSignalHandler();
 }
 
@@ -42,15 +21,22 @@ LinuxJoystick* LinuxKeypad::getJoystick() const {
 
 void LinuxKeypad::run() {
 	LinuxJoystick* js = this->getJoystick();
+	js->connect();
+
 	while(Program::isRunning) {
 		if (!js->isActive()) {
-			p_logger->log("Gamepad State:  NOT ACTIVE");
-			break;
+			js->connect();
 		}
 
-		js->fillState();
-		usleep(25);
+		if (js->isActive()) {
+			js->fillState();
+		}
+		this->sleep(25);
 	}
+}
+
+void LinuxKeypad::sleep(int sleepMs) {
+	usleep(sleepMs);
 }
 
 void LinuxKeypad::setupSignalHandler() {
@@ -60,4 +46,15 @@ void LinuxKeypad::setupSignalHandler() {
 
 void LinuxKeypad::signalHandler(int signalNum) {
 	Program::isRunning = false;	
+}
+
+void LinuxKeypad::initializeJoystickEvents() {
+	p_joystick->buttonPressed = [&](ControllerButton btn) {
+		KeyboardButton* kbBtn = getKeyMap()->getKeyboardButtonFor(btn);
+		p_keyboard->sendKeyPress(getKeyMap()->getKeyboardButtonFor(btn));
+	};
+	p_joystick->buttonReleased = [&](ControllerButton btn) {
+		KeyboardButton* kbBtn = getKeyMap()->getKeyboardButtonFor(btn);
+		p_keyboard->sendKeyRelease(getKeyMap()->getKeyboardButtonFor(btn));
+	};
 }

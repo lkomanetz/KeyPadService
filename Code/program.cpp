@@ -9,10 +9,10 @@ Program::Program() {
 
 Program::Program(char* fileLocation, MessageLogger* pLogger) : Program() {
 	p_logger = pLogger;
-	p_logger->log("Attempting to start service...");
+	p_logger->log("Attempting to start service");
 
 	loadKeyMap(fileLocation);
-	pLogger->log("KeyPad service running...");
+	pLogger->log("KeyPad service running");
 }
 
 Program::~Program() {
@@ -25,7 +25,7 @@ Program::~Program() {
 		delete p_keyboard;
 		p_keyboard = NULL;
 	}
-	p_logger->log("KeyPad service stopped...");
+	p_logger->log("KeyPad service stopped");
 }
 
 void Program::loadKeyMap(string fileLoc) {

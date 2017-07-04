@@ -29,9 +29,10 @@ private:
 	void sendButtonPressedEvents();
 
 public:
-	LinuxJoystick();
+	LinuxJoystick(MessageLogger* pLogger);
 	virtual ~LinuxJoystick();
 	virtual void fillState();
+	virtual void connect();
 	virtual bool isButtonPressed(ControllerButton button);
 	char* getName() { return _name; }
 	int getButtonCount() { return _buttonCount; }

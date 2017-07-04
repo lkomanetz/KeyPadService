@@ -27,10 +27,10 @@ int main (int argc, char** argv) {
 		logger.log(ex.what());
 	}
 	catch (...) {
-		logger.log("Unknown exception occurred...");
+		logger.log("Unknown exception occurred");
 	}
 
-	if (program != NULL) {
+	if (program) {
 		delete program;
 		program = NULL;
 	}
@@ -44,6 +44,6 @@ Program* getProgramForPlatform(const char* keybindingsLoc, MessageLogger* pLogge
 #elif PLATFORM_WINDOWS
 	return new WindowsKeypad(const_cast<char*>(keybindingsLoc), pLogger);
 #else
-	throw std::runtime_exception("Unsupported platform...");
+	throw std::runtime_exception("Unsupported platform");
 #endif
 }
