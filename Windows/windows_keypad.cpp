@@ -23,15 +23,24 @@ WindowsJoystick* WindowsKeypad::getJoystick() {
 }
 
 void WindowsKeypad::run() {
+	int connectAttempts = 0;
 	WindowsJoystick* js = this->getJoystick();
 	js->connect();
+
 	while (Program::isRunning) {
 		if (!js->isActive()) {
-			Program::isRunning = false;
-			break;
+			js->connect();
+			++connectAttempts;
 		}
 
-		js->fillState();
+		if (js->isActive()) {
+			connectAttempts = 0;
+			js->fillState();
+		}
+		else if (!js->isActive() && connectAttempts >= 5) {
+			throw exception("Joystick connect attempt threshold met");
+		}
+
 		this->sleep(25);
 	}	
 }

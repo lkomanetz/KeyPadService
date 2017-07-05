@@ -1,6 +1,8 @@
 #ifndef PROGRAM_H
 #define PROGRAM_H
 
+#include <stdexcept>
+#include <exception>
 #include <string>
 #include <fstream>
 #include <keybindconverter.h>

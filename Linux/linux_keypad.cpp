@@ -20,16 +20,21 @@ LinuxJoystick* LinuxKeypad::getJoystick() const {
 }
 
 void LinuxKeypad::run() {
+	int connectAttempts = 0;
 	LinuxJoystick* js = this->getJoystick();
 	js->connect();
 
 	while(Program::isRunning) {
 		if (!js->isActive()) {
 			js->connect();
+			connectAttempts++;
 		}
 
 		if (js->isActive()) {
 			js->fillState();
+		}
+		else if (!js->isActive() && connectAttempts >= 5) {
+			throw exception("Joystick connect attempt threshold met");
 		}
 		this->sleep(25);
 	}
