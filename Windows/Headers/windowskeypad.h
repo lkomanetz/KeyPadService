@@ -18,6 +18,7 @@ public:
 	WindowsKeypad(char* fileLocation, MessageLogger* pLogger);
 	virtual ~WindowsKeypad();
 	virtual void run();
+	virtual void sleep(int sleepMs);
 	virtual WindowsJoystick* getJoystick();
 	virtual WindowsKeyboard* getKeyboard() { return dynamic_cast<WindowsKeyboard*>(p_keyboard); }
 	void sendKeyPress(KeyboardButton button) { p_keyboard->sendKeyPress(&button); }

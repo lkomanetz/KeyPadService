@@ -6,6 +6,7 @@
 
 class WindowsKeyboard : public Keyboard {
 public:
+	WindowsKeyboard(MessageLogger* pLogger);
 	void sendKeyPress(KeyboardButton* buttons);
 	void sendKeyRelease(KeyboardButton* buttons);
 

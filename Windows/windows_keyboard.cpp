@@ -1,5 +1,8 @@
 #include <windowskeyboard.h>
 
+WindowsKeyboard::WindowsKeyboard(MessageLogger* pLogger) :
+	Keyboard(pLogger) {}
+
 void WindowsKeyboard::sendKeyPress(KeyboardButton* buttons) {
 	KEYBDINPUT kb = {};
 	INPUT input = {};

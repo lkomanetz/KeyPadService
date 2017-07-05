@@ -16,7 +16,7 @@ Program* getProgramForPlatform(const char* keybindingsLoc, MessageLogger* pLogge
 Program* program = NULL;
 
 int main (int argc, char** argv) {
-	FileLogger logger("test.txt");
+	ConsoleLogger logger;
 	try {
 		Settings settings;
 		settings.load();

@@ -3,8 +3,8 @@
 WindowsKeypad::WindowsKeypad(char* fileLocation, MessageLogger* pLogger) :
 	Program(fileLocation, pLogger) {
 
-	p_keyboard = new WindowsKeyboard();
-	p_joystick = new WindowsJoystick();
+	p_keyboard = new WindowsKeyboard(p_logger);
+	p_joystick = new WindowsJoystick(p_logger);
 
 	p_joystick->buttonPressed = [&](ControllerButton btn) { 
 		p_keyboard->sendKeyPress(getKeyMap()->getKeyboardButtonFor(btn));
@@ -24,20 +24,24 @@ WindowsJoystick* WindowsKeypad::getJoystick() {
 
 void WindowsKeypad::run() {
 	WindowsJoystick* js = this->getJoystick();
+	js->connect();
 	while (Program::isRunning) {
 		if (!js->isActive()) {
-			p_logger->log("Gamepad State:  NOT ACTIVE");
 			Program::isRunning = false;
 			break;
 		}
 
 		js->fillState();
-		Sleep(25);
+		this->sleep(25);
 	}	
 }
 
 void WindowsKeypad::setupSignalHandler() {
 	SetConsoleCtrlHandler((PHANDLER_ROUTINE)WindowsKeypad::signalHandler, TRUE);
+}
+
+void WindowsKeypad::sleep(int sleepMs) {
+	Sleep(sleepMs);
 }
 
 BOOL WINAPI WindowsKeypad::signalHandler(DWORD signal) {
