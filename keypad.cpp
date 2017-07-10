@@ -68,7 +68,7 @@ int main (int argc, char** argv) {
 				joystick->fillState();
 			}
 			else if (!joystick->isActive() && connectAttempts >= 5) {
-				throw exception("Joystick connect attempt threhsold met.");
+				throw std::runtime_error("Joystick connect attempt threhsold met.");
 			}
 
 			sleep(25);
@@ -102,7 +102,7 @@ Joystick* createJoystick(MessageLogger* pLogger) {
 #elif PLATFORM_LINUX
 	return new LinuxJoystick(pLogger);
 #else
-	throw std::runtime_exception("Unsupported platform");
+	throw std::runtime_error("Unsupported platform");
 #endif
 }
 
@@ -112,7 +112,7 @@ Keyboard* createKeyboard(MessageLogger* pLogger) {
 #elif PLATFORM_LINUX
 	return new LinuxKeyboard(pLogger);
 #else
-	throw std::runtime_exception("Unsupported platform");
+	throw std::runtime_error("Unsupported platform");
 #endif
 }
 
@@ -132,7 +132,7 @@ KeyMapping buildKeyMap(std::string fileLocation) {
 		std::string msg = "Unable to load '";
 		msg.append(fileLocation);
 		msg.append("'");
-		throw exception(msg.c_str());
+		throw std::runtime_error(msg.c_str());
 	}
 
 	std::string line;

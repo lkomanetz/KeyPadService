@@ -34,7 +34,7 @@ void LinuxKeypad::run() {
 			js->fillState();
 		}
 		else if (!js->isActive() && connectAttempts >= 5) {
-			throw exception("Joystick connect attempt threshold met");
+			throw std::runtime_error("Joystick connect attempt threshold met");
 		}
 		this->sleep(25);
 	}
