@@ -43,7 +43,8 @@ int main (int argc, char** argv) {
 		Settings settings;
 		settings.load();
 
-		KeyMapping keyMap = buildKeyMap(settings.getKeybindingsLocation());
+		std::string fileLocation = settings.getValue("keybindings_location");
+		KeyMapping keyMap = buildKeyMap(fileLocation);
 		keyboard = createKeyboard(&logger);
 		joystick = createJoystick(&logger);
 
@@ -68,7 +69,7 @@ int main (int argc, char** argv) {
 				joystick->fillState();
 			}
 			else if (!joystick->isActive() && connectAttempts >= 5) {
-				throw std::runtime_error("Joystick connect attempt threhsold met.");
+				throw std::runtime_error("Joystick connect attempt threshold met.");
 			}
 
 			sleep(25);
