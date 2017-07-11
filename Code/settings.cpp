@@ -24,7 +24,7 @@ std::string Settings::getValue(std::string settingName) {
 	auto search = _settingsMap.find(settingName);
 	if (search == _settingsMap.end()) {
 		std::string msg = "Setting '" + settingName + "' not found.";
-		throw std::exception(msg.c_str());
+		throw std::runtime_error(msg.c_str());
 	}
 
 	return search->second;

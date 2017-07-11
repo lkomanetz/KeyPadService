@@ -14,9 +14,6 @@ LinuxJoystick::~LinuxJoystick() {
 	}
 
 	close(_joystickFd);
-	if (_active) {
-		p_logger->log("Joystick disconnected");
-	}
 }
 
 void LinuxJoystick::connect() {
