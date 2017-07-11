@@ -30,6 +30,7 @@ void setupSignalHandler();
 Joystick* joystick = NULL;
 Keyboard* keyboard = NULL;
 bool isRunning = true;
+std::string settingsFileLocation = "settings.txt";
 
 #if PLATFORM_WINDOWS
 BOOL WINAPI signalHandler(DWORD signal) { if (signal == CTRL_C_EVENT || signal == CTRL_CLOSE_EVENT) { isRunning = false; return TRUE; } return FALSE; }
