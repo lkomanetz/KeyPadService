@@ -4,6 +4,10 @@ Joystick::Joystick(MessageLogger* pLogger) {
 	p_logger = pLogger;
 }
 
+Joystick::~Joystick() {
+	p_logger->log("Joystick disconnected.");
+}
+
 void Joystick::setButtonState(
 	ControllerButton btn,
 	bool value,

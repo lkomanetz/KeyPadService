@@ -9,7 +9,7 @@
 class WindowsJoystick : public Joystick {
 public:
 	WindowsJoystick(MessageLogger* pLogger);
-	~WindowsJoystick();
+	virtual ~WindowsJoystick();
 	virtual void fillState();
 	virtual void connect();
 	virtual bool isButtonPressed(ControllerButton button);

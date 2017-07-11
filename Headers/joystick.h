@@ -41,7 +41,7 @@ protected:
 
 public:
 	Joystick(MessageLogger* pLogger);
-	virtual ~Joystick() {};
+	virtual ~Joystick();
 	std::function<void(ControllerButton)> buttonPressed;
 	std::function<void(ControllerButton)> buttonReleased;
 	virtual void fillState() = 0;

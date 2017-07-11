@@ -39,6 +39,7 @@ void signalHandler(int signalNum) { isRunning = false; }
 
 int main (int argc, char** argv) {
 	ConsoleLogger logger;
+	setupSignalHandler();
 	try {
 		Settings settings;
 		settings.load();
@@ -90,7 +91,7 @@ int main (int argc, char** argv) {
 
 void setupSignalHandler() {
 #if PLATFORM_WINDOWS
-	SetConsoleCtrlHandler((PHANDLER_ROUTINE)signalHandler, TRUE);
+	SetConsoleCtrlHandler(signalHandler, TRUE);
 #elif PLATFORM_LINUX
 	signal(SIGHUP, signalHandler);
 	signal(SIGINT, signalHandler);
