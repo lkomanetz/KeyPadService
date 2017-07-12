@@ -2,6 +2,7 @@
 
 Joystick::Joystick(MessageLogger* pLogger) {
 	p_logger = pLogger;
+	p_logger->log("Attempting to connect joystick.");
 }
 
 Joystick::~Joystick() {

@@ -1,12 +1,11 @@
 #include <linuxkeyboard.h>
 #include <iostream>
 
-LinuxKeyboard::LinuxKeyboard(MessageLogger* pLogger) :
+LinuxKeyboard::LinuxKeyboard(MessageLogger* pLogger, std::string keyboardPortName) :
 	Keyboard(pLogger) {
-	_fd = open("/dev/input/event4", O_RDWR | O_NONBLOCK);
+	_fd = open(keyboardPortName, O_RDWR | O_NONBLOCK);
 	if (_fd == -1) {
-		std::cerr << "Failed to open dev/input/event4" << std::endl;
-		p_logger->log("Failed to open /dev/input/event4");
+		p_logger->log("Failed to open '" + keyboardPortName + "'.");
 	}
 }
 

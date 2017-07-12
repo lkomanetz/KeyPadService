@@ -21,8 +21,8 @@
 
 // Forward-declared method signatures
 KeyMapping buildKeyMap(std::string fileLocation);
-Joystick* createJoystick(MessageLogger* pLogger);
-Keyboard* createKeyboard(MessageLogger* pLogger);
+Joystick* createJoystick(MessageLogger* pLogger, const Settings* pSettings);
+Keyboard* createKeyboard(MessageLogger* pLogger, const Settings* pSettings);
 void sleep(int sleepMs);
 void setupSignalHandler();
 
@@ -47,8 +47,8 @@ int main (int argc, char** argv) {
 
 		std::string fileLocation = settings.getValue("keybindings_location");
 		KeyMapping keyMap = buildKeyMap(fileLocation);
-		keyboard = createKeyboard(&logger);
-		joystick = createJoystick(&logger);
+		keyboard = createKeyboard(&logger, &settings);
+		joystick = createJoystick(&logger, &settings);
 
 		joystick->buttonPressed = [&](ControllerButton btn) {
 			keyboard->sendKeyPress(keyMap.getKeyboardButtonFor(btn));
@@ -99,21 +99,21 @@ void setupSignalHandler() {
 #endif
 }
 
-Joystick* createJoystick(MessageLogger* pLogger) {
+Joystick* createJoystick(MessageLogger* pLogger, const Settings* pSettings) {
 #if PLATFORM_WINDOWS
 	return new WindowsJoystick(pLogger);
 #elif PLATFORM_LINUX
-	return new LinuxJoystick(pLogger);
+	return new LinuxJoystick(pLogger, pSettings->getValue("joystick_port"));
 #else
 	throw std::runtime_error("Unsupported platform");
 #endif
 }
 
-Keyboard* createKeyboard(MessageLogger* pLogger) {
+Keyboard* createKeyboard(MessageLogger* pLogger, const Settings* pSettings) {
 #if PLATFORM_WINDOWS
 	return new WindowsKeyboard(pLogger);
 #elif PLATFORM_LINUX
-	return new LinuxKeyboard(pLogger);
+	return new LinuxKeyboard(pLogger, pSettings->getValue("keyboard_port"));
 #else
 	throw std::runtime_error("Unsupported platform");
 #endif

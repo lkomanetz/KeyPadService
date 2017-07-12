@@ -21,7 +21,7 @@ private:
 	int writeToInputBuffer(KeyboardButton* button, int kbEvent);
 
 public:
-	LinuxKeyboard(MessageLogger* pLogger);
+	LinuxKeyboard(MessageLogger* pLogger, std::string keyboardPortName);
 	virtual ~LinuxKeyboard();
 	void sendKeyPress(KeyboardButton* buttons);
 	void sendKeyRelease(KeyboardButton* buttons);

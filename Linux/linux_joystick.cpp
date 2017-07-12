@@ -1,10 +1,11 @@
 #include <linuxjoystick.h>
 
-LinuxJoystick::LinuxJoystick(MessageLogger* pLogger) : 
+LinuxJoystick::LinuxJoystick(MessageLogger* pLogger, std::string portName) : 
 	Joystick(pLogger) {
 
 	p_event = new js_event;
 	_joystickFd = -1;
+	_portName = portName;
 }
 
 LinuxJoystick::~LinuxJoystick() {
@@ -17,7 +18,7 @@ LinuxJoystick::~LinuxJoystick() {
 }
 
 void LinuxJoystick::connect() {
-	_joystickFd = open(JOY_DEV, O_RDONLY | O_NONBLOCK);
+	_joystickFd = open(_portName, O_RDONLY | O_NONBLOCK);
 	fcntl(_joystickFd, F_SETFL, O_NONBLOCK);
 
 	_active = _joystickFd >= 0;
