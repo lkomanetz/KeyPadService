@@ -28,8 +28,6 @@ void sleep(int sleepMs);
 void setupSignalHandler();
 
 // Globals
-Joystick* joystick = NULL;
-Keyboard* keyboard = NULL;
 bool isRunning = true;
 std::string settingsFileLocation = "settings.txt";
 
@@ -40,41 +38,43 @@ void signalHandler(int signalNum) { isRunning = false; }
 #endif
 
 int main (int argc, char** argv) {
+	Keyboard* pKeyboard = NULL;
+	Joystick* pJoystick = NULL;
 	ConsoleLogger logger;
 	setupSignalHandler();
+
 	try {
 		Settings settings;
 		settings.load();
 
 		std::string fileLocation = settings.getValue("keybindings_location");
 		KeyMapping keyMap = buildKeyMap(fileLocation);
-		keyboard = createKeyboard(&logger, &settings);
-		joystick = createJoystick(&logger, &settings);
+		pKeyboard = createKeyboard(&logger, &settings);
+		pJoystick = createJoystick(&logger, &settings);
 
-		joystick->buttonPressed = [&](ControllerButton btn) {
-			keyboard->sendKeyPress(keyMap.getKeyboardButtonFor(btn));
+		pJoystick->buttonPressed = [&](ControllerButton btn) {
+			pKeyboard->sendKeyPress(keyMap.getKeyboardButtonFor(btn));
 		};
-		joystick->buttonReleased = [&](ControllerButton btn) {
-			keyboard->sendKeyRelease(keyMap.getKeyboardButtonFor(btn));
+		pJoystick->buttonReleased = [&](ControllerButton btn) {
+			pKeyboard->sendKeyRelease(keyMap.getKeyboardButtonFor(btn));
 		};
 
 		int connectAttempts = 0;
-		joystick->connect();
+		pJoystick->connect();
 
 		while (isRunning) {
-			if (!joystick->isActive()) {
-				joystick->connect();
+			if (!pJoystick->isActive() && connectAttempts < MAX_CONNECT_ATTEMPTS) {
+				pJoystick->connect();
 				++connectAttempts;
+				continue;
 			}
 
-			if (joystick->isActive()) {
-				connectAttempts = 0;
-				joystick->fillState();
-			}
-			else if (!joystick->isActive() && connectAttempts >= MAX_CONNECT_ATTEMPTS) {
+			if (!pJoystick->isActive() && connectAttempts >= MAX_CONNECT_ATTEMPTS) {
 				throw std::runtime_error("Joystick connect attempt threshold met.");
 			}
 
+			connectAttempts = 0;
+			pJoystick->fillState();
 			sleep(25);
 		}
 	}
@@ -85,8 +85,8 @@ int main (int argc, char** argv) {
 		logger.log("Unknown exception occurred");
 	}
 
-	safe_delete(joystick);
-	safe_delete(keyboard);
+	safe_delete(pJoystick);
+	safe_delete(pKeyboard);
 
 	return 0;
 }
