@@ -18,6 +18,7 @@
 #endif
 
 #define safe_delete(ptr) if(ptr) { delete ptr; ptr = NULL; }
+#define MAX_CONNECT_ATTEMPTS 5
 
 // Forward-declared method signatures
 KeyMapping buildKeyMap(std::string fileLocation);
@@ -70,7 +71,7 @@ int main (int argc, char** argv) {
 				connectAttempts = 0;
 				joystick->fillState();
 			}
-			else if (!joystick->isActive() && connectAttempts >= 5) {
+			else if (!joystick->isActive() && connectAttempts >= MAX_CONNECT_ATTEMPTS) {
 				throw std::runtime_error("Joystick connect attempt threshold met.");
 			}
 
