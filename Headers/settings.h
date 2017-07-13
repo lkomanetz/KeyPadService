@@ -15,7 +15,7 @@ private:
 public:
 	Settings();
 	void load();
-	std::string getValue(std::string settingName);
+	std::string getValue(std::string settingName) const;
 
 };
 

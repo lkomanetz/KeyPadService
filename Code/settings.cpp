@@ -20,7 +20,7 @@ void Settings::load() {
 	}
 }
 
-std::string Settings::getValue(std::string settingName) {
+std::string Settings::getValue(std::string settingName) const {
 	auto search = _settingsMap.find(settingName);
 	if (search == _settingsMap.end()) {
 		std::string msg = "Setting '" + settingName + "' not found.";

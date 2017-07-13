@@ -3,7 +3,7 @@
 
 LinuxKeyboard::LinuxKeyboard(MessageLogger* pLogger, std::string keyboardPortName) :
 	Keyboard(pLogger) {
-	_fd = open(keyboardPortName, O_RDWR | O_NONBLOCK);
+	_fd = open(keyboardPortName.c_str(), O_RDWR | O_NONBLOCK);
 	if (_fd == -1) {
 		p_logger->log("Failed to open '" + keyboardPortName + "'.");
 	}

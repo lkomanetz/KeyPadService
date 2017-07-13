@@ -18,7 +18,7 @@ LinuxJoystick::~LinuxJoystick() {
 }
 
 void LinuxJoystick::connect() {
-	_joystickFd = open(_portName, O_RDONLY | O_NONBLOCK);
+	_joystickFd = open(_portName.c_str(), O_RDONLY | O_NONBLOCK);
 	fcntl(_joystickFd, F_SETFL, O_NONBLOCK);
 
 	_active = _joystickFd >= 0;
