@@ -1,5 +1,14 @@
 #include <joystick.h>
 
+Joystick::Joystick(MessageLogger* pLogger) {
+	p_logger = pLogger;
+	p_logger->log("Attempting to connect joystick.");
+}
+
+Joystick::~Joystick() {
+	p_logger->log("Joystick disconnected.");
+}
+
 void Joystick::setButtonState(
 	ControllerButton btn,
 	bool value,

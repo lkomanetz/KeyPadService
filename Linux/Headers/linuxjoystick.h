@@ -9,7 +9,6 @@
 #include <joystick.h>
 #include <keymapping.h>
 
-#define JOY_DEV "/dev/input/js0"
 #define HORIZONTAL_AXIS 6
 #define VERTICAL_AXIS 7
 
@@ -19,6 +18,7 @@ using namespace std;
 
 class LinuxJoystick : public Joystick {
 private:
+	std::string _portName;
 	js_event* p_event;
 	int _axisCount;
 	int _buttonCount;
@@ -29,9 +29,10 @@ private:
 	void sendButtonPressedEvents();
 
 public:
-	LinuxJoystick();
+	LinuxJoystick(MessageLogger* pLogger, std::string portName);
 	virtual ~LinuxJoystick();
 	virtual void fillState();
+	virtual void connect();
 	virtual bool isButtonPressed(ControllerButton button);
 	char* getName() { return _name; }
 	int getButtonCount() { return _buttonCount; }

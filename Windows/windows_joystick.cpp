@@ -1,7 +1,10 @@
 #include <windowsjoystick.h>
 
-WindowsJoystick::WindowsJoystick() {
+WindowsJoystick::WindowsJoystick(MessageLogger* pLogger) :
+	Joystick(pLogger) {
+
 	_controllerNumber = 0;
+	_active = true;
 }
 
 WindowsJoystick::~WindowsJoystick() { }
@@ -15,12 +18,9 @@ void WindowsJoystick::fillState() {
 	ZeroMemory(&state, sizeof(XINPUT_STATE));
 
 	DWORD result = XInputGetState(_controllerNumber, &state);
+	_active = (XInputGetState(_controllerNumber, &state) == ERROR_SUCCESS);
 
-	if (result == ERROR_SUCCESS) {
-		_active = true;
-	}
-	else {
-		_active = false;
+	if (!_active) {
 		return;
 	}
 
@@ -41,4 +41,14 @@ void WindowsJoystick::fillState() {
 	setButtonState(ControllerButtons::DPAD_DOWN, (gp.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) != 0, previousState);
 	setButtonState(ControllerButtons::DPAD_LEFT, (gp.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0, previousState);
 	setButtonState(ControllerButtons::DPAD_RIGHT, (gp.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) != 0, previousState);
+}
+
+void WindowsJoystick::connect() {
+	XINPUT_STATE state;
+	ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+	_active = (XInputGetState(_controllerNumber, &state) == ERROR_SUCCESS);
+	if (_active) {
+		p_logger->log("Joystick connected");
+	}
 }

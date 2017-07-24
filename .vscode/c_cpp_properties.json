@@ -13,7 +13,8 @@
                     "/usr/include",
                     "/usr/local/include"
                 ]
-            }
+            },
+            "intelliSenseMode": "clang-x64"
         },
         {
             "name": "Linux",
@@ -28,7 +29,8 @@
                     "/usr/include",
                     "/usr/local/include"
                 ]
-            }
+            },
+            "intelliSenseMode": "clang-x64"
         },
         {
             "name": "Win32",
@@ -41,7 +43,8 @@
                 "path": [
                     "C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/include/*"
                 ]
-            }
+            },
+            "intelliSenseMode": "msvc-x64"
         },
         {
             "name": "KeyPad",
@@ -54,7 +57,8 @@
                 "path": [
                     "/home/lkomanetz/Code/KeyPad/Headers"
                 ]
-            }
+            },
+            "intelliSenseMode": "clang-x64"
         }
     ]
 }

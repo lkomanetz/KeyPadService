@@ -2,6 +2,7 @@
 #define CONSOLELOGGER_H
 
 #include <iostream>
+#include <algorithm>
 #include <messagelogger.h>
 
 class ConsoleLogger : public MessageLogger {

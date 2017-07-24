@@ -1,0 +1,25 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "(Windows) Launch",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "${workspaceRoot}/Build/keypad.exe",
+			"args": [],
+			"cwd":"${workspaceRoot}",
+			"stopAtEntry": false,
+			"environment": [],
+			"externalConsole": true
+		},
+		{
+			"name": "(Linux) Launch",
+			"program": "${workspaceRoot}/Build/keypad",
+			"request": "launch",
+			"args": [],
+			"stopAtEntry": false,
+			"environment": [],
+			"externalConsole": true
+		}
+	]
+}

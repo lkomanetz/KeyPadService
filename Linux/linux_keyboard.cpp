@@ -1,10 +1,11 @@
 #include <linuxkeyboard.h>
 #include <iostream>
 
-LinuxKeyboard::LinuxKeyboard() {
-	_fd = open("/dev/input/event4", O_RDWR | O_NONBLOCK);
+LinuxKeyboard::LinuxKeyboard(MessageLogger* pLogger, std::string keyboardPortName) :
+	Keyboard(pLogger) {
+	_fd = open(keyboardPortName.c_str(), O_RDWR | O_NONBLOCK);
 	if (_fd == -1) {
-		std::cerr << "Failed to open dev/input/event4" << std::endl;
+		p_logger->log("Failed to open '" + keyboardPortName + "'.");
 	}
 }
 
@@ -15,7 +16,7 @@ LinuxKeyboard::~LinuxKeyboard() {
 void LinuxKeyboard::sendKeyPress(KeyboardButton* buttons) {
 	int n = this->writeToInputBuffer(buttons, KeyboardEvents::KEY_PRESS);
 	if (n < 0) {
-		std::cout << "Failed to write keypress" << std::endl;
+		p_logger->log("Failed to write keypress");
 	}
 	else {
 		input_event evt;
@@ -29,7 +30,7 @@ void LinuxKeyboard::sendKeyPress(KeyboardButton* buttons) {
 void LinuxKeyboard::sendKeyRelease(KeyboardButton* buttons) {
 	int n = this->writeToInputBuffer(buttons, KeyboardEvents::KEY_RELEASE);
 	if (n < 0) {
-		std::cout << "Failed to write keypress" << std::endl;
+		p_logger->log("Failed to write keypress");
 	}
 	else {
 		input_event evt;

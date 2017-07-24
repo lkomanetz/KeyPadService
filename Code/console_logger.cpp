@@ -1,5 +1,5 @@
 #include <consolelogger.h>
 
 void ConsoleLogger::log(std::string msg) {
-	std::cout << msg.c_str() << std::endl;
+	std::cout << this->getCurrentLocalTime() << " -> " << msg.c_str() << std::endl;
 }
