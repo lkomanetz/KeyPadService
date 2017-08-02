@@ -29,7 +29,7 @@ void setupSignalHandler();
 
 // Globals
 bool isRunning = true;
-std::string settingsFileLocation = "settings.txt";
+std::string settingsFileLocation = "service_settings.txt";
 
 #if PLATFORM_WINDOWS
 BOOL WINAPI signalHandler(DWORD signal) { if (signal == CTRL_C_EVENT || signal == CTRL_CLOSE_EVENT) { isRunning = false; return TRUE; } return FALSE; }
@@ -44,7 +44,7 @@ int main (int argc, char** argv) {
 	setupSignalHandler();
 
 	try {
-		Settings settings;
+		Settings settings(settingsFileLocation.c_str());
 		settings.load();
 
 		std::string fileLocation = settings.getValue("keybindings_location");

@@ -13,7 +13,7 @@ private:
 	std::map<std::string, std::string> _settingsMap;
 
 public:
-	Settings();
+	Settings(const char* fileLocation);
 	void load();
 	std::string getValue(std::string settingName) const;
 

@@ -1,7 +1,7 @@
 #include <settings.h>
 
-Settings::Settings() {
-	_fileName = "settings.txt";
+Settings::Settings(const char* fileLocation) {
+	_fileName = fileLocation;
 	_delimiter = "=";
 }
 
