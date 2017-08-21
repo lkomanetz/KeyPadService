@@ -41,6 +41,23 @@ void WindowsJoystick::fillState() {
 	setButtonState(ControllerButtons::DPAD_DOWN, (gp.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) != 0, previousState);
 	setButtonState(ControllerButtons::DPAD_LEFT, (gp.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0, previousState);
 	setButtonState(ControllerButtons::DPAD_RIGHT, (gp.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) != 0, previousState);
+
+	float deadZone = (float)MAX_AXIS_VALUE / 0.25f;
+	if ((gp.sThumbLX < deadZone && gp.sThumbLX > -deadZone) &&
+		(gp.sThumbLY < deadZone && gp.sThumbLY > -deadZone)) {
+		setButtonState(ControllerButtons::LEFT_STICK_DOWN, false, previousState);
+		setButtonState(ControllerButtons::LEFT_STICK_UP, false, previousState);
+		setButtonState(ControllerButtons::LEFT_STICK_RIGHT, false, previousState);
+		setButtonState(ControllerButtons::LEFT_STICK_LEFT, false, previousState);
+
+		return;
+	}
+	
+	float minimumValue = (float)MAX_AXIS_VALUE / 0.75f;
+	setButtonState(ControllerButtons::LEFT_STICK_RIGHT, gp.sThumbLX >= minimumValue, previousState);
+	setButtonState(ControllerButtons::LEFT_STICK_LEFT, gp.sThumbLX <= -minimumValue, previousState);
+	setButtonState(ControllerButtons::LEFT_STICK_UP, gp.sThumbLY >= minimumValue, previousState);
+	setButtonState(ControllerButtons::LEFT_STICK_DOWN, gp.sThumbLY <= -minimumValue, previousState);
 }
 
 void WindowsJoystick::connect() {

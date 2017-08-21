@@ -30,6 +30,10 @@ namespace ControllerButtons {
 	const ControllerButton DPAD_LEFT = 12;
 	const ControllerButton DPAD_UP = 13;
 	const ControllerButton DPAD_DOWN = 14;
+	const ControllerButton LEFT_STICK_LEFT = 15;
+	const ControllerButton LEFT_STICK_UP = 16;
+	const ControllerButton LEFT_STICK_RIGHT = 17;
+	const ControllerButton LEFT_STICK_DOWN = 18;
 }
 
 class Joystick {
