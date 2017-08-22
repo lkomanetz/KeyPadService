@@ -54,6 +54,7 @@ int main (int argc, char** argv) {
 
 		pJoystick->buttonPressed = [&](ControllerButton btn) {
 			pKeyboard->sendKeyPress(keyMap.getKeyboardButtonFor(btn));
+
 		};
 		pJoystick->buttonReleased = [&](ControllerButton btn) {
 			pKeyboard->sendKeyRelease(keyMap.getKeyboardButtonFor(btn));
