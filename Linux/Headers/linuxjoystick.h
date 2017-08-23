@@ -9,10 +9,10 @@
 #include <joystick.h>
 #include <keymapping.h>
 
-#define LEFT_STICK_HORIZONTAL_AXIS = 0;
-#define LEFT_STICK_VERTICAL_AXIS = 1;
-#define RIGHT_STICK_HORIZONTAL_AXIS = 3;
-#define RIGHT_STICK_VERTICAL_AXIS = 4;
+#define LEFT_STICK_HORIZONTAL_AXIS = 0
+#define LEFT_STICK_VERTICAL_AXIS = 1
+#define RIGHT_STICK_HORIZONTAL_AXIS = 3
+#define RIGHT_STICK_VERTICAL_AXIS = 4
 #define DPAD_HORIZONTAL_AXIS 6
 #define DPAD_VERTICAL_AXIS 7
 
@@ -31,6 +31,8 @@ private:
 	
 	bool isAxisButton(ControllerButton button);
 	void sendButtonPressedEvents();
+	void setDpadButtonState(ControllerAxis axis, short rawValue);
+	void setStickButtonState(ControllerAxis axis, short rawValue);
 
 public:
 	LinuxJoystick(MessageLogger* pLogger, std::string portName);

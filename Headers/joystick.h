@@ -4,6 +4,7 @@
 #include <keymapping.h>
 #include <functional>
 #include <messagelogger.h>
+#include <cmath>
 
 #define MIN_AXIS_VALUE -32768
 #define MAX_AXIS_VALUE 32768
