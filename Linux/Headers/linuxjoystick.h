@@ -9,8 +9,12 @@
 #include <joystick.h>
 #include <keymapping.h>
 
-#define HORIZONTAL_AXIS 6
-#define VERTICAL_AXIS 7
+#define LEFT_STICK_HORIZONTAL_AXIS = 0;
+#define LEFT_STICK_VERTICAL_AXIS = 1;
+#define RIGHT_STICK_HORIZONTAL_AXIS = 3;
+#define RIGHT_STICK_VERTICAL_AXIS = 4;
+#define DPAD_HORIZONTAL_AXIS 6
+#define DPAD_VERTICAL_AXIS 7
 
 typedef unsigned short ControllerAxis;
 

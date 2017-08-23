@@ -40,29 +40,32 @@ void LinuxJoystick::fillState() {
 	switch (p_event->type & ~JS_EVENT_INIT) {
 		case JS_EVENT_AXIS: {
 			ControllerAxis axis = static_cast<ControllerAxis>(p_event->number);
-			if ((axis == VERTICAL_AXIS) && p_event->value == 0) {
+			if ((axis == DPAD_VERTICAL_AXIS) && p_event->value == 0) {
 				setButtonState(ControllerButtons::DPAD_DOWN, false, previousState);
 				setButtonState(ControllerButtons::DPAD_UP, false, previousState);
 			}
-			else if ((axis == HORIZONTAL_AXIS) && p_event->value == 0) {
+			else if ((axis == DPAD_HORIZONTAL_AXIS) && p_event->value == 0) {
 				setButtonState(ControllerButtons::DPAD_RIGHT, false, previousState);
 				setButtonState(ControllerButtons::DPAD_LEFT, false, previousState);
 			}
 
-			if ((axis == HORIZONTAL_AXIS || axis == VERTICAL_AXIS) &&
+			if (p_event->value > 15000) {
+				p_logger->log(std::to_string(axis));
+			}
+			if ((axis == DPAD_HORIZONTAL_AXIS || axis == DPAD_VERTICAL_AXIS) &&
 				p_event->value != 0) {
 				
-				if (axis == HORIZONTAL_AXIS && p_event->value < 0) {
+				if (axis == DPAD_HORIZONTAL_AXIS && p_event->value < 0) {
 					setButtonState(ControllerButtons::DPAD_LEFT, true, previousState);
 				}
-				else if (axis == HORIZONTAL_AXIS && p_event->value > 0) {
+				else if (axis == DPAD_HORIZONTAL_AXIS && p_event->value > 0) {
 					setButtonState(ControllerButtons::DPAD_RIGHT, true, previousState);
 				}
 
-				if (axis == VERTICAL_AXIS && p_event->value < 0) {
+				if (axis == DPAD_VERTICAL_AXIS && p_event->value < 0) {
 					setButtonState(ControllerButtons::DPAD_UP, true, previousState);
 				}
-				else if (axis == VERTICAL_AXIS && p_event->value > 0) {
+				else if (axis == DPAD_VERTICAL_AXIS && p_event->value > 0) {
 					setButtonState(ControllerButtons::DPAD_DOWN, true, previousState);
 				}
 			}
