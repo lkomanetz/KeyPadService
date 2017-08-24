@@ -6,6 +6,8 @@ LinuxJoystick::LinuxJoystick(MessageLogger* pLogger, std::string portName) :
 	p_event = new js_event;
 	_joystickFd = -1;
 	_portName = portName;
+	_minimumAxisValue = (float)MAX_AXIS_VALUE * 0.75f;
+	_axisDeadZone = (float)MAX_AXIS_VALUE * 0.25f;
 }
 
 LinuxJoystick::~LinuxJoystick() {
@@ -41,6 +43,7 @@ void LinuxJoystick::fillState() {
 		case JS_EVENT_AXIS: {
 			ControllerAxis axis = static_cast<ControllerAxis>(p_event->number);
 			setDpadButtonState(axis, p_event->value);
+			setAxisState(axis, p_event->value, previousState);
 			break;
 		}
 		case JS_EVENT_BUTTON: {
@@ -83,7 +86,7 @@ void LinuxJoystick::sendButtonPressedEvents() {
 	}
 }
 
-void LinuxJoystick::setDpadButtonState(ControllerAxis axis, short rawValue) {
+void LinuxJoystick::setDpadButtonState(ControllerAxis axis, short rawValue, Joystick_State previousState) {
 	if ((axis == DPAD_VERTICAL_AXIS) && rawValue == 0) {
 		setButtonState(ControllerButtons::DPAD_DOWN, false, previousState);
 		setButtonState(ControllerButtons::DPAD_UP, false, previousState);
@@ -112,6 +115,22 @@ void LinuxJoystick::setDpadButtonState(ControllerAxis axis, short rawValue) {
 	}
 }
 
-void LinuxJoystick::setStickButtonState(ControllerAxis axis, short rawValue) {
+void LinuxJoystick::setAxisState(ContollerAxis axis, short rawValue, Joystick_State previousState) {
+	ControllerButton btn = -1;
+	bool axisPressed = (rawValue > _axisDeadZone && rawValue >= _minimumAxisValue);
 
+	switch (axis) {
+		case LEFT_STICK_HORIZONTAL_AXIS:
+			btn = (rawValue >= 0) ? ControllerButtons::LEFT_STICK_RIGHT : ControllerButtons::LEFT_STICK_LEFT;
+			break;
+		case LEFT_STICK_VERTICAL_AXIS:
+			btn = (rawValue >= 0) ? ControllerButtons::LEFT_STICK_DOWN : ControllerButtons::LEFT_STICK_UP;
+			break;
+		case RIGHT_STICK_HORIZONTAL_AXIS:
+		case RIGHT_STICK_VERTICAL_AXIS:
+			//TODO(Logan) -> Figure out how to handle mapping both analog sticks.
+			break;
+	}
+
+	setButtonState(btn, axisPressed, previousState);
 }

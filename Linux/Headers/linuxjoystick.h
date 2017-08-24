@@ -28,11 +28,13 @@ private:
 	int _buttonCount;
 	int _joystickFd;
 	char _name[256];
+	float _minimumAxisValue;
+	float _axisDeadZone;
 	
 	bool isAxisButton(ControllerButton button);
 	void sendButtonPressedEvents();
-	void setDpadButtonState(ControllerAxis axis, short rawValue);
-	void setStickButtonState(ControllerAxis axis, short rawValue);
+	void setDpadButtonState(ControllerAxis axis, short rawValue, Joystick_State previousState);
+	void setAxisState(ControllerAxis axis, short rawValue, Joystick_State previousState);
 
 public:
 	LinuxJoystick(MessageLogger* pLogger, std::string portName);
