@@ -3,19 +3,11 @@
 LinuxJoystick::LinuxJoystick(MessageLogger* pLogger, std::string portName) : 
 	Joystick(pLogger) {
 
-	p_event = new js_event;
 	_joystickFd = -1;
 	_portName = portName;
-	_minimumAxisValue = (float)MAX_AXIS_VALUE * 0.75f;
-	_axisDeadZone = (float)MAX_AXIS_VALUE * 0.25f;
 }
 
 LinuxJoystick::~LinuxJoystick() {
-	if (p_event) {
-		delete p_event;
-		p_event = NULL;
-	}
-
 	close(_joystickFd);
 }
 
@@ -30,48 +22,37 @@ void LinuxJoystick::connect() {
 }
 
 void LinuxJoystick::fillState() {
+	js_event evt = {};
 	Joystick_State previousState = _state;
 
-	int bytesRead = read(_joystickFd, p_event, sizeof(js_event));
+	int bytesRead = read(_joystickFd, &evt, sizeof(js_event));
 	if (bytesRead == -1) {
 		sendButtonPressedEvents();
 		return;
 	}
 
-	//TODO(Logan) -> Look at possibly refactoring this into a separate method.
-	switch (p_event->type & ~JS_EVENT_INIT) {
+	switch (evt.type & ~JS_EVENT_INIT) {
 		case JS_EVENT_AXIS: {
-			ControllerAxis axis = static_cast<ControllerAxis>(p_event->number);
-			setDpadButtonState(axis, p_event->value, previousState);
-			setAxisState(axis, p_event->value, previousState);
+			ControllerAxis axis = static_cast<ControllerAxis>(evt.number);
+			setDpadButtonState(axis, evt.value, previousState);
+			setAxisState(axis, evt.value, previousState);
 			break;
 		}
 		case JS_EVENT_BUTTON: {
-			ControllerButton btn = static_cast<ControllerButton>(p_event->number);
-			setButtonState(btn, p_event-> value == 1, previousState);
+			ControllerButton btn = static_cast<ControllerButton>(evt.number);
+			setButtonState(btn, evt.value == 1, previousState);
 			break;
 		}
 	}
 }
 
-bool LinuxJoystick::isButtonPressed(ControllerButton button) {
-	if (!this->isAxisButton(button))
-		return _state.buttonStates[button];
-
-	return _state.axisStates[button] != 0;
-}
-
 /*
- * Linux's Joystick.h treats the dpad buttons as if they were a joystick axis.  So I decided
- * that the directional pad buttons would be considered "axis buttons".
+ * With reading from the joystick port, nothing is written into that event file unless
+ * a value has changed.  For example if a button is still pressed the next time it is
+ * checked nothing is read from the file (there is nothing to read).  So to make sure
+ * button pressed events are still going through I send an event for every button still
+ * pressed down.
  */
-bool LinuxJoystick::isAxisButton(ControllerButton button) {
-	return (button == ControllerButtons::DPAD_DOWN ||
-		button == ControllerButtons::DPAD_RIGHT ||
-		button == ControllerButtons::DPAD_LEFT ||
-		button == ControllerButtons::DPAD_UP);
-}
-
 void LinuxJoystick::sendButtonPressedEvents() {
 	for (auto it : _state.buttonStates) {
 		if (it.second == true) {

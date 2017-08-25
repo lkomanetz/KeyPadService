@@ -6,7 +6,6 @@
 #include <messagelogger.h>
 #include <cmath>
 
-#define MIN_AXIS_VALUE -32768
 #define MAX_AXIS_VALUE 32768
 
 struct Joystick_State {
@@ -39,6 +38,8 @@ namespace ControllerButtons {
 
 class Joystick {
 protected:
+	float _minimumAxisValue;
+	float _axisDeadZone;
 	int _controllerNumber;
 	Joystick_State _state;
 	bool _active;
@@ -51,7 +52,6 @@ public:
 	std::function<void(ControllerButton)> buttonReleased;
 	virtual void fillState() = 0;
 	virtual void connect() = 0;
-	virtual bool isButtonPressed(ControllerButton button) = 0;
 	void setButtonState(ControllerButton btn, bool value, Joystick_State previousState);
 	virtual Joystick_State getCurrentState() { return _state; }
 	bool isActive() { return _active; }

@@ -23,7 +23,6 @@ using namespace std;
 class LinuxJoystick : public Joystick {
 private:
 	std::string _portName;
-	js_event* p_event;
 	int _axisCount;
 	int _buttonCount;
 	int _joystickFd;
@@ -31,7 +30,6 @@ private:
 	float _minimumAxisValue;
 	float _axisDeadZone;
 	
-	bool isAxisButton(ControllerButton button);
 	void sendButtonPressedEvents();
 	void setDpadButtonState(ControllerAxis axis, short rawValue, Joystick_State previousState);
 	void setAxisState(ControllerAxis axis, short rawValue, Joystick_State previousState);
@@ -41,7 +39,6 @@ public:
 	virtual ~LinuxJoystick();
 	virtual void fillState();
 	virtual void connect();
-	virtual bool isButtonPressed(ControllerButton button);
 	char* getName() { return _name; }
 	int getButtonCount() { return _buttonCount; }
 	int getAxisCount() { return _axisCount; }

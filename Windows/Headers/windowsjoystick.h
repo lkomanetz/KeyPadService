@@ -12,7 +12,6 @@ public:
 	virtual ~WindowsJoystick();
 	virtual void fillState();
 	virtual void connect();
-	virtual bool isButtonPressed(ControllerButton button);
 
 };
 

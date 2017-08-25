@@ -3,6 +3,8 @@
 Joystick::Joystick(MessageLogger* pLogger) {
 	p_logger = pLogger;
 	p_logger->log("Attempting to connect joystick.");
+	_axisDeadZone = MAX_AXIS_VALUE * 0.25f;
+	_minimumAxisValue = MAX_AXIS_VALUE * 0.75f;
 }
 
 Joystick::~Joystick() {

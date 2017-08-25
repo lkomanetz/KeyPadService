@@ -9,10 +9,6 @@ WindowsJoystick::WindowsJoystick(MessageLogger* pLogger) :
 
 WindowsJoystick::~WindowsJoystick() { }
 
-bool WindowsJoystick::isButtonPressed(ControllerButton button) {
-	return _state.buttonStates[button];
-}
-
 void WindowsJoystick::fillState() {
 	XINPUT_STATE state;
 	ZeroMemory(&state, sizeof(XINPUT_STATE));
