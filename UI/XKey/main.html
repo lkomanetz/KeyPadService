@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo left">XKey</a>
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="#" data-bind="click: createBindings">Create Bindings</a></li>
+                        <li><a href="#" data-bind="click: open">Open Bindings</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container" data-bind="visible: bindings().length > 0">
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th>Gamepad Button</th>
+                        <th>Keyboard Button</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: bindings">
+                    <tr height="70">
+                        <td data-bind="text: gamepadButton"></td>
+                        <td data-bind="text: keyboardButton"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script src="main-view-model.js"></script>
+    </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "xkey",
+  "version": "1.0.0",
+  "description": "UI for maintaining keybindings used by the service",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "Logan Komanetz",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^8.2.5",
+    "knockout": "^3.5.1"
+  }
+}
