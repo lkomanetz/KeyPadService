@@ -30,7 +30,14 @@
                     </tr>
                 </tbody>
             </table>
+            <div data-bind="template: { name: actionName }"></div>
         </div>
-        <script src="main-view-model.js"></script>
+        <script>require("./main-view-model.js")</script>
+        <script type="text/html" id="new-bindings-template">
+            <button class="btn">Create</button>
+        </script>
+        <script type="text/html" id="update-bindings-template">
+            <button class="btn">Update</button>
+        </script>
     </body>
 </html>

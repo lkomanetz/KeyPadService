@@ -1,5 +1,6 @@
 # Build directory
 [Bb]uild/
+[Bb]in/
 
 # Node Modules
 node_modules/

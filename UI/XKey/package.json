@@ -5,13 +5,16 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "build": "tsc && copyfiles *.html *.css bin/",
+    "start": "tsc && copyfiles *.html *.css bin/ && electron ./bin/app.js"
   },
   "author": "Logan Komanetz",
   "license": "MIT",
   "dependencies": {
     "electron": "^8.2.5",
     "knockout": "^3.5.1"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.2.0"
   }
 }
