@@ -2,31 +2,32 @@ import { IKeyboardButton } from "./keyboard-button-interface";
 
 export class WindowsKeyboard implements IKeyboardButton {
 
-    private _map: Map<string, string>;
+    private _map: Map<number, string>;
 
     constructor() {
         this._map = this.buildMap();
     }
 
-    getKeyName(keyCode: string): string {
-        return [...this._map].find(([k, v]) => v === keyCode)[0];
+    getKeyName(keyCode: number): string {
+        return this._map.get(keyCode) ?? "NULL";
     }
 
-    toKeyCode(keyName: string): string {
-        return this._map.get(keyName);
+    toKeyCode(keyName: string): number {
+        const foundPair = [...this._map].find(([k, v]) => v === keyName);
+        return (foundPair) ? foundPair[0] : -1;
     }
 
-    private buildMap(): Map<string, string> {
-        const keyMap = new Map<string, string>();
-        keyMap.set("Z", "0x5a");
-        keyMap.set("X", "0x58");
-        keyMap.set("Spacebar", "0x20");
-        keyMap.set("Enter", "0x0D");
-        keyMap.set("Left Arrow", "0x25");
-        keyMap.set("Up Arrow", "0x26");
-        keyMap.set("Right Arrow", "0x27");
-        keyMap.set("Down Arrow", "0x28");
-        return keyMap;
+    private buildMap(): Map<number, string> {
+        return new Map<number, string>([
+            [0x5A, "Z"],
+            [0x58, "X"],
+            [0x20, "Spacebar"],
+            [0x0D, "Enter"],
+            [0x25, "Left Arrow"],
+            [0x26, "Up Arrow"],
+            [0x27, "Right Arrow"],
+            [0x28, "Down Arrow"]
+        ]);
     }
 
 }

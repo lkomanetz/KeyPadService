@@ -1,9 +1,9 @@
 export class KeyBinding {
 
-    gamepadButton: GamepadButtons;
-    keyboardButton: any;
+    gamepadButton: string;
+    keyboardButton: string;
     
-    constructor(gamepadButton, keyboardButton) {
+    constructor(gamepadButton: string, keyboardButton: string) {
         this.gamepadButton = gamepadButton;
         this.keyboardButton = keyboardButton;
     }
@@ -26,4 +26,12 @@ export enum GamepadButtons {
     DpadUp = 13,
     DpadDown = 14
 }
-// module.exports = { KeyBinding, GamepadButtons };
+
+export function getGamepadButtonList(): Array<string> {
+    const buttons = [];
+    for (const member in GamepadButtons) {
+        const isValueProperty = parseInt(member, 10) >= 0;
+        if (isValueProperty) buttons.push(GamepadButtons[member]);
+    }
+    return buttons;
+}

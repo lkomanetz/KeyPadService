@@ -1,6 +1,6 @@
 export interface IKeyboardButton {
 
-    getKeyName(keyCode: string): string;
-    toKeyCode(keyName: string): string;
+    getKeyName(keyCode: number): string;
+    toKeyCode(keyName: string): number;
 
 }

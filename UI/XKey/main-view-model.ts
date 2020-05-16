@@ -1,7 +1,8 @@
 import * as ko from "knockout";
 import { remote } from "electron";
 import { FileSystem } from "./file-system";
-import { GamepadButtons, KeyBinding} from "./key-binding";
+import { GamepadButtons, KeyBinding, getGamepadButtonList } from "./key-binding";
+import { AppInfo } from "./app-info";
 import { GamepadButtonConverter } from "./converters";
 
 const dialog = remote.dialog;
@@ -9,12 +10,15 @@ const dialog = remote.dialog;
 class MainWindowViewModel {
 
     private fileSystem: FileSystem;
-    private bindings: any;
     private _actionName: any;
+    private _buttonConverter: GamepadButtonConverter;
 
-    constructor(fileSystem: FileSystem) {
+    bindings: any;
+
+    constructor(fileSystem: FileSystem, buttonConverter: GamepadButtonConverter) {
         this.fileSystem = fileSystem;
         this.bindings = ko.observableArray([]);
+        this._buttonConverter = buttonConverter;
         this._actionName = ko.observable("");
     }
 
@@ -28,6 +32,16 @@ class MainWindowViewModel {
         this.bindings(bindings);
     }
 
+    createBindings() {
+        let bindings = [];
+        for (const prop in getGamepadButtonList()) {
+            const button = this._buttonConverter.convert(parseInt(prop));
+            bindings.push(new KeyBinding(button, "NULL"));
+        }
+        this.actionName = "new-bindings-template";
+        this.bindings(bindings);
+    }
+
     private async getFilePath(): Promise<string> {
         const result = await dialog.showOpenDialog({
             properties: ["openFile"]
@@ -35,15 +49,13 @@ class MainWindowViewModel {
         return result.filePaths.length == 1 ? result.filePaths[0] : "";
     }
 
-    createBindings() {
-        let bindings = [];
-        for (const prop in GamepadButtons) {
-            bindings.push(new KeyBinding(prop, "NULL"));
-        }
-        this.actionName = "new-bindings-template";
-        this.bindings(bindings);
-    }
-
 }
 
-ko.applyBindings(new MainWindowViewModel(new FileSystem(new GamepadButtonConverter(), "utf8")));
+const appInfo = new AppInfo();
+
+ko.applyBindings(
+    new MainWindowViewModel(
+        new FileSystem(new GamepadButtonConverter(), "utf8", appInfo.keyboard),
+        new GamepadButtonConverter()
+    )
+);
