@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: bindings">
-                    <tr height="70">
+                    <tr tabindex="0" height="70" data-bind="event: { keyup: updateBinding }">
                         <td data-bind="text: gamepadButton"></td>
                         <td data-bind="text: keyboardButton"></td>
                     </tr>

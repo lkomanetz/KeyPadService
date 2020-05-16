@@ -21,12 +21,12 @@ export class WindowsKeyboard implements IKeyboardButton {
         return new Map<number, string>([
             [0x5A, "Z"],
             [0x58, "X"],
-            [0x20, "Spacebar"],
-            [0x0D, "Enter"],
-            [0x25, "Left Arrow"],
-            [0x26, "Up Arrow"],
-            [0x27, "Right Arrow"],
-            [0x28, "Down Arrow"]
+            [0x20, "SPACEBAR"],
+            [0x0D, "ENTER"],
+            [0x25, "ARROWLEFT"],
+            [0x26, "ARROWUP"],
+            [0x27, "ARROWRIGHT"],
+            [0x28, "ARROWDOWN"]
         ]);
     }
 
