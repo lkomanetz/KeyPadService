@@ -1,9 +1,9 @@
 export class KeyBinding {
 
     gamepadButton: string;
-    keyboardButton: string;
+    keyboardButton: number;
     
-    constructor(gamepadButton: string, keyboardButton: string) {
+    constructor(gamepadButton: string, keyboardButton: number) {
         this.gamepadButton = gamepadButton;
         this.keyboardButton = keyboardButton;
     }
