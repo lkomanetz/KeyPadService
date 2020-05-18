@@ -3,13 +3,14 @@ import { IKeyboardButton } from "./keyboard-button-interface";
 export class WindowsKeyboard implements IKeyboardButton {
 
     private _map: Map<number, string>;
+    private _specialChars: Map<number, string>;
 
     constructor() {
         this._map = this.buildMap();
+        this._specialChars = this.specialCharacterSet();
     }
 
     getKeyName(keyCode: number): string {
-        
         return this._map.get(keyCode) ?? "NULL";
     }
 
@@ -22,6 +23,17 @@ export class WindowsKeyboard implements IKeyboardButton {
         return new Map<number, string>([
             [0x5A, "Z"],
             [0x58, "X"],
+            [0x20, "SPACEBAR"],
+            [0x0D, "ENTER"],
+            [0x25, "ARROWLEFT"],
+            [0x26, "ARROWUP"],
+            [0x27, "ARROWRIGHT"],
+            [0x28, "ARROWDOWN"]
+        ]);
+    }
+
+    private specialCharacterSet(): Map<number, string> {
+        return new Map<number, string>([
             [0x20, "SPACEBAR"],
             [0x0D, "ENTER"],
             [0x25, "ARROWLEFT"],

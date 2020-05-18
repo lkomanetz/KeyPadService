@@ -34,10 +34,10 @@
         </div>
         <script>require("./main-view-model.js")</script>
         <script type="text/html" id="new-bindings-template">
-            <button class="btn">Create</button>
+            <button class="btn" data-bind="click: saveBindings">Create</button>
         </script>
         <script type="text/html" id="update-bindings-template">
-            <button class="btn">Update</button>
+            <button class="btn" data-bind="click: saveBindings">Update</button>
         </script>
     </body>
 </html>

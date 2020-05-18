@@ -12,7 +12,7 @@ export class FileSystem {
         this._encodingStyle = encodingStyle;
     }
 
-    async loadBindings(location: string): Promise<Array<KeyBinding>> {
+    loadBindings(location: string): Promise<Array<KeyBinding>> {
         let bindings: Array<KeyBinding> = [];
         let data = fs.readFileSync(location, this._encodingStyle).split("\n");
 
@@ -22,7 +22,16 @@ export class FileSystem {
             bindings.push(new KeyBinding(button, parseInt(buttonInfo[1], 16)));
         });
 
-        return bindings;
+        return Promise.resolve(bindings);
+    }
+
+    saveBindings(location: string, bindings: Array<KeyBinding>): Promise<void> {
+        const fileContents = bindings
+            .map(kb => `${kb.gamepadButton}=${kb.keyboardButton}`)
+            .join("\n");
+        
+        fs.writeFile(location, fileContents, { encoding: "utf8" }, e => {});
+        return Promise.resolve();
     }
 
 }

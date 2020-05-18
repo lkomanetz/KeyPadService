@@ -45,6 +45,10 @@ class MainWindowViewModel {
         this.bindings(bindings.map(kb => new KeyBindingViewModel(kb)));
     }
 
+    saveBindings() {
+        console.log(this.bindings());
+    }
+
     private async getFilePath(): Promise<string> {
         const result = await dialog.showOpenDialog({
             properties: ["openFile"]
@@ -63,7 +67,7 @@ class KeyBindingViewModel {
     constructor(binding: KeyBinding) {
        this.keyboardCode = ko.observable(binding.keyboardButton);
        this.gamepadButton = ko.observable(binding.gamepadButton); 
-       this.keyboardButton = ko.observable("NULL");
+       this.keyboardButton = ko.observable(String.fromCodePoint(binding.keyboardButton));
     }
 
     updateBinding(binding:KeyBindingViewModel, evt: KeyboardEvent): void {
