@@ -11,7 +11,7 @@ export class WindowsKeyboard implements IKeyboardButton {
     }
 
     getKeyName(keyCode: number): string {
-        return this._map.get(keyCode) ?? "NULL";
+        return this._specialChars.get(keyCode) ?? String.fromCharCode(keyCode).toUpperCase();
     }
 
     toKeyCode(keyName: string): number {
@@ -34,12 +34,28 @@ export class WindowsKeyboard implements IKeyboardButton {
 
     private specialCharacterSet(): Map<number, string> {
         return new Map<number, string>([
+            [NaN, "NULL"],
             [0x20, "SPACEBAR"],
             [0x0D, "ENTER"],
             [0x25, "ARROWLEFT"],
             [0x26, "ARROWUP"],
             [0x27, "ARROWRIGHT"],
-            [0x28, "ARROWDOWN"]
+            [0x28, "ARROWDOWN"],
+            [0x09, "TAB"],
+            [0x60, "NUMPAD_0"],
+            [0x61, "NUMPAD_1"],
+            [0x62, "NUMPAD_2"],
+            [0x63, "NUMPAD_3"],
+            [0x64, "NUMPAD_4"],
+            [0x65, "NUMPAD_5"],
+            [0x66, "NUMPAD_6"],
+            [0x67, "NUMPAD_7"],
+            [0x68, "NUMPAD_8"],
+            [0x69, "NUMPAD_9"],
+            [0xA0, "Left Shift"],
+            [0xA1, "Right Shift"],
+            [0xA2, "Left Control"],
+            [0xA3, "Right Control"]
         ]);
     }
 

@@ -1,9 +1,10 @@
 import * as ko from "knockout";
 import { remote } from "electron";
 import { FileSystem } from "./file-system";
+import { IKeyboardButton, WindowsKeyboard } from "./keyboard";
 import { KeyBinding, getGamepadButtonList } from "./key-binding";
 import { AppInfo } from "./app-info";
-import { GamepadButtonConverter } from "./converters";
+import { GamepadButtonConverter, KeyboardCodeConverter } from "./converters";
 
 const dialog = remote.dialog;
 
@@ -12,15 +13,18 @@ class MainWindowViewModel {
     private fileSystem: FileSystem;
     private _actionName: any;
     private _buttonConverter: GamepadButtonConverter;
+    private _keyboard: IKeyboardButton;
 
     bindings: any;
 
     constructor(
         fileSystem: FileSystem,
-        buttonConverter: GamepadButtonConverter
+        buttonConverter: GamepadButtonConverter,
+        keyboard: IKeyboardButton
     ) {
         this.fileSystem = fileSystem;
         this.bindings = ko.observableArray([]);
+        this._keyboard = keyboard;
         this._buttonConverter = buttonConverter;
         this._actionName = ko.observable("");
     }
@@ -32,7 +36,7 @@ class MainWindowViewModel {
         const filePath = await this.getFilePath();
         const bindings = await this.fileSystem.loadBindings(filePath);
         this.actionName = "update-bindings-template";
-        this.bindings(bindings.map(kb => new KeyBindingViewModel(kb)));
+        this.bindings(bindings.map(kb => new KeyBindingViewModel(kb, this._keyboard)));
     }
 
     createBindings() {
@@ -42,7 +46,7 @@ class MainWindowViewModel {
             bindings.push(new KeyBinding(button, -1));
         }
         this.actionName = "new-bindings-template";
-        this.bindings(bindings.map(kb => new KeyBindingViewModel(kb)));
+        this.bindings(bindings.map(kb => new KeyBindingViewModel(kb, this._keyboard)));
     }
 
     saveBindings() {
@@ -63,11 +67,14 @@ class KeyBindingViewModel {
     public keyboardCode: any;
     public gamepadButton: any;
     public keyboardButton: any;
+    
+    private _keyboard: IKeyboardButton;
 
-    constructor(binding: KeyBinding) {
-       this.keyboardCode = ko.observable(binding.keyboardButton);
-       this.gamepadButton = ko.observable(binding.gamepadButton); 
-       this.keyboardButton = ko.observable(String.fromCodePoint(binding.keyboardButton));
+    constructor(binding: KeyBinding, keyboard: IKeyboardButton) {
+        this._keyboard = keyboard;
+        this.keyboardCode = ko.observable(binding.keyboardButton);
+        this.gamepadButton = ko.observable(binding.gamepadButton); 
+        this.keyboardButton = ko.observable(keyboard.getKeyName(binding.keyboardButton));
     }
 
     updateBinding(binding:KeyBindingViewModel, evt: KeyboardEvent): void {
@@ -81,8 +88,9 @@ class KeyBindingViewModel {
     }
 
     private getButton(evt: KeyboardEvent) {
-        if (evt.keyCode === 0x20) return "Spacebar";
-        return evt.key;
+        // if (evt.keyCode === 0x20) return "Spacebar";
+        // return evt.key;
+        return this._keyboard.getKeyName(evt.keyCode);
     }
 
 }
@@ -92,6 +100,7 @@ const appInfo = new AppInfo();
 ko.applyBindings(
     new MainWindowViewModel(
         new FileSystem(new GamepadButtonConverter(), "utf8"),
-        new GamepadButtonConverter()
+        new GamepadButtonConverter(),
+        appInfo.keyboard
     )
 );
