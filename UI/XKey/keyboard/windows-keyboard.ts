@@ -1,62 +1,64 @@
 import { IKeyboardButton } from "./keyboard-button-interface";
+import { remote, ClientRequest } from "electron";
 
 export class WindowsKeyboard implements IKeyboardButton {
 
-    private _map: Map<number, string>;
-    private _specialChars: Map<number, string>;
+    private _characterMap: Map<number, string>;
 
     constructor() {
-        this._map = this.buildMap();
-        this._specialChars = this.specialCharacterSet();
+        this._characterMap = new Map<number, string>();
+        this.buildCharacterSetAsync()
+            .then(chars => this._characterMap = chars);
     }
 
     getKeyName(keyCode: number): string {
-        return this._specialChars.get(keyCode) ?? String.fromCharCode(keyCode).toUpperCase();
+        return this._characterMap.get(keyCode) ?? String.fromCharCode(keyCode).toUpperCase();
     }
 
     toKeyCode(keyName: string): number {
-        const foundPair = [...this._map].find(([k, v]) => v === keyName);
+        const alphaNumericResult = keyName.match(/[A-Za-z0-9]/);
+        if (alphaNumericResult) return keyName.charCodeAt(0);
+        const foundPair = [...this._characterMap].find(([k, v]) => v === keyName);
         return (foundPair) ? foundPair[0] : -1;
     }
 
-    private buildMap(): Map<number, string> {
-        return new Map<number, string>([
-            [0x5A, "Z"],
-            [0x58, "X"],
-            [0x20, "SPACEBAR"],
-            [0x0D, "ENTER"],
-            [0x25, "ARROWLEFT"],
-            [0x26, "ARROWUP"],
-            [0x27, "ARROWRIGHT"],
-            [0x28, "ARROWDOWN"]
-        ]);
+    private isInvalidKeyCode(elementCollection: HTMLCollectionOf<HTMLElement>): boolean {
+        return (
+            !elementCollection ||
+            elementCollection[0].innerText === "" ||
+            elementCollection[0].innerText.length === 1 ||
+            elementCollection[0].innerText.includes("Minimum") ||
+            elementCollection[0].innerText.includes("Header") ||
+            elementCollection[0].innerText.includes("Winuser")
+        );
     }
 
-    private specialCharacterSet(): Map<number, string> {
-        return new Map<number, string>([
-            [NaN, "NULL"],
-            [0x20, "SPACEBAR"],
-            [0x0D, "ENTER"],
-            [0x25, "ARROWLEFT"],
-            [0x26, "ARROWUP"],
-            [0x27, "ARROWRIGHT"],
-            [0x28, "ARROWDOWN"],
-            [0x09, "TAB"],
-            [0x60, "NUMPAD_0"],
-            [0x61, "NUMPAD_1"],
-            [0x62, "NUMPAD_2"],
-            [0x63, "NUMPAD_3"],
-            [0x64, "NUMPAD_4"],
-            [0x65, "NUMPAD_5"],
-            [0x66, "NUMPAD_6"],
-            [0x67, "NUMPAD_7"],
-            [0x68, "NUMPAD_8"],
-            [0x69, "NUMPAD_9"],
-            [0xA0, "Left Shift"],
-            [0xA1, "Right Shift"],
-            [0xA2, "Left Control"],
-            [0xA3, "Right Control"]
-        ]);
+    private buildCharacterSetAsync(): Promise<Map<number, string>> {
+        return new Promise((resolve, reject) => {
+            let specialChars = new Map<number, string>();
+            specialChars.set(NaN, "NULL");
+            
+            const textDecoder = new TextDecoder("utf-8");
+            const domParser = new DOMParser();
+            const url = "https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes";
+            const request = remote.net.request(url);
+            request.on("response", r => {
+                r.on("end", () => resolve(specialChars));
+                r.on("data", chunk => {
+                    const html = domParser.parseFromString(textDecoder.decode(chunk), "text/html");
+                    const keyCodes = html.getElementsByTagName("dl");
+                    for (let i = 0; i < keyCodes.length; ++i) {
+                        const dt = keyCodes[i].getElementsByTagName("dt");
+                        if (this.isInvalidKeyCode(dt)) continue;
+                        const keyText = dt[0].innerText;
+                        const keyCode = parseInt(dt[1].innerText, 16);
+                        console.log(`KeyCode: ${keyCode} , KeyText: ${keyText}`);
+                        specialChars.set(keyCode, keyText);
+                    }
+                });
+            });
+            request.end();
+        });
     }
 
 }

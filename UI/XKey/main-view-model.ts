@@ -78,7 +78,8 @@ class KeyBindingViewModel {
     }
 
     updateBinding(binding:KeyBindingViewModel, evt: KeyboardEvent): void {
-        this.keyboardCode(evt.keyCode);
+        const keyCode = this._keyboard.toKeyCode(evt.key.toUpperCase());
+        this.keyboardCode(keyCode);
         this.keyboardButton(this.getButton(evt));
         evt.preventDefault();
     }
@@ -88,8 +89,6 @@ class KeyBindingViewModel {
     }
 
     private getButton(evt: KeyboardEvent) {
-        // if (evt.keyCode === 0x20) return "Spacebar";
-        // return evt.key;
         return this._keyboard.getKeyName(evt.keyCode);
     }
 
