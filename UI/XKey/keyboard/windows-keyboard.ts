@@ -15,8 +15,9 @@ export class WindowsKeyboard implements IKeyboardButton {
         return this._characterMap.get(keyCode) ?? String.fromCharCode(keyCode).toUpperCase();
     }
 
+    // TODO(Logan) -> Figure out why special keys end up as NULL
     toKeyCode(keyName: string): number {
-        const alphaNumericResult = keyName.match(/[A-Za-z0-9]/);
+        const alphaNumericResult = keyName.match(/^[A-Za-z0-9]{1}$/);
         if (alphaNumericResult) return keyName.charCodeAt(0);
         const foundPair = [...this._characterMap].find(([k, v]) => v === keyName);
         return (foundPair) ? foundPair[0] : -1;
@@ -36,7 +37,6 @@ export class WindowsKeyboard implements IKeyboardButton {
     private buildCharacterSetAsync(): Promise<Map<number, string>> {
         return new Promise((resolve, reject) => {
             let specialChars = new Map<number, string>();
-            specialChars.set(NaN, "NULL");
             
             const textDecoder = new TextDecoder("utf-8");
             const domParser = new DOMParser();
@@ -50,10 +50,12 @@ export class WindowsKeyboard implements IKeyboardButton {
                     for (let i = 0; i < keyCodes.length; ++i) {
                         const dt = keyCodes[i].getElementsByTagName("dt");
                         if (this.isInvalidKeyCode(dt)) continue;
-                        const keyText = dt[0].innerText;
+                        const isVirtualKey = dt[0].innerText.includes("VK_");
+                        const keyText = (isVirtualKey) ? dt[0].innerText.substring(dt[0].innerText.indexOf("_") + 1) : dt[0].innerText;
                         const keyCode = parseInt(dt[1].innerText, 16);
-                        console.log(`KeyCode: ${keyCode} , KeyText: ${keyText}`);
-                        specialChars.set(keyCode, keyText);
+
+                        if (keyText === "ESCAPE") specialChars.set(-1, "NULL");
+                        else specialChars.set(keyCode, keyText);
                     }
                 });
             });

@@ -14,6 +14,7 @@ class MainWindowViewModel {
     private _actionName: any;
     private _buttonConverter: GamepadButtonConverter;
     private _keyboard: IKeyboardButton;
+    private _currentFilePath: string;
 
     bindings: any;
 
@@ -37,6 +38,7 @@ class MainWindowViewModel {
         const bindings = await this.fileSystem.loadBindings(filePath);
         this.actionName = "update-bindings-template";
         this.bindings(bindings.map(kb => new KeyBindingViewModel(kb, this._keyboard)));
+        this._currentFilePath = filePath;
     }
 
     createBindings() {
@@ -50,7 +52,8 @@ class MainWindowViewModel {
     }
 
     saveBindings() {
-        console.log(this.bindings());
+        if (!this._currentFilePath) this._currentFilePath = dialog.showSaveDialogSync({});
+        this.fileSystem.saveBindings(this._currentFilePath, this.bindings().map(b => b.toContract()));
     }
 
     private async getFilePath(): Promise<string> {
@@ -89,7 +92,8 @@ class KeyBindingViewModel {
     }
 
     private getButton(evt: KeyboardEvent) {
-        return this._keyboard.getKeyName(evt.keyCode);
+        if (evt.key === "Escape") return this._keyboard.getKeyName(-1);
+        else return this._keyboard.getKeyName(evt.keyCode);
     }
 
 }

@@ -19,7 +19,8 @@ export class FileSystem {
         data.forEach(item => {
             let buttonInfo = item.split("=");
             let button = this._buttonConverter.convert(parseInt(buttonInfo[0]));
-            bindings.push(new KeyBinding(button, parseInt(buttonInfo[1], 16)));
+            const keyCode = (buttonInfo[1].trim() === "NULL") ? -1 : parseInt(buttonInfo[1], 16);
+            bindings.push(new KeyBinding(button, keyCode));
         });
 
         return Promise.resolve(bindings);
@@ -27,10 +28,11 @@ export class FileSystem {
 
     saveBindings(location: string, bindings: Array<KeyBinding>): Promise<void> {
         const fileContents = bindings
-            .map(kb => `${kb.gamepadButton}=${kb.keyboardButton}`)
+            .map(kb => `${kb.gamepadButton}=${kb.keyboardButton === -1 ? 'NULL' : kb.keyboardButton}`)
             .join("\n");
         
-        fs.writeFile(location, fileContents, { encoding: "utf8" }, e => {});
+        // fs.writeFile(location, fileContents, { encoding: "utf8" }, e => {});
+        console.log(fileContents);
         return Promise.resolve();
     }
 
