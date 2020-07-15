@@ -93,7 +93,6 @@ class KeyBindingViewModel {
 
     updateBinding(binding:KeyBindingViewModel, evt: KeyboardEvent): void {
         const keyName = evt.key.toUpperCase().replace(/ARROW/, "");
-        // const keyCode = this._keyboard.toKeyCode(evt.key.toUpperCase());
         const keyCode = this._keyboard.toKeyCode(keyName);
         this.keyboardCode(keyCode);
         this.keyboardButton(this.getButton(evt));
