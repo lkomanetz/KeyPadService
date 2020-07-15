@@ -44,7 +44,7 @@ class MainWindowViewModel {
     createBindings() {
         let bindings: Array<KeyBinding> = [];
         for (const prop in getGamepadButtonList()) {
-            const button = this._buttonConverter.convert(parseInt(prop));
+            const button = this._buttonConverter.toButtonName(parseInt(prop));
             bindings.push(new KeyBinding(button, -1));
         }
         this.actionName = "new-bindings-template";
@@ -53,6 +53,9 @@ class MainWindowViewModel {
 
     saveBindings() {
         if (!this._currentFilePath) this._currentFilePath = dialog.showSaveDialogSync({});
+        this._currentFilePath = (!this.containsFileExtension(this._currentFilePath)) ?
+            this.appendFileExtensionTo(this._currentFilePath) :
+            this._currentFilePath;
         this.fileSystem.saveBindings(this._currentFilePath, this.bindings().map(b => b.toContract()));
     }
 
@@ -61,6 +64,14 @@ class MainWindowViewModel {
             properties: ["openFile"]
         });
         return result.filePaths.length == 1 ? result.filePaths[0] : "";
+    }
+
+    private containsFileExtension(path: string): boolean {
+        return path.match(/(\.\w{3}$){1}/) != null;
+    }
+
+    private appendFileExtensionTo(path: string): string {
+        return path + ".txt";
     }
 
 }
@@ -81,7 +92,9 @@ class KeyBindingViewModel {
     }
 
     updateBinding(binding:KeyBindingViewModel, evt: KeyboardEvent): void {
-        const keyCode = this._keyboard.toKeyCode(evt.key.toUpperCase());
+        const keyName = evt.key.toUpperCase().replace(/ARROW/, "");
+        // const keyCode = this._keyboard.toKeyCode(evt.key.toUpperCase());
+        const keyCode = this._keyboard.toKeyCode(keyName);
         this.keyboardCode(keyCode);
         this.keyboardButton(this.getButton(evt));
         evt.preventDefault();
