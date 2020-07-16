@@ -55,6 +55,7 @@ export class WindowsKeyboard implements IKeyboardButton {
                         const keyCode = parseInt(dt[1].innerText, 16);
 
                         if (keyText === "ESCAPE") specialChars.set(-1, "NULL");
+                        else if (keyText === "RETURN") specialChars.set(keyCode, "ENTER");
                         else specialChars.set(keyCode, keyText);
                     }
                 });
