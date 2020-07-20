@@ -1,7 +1,7 @@
 import * as ko from "knockout";
 import { remote } from "electron";
 import { FileSystem } from "./file-system";
-import { IKeyboardButton, WindowsKeyboard } from "./keyboard";
+import { IKeyboardButton } from "./keyboard";
 import { KeyBinding } from "./key-binding";
 import { AppInfo } from "./app-info";
 import { IController } from "./controller/controller";
