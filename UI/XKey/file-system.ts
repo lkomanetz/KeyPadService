@@ -1,14 +1,14 @@
 import * as fs from "fs";
-import { KeyBinding, GamepadButtons } from "./key-binding";
-import { GamepadButtonConverter } from "./converters";
+import { KeyBinding } from "./key-binding";
+import { IController } from "./controller/controller";
 
 export class FileSystem {
 
-    private _buttonConverter: GamepadButtonConverter;
+    private readonly _controller: IController;
     private _encodingStyle: string;
 
-    constructor(buttonConverter: GamepadButtonConverter, encodingStyle: string) {
-        this._buttonConverter = buttonConverter;
+    constructor(controller: IController, encodingStyle: string) {
+        this._controller = controller;
         this._encodingStyle = encodingStyle;
     }
 
@@ -19,7 +19,7 @@ export class FileSystem {
 
             data.forEach(item => {
                 let buttonInfo = item.split("=");
-                let button = this._buttonConverter.toButtonName(parseInt(buttonInfo[0]));
+                let button = this._controller.getButtonName(parseInt(buttonInfo[0]));
                 const keyCode = (buttonInfo[1].trim() === "NULL") ? -1 : parseInt(buttonInfo[1], 16);
                 bindings.push(new KeyBinding(button, keyCode));
             });
@@ -45,7 +45,7 @@ export class FileSystem {
 
     private toOutputString(binding: KeyBinding): string {
         const toHex = (n: number) => n.toString(16).toUpperCase();
-        const buttonId = this._buttonConverter.toButtonId(binding.gamepadButton);
+        const buttonId = this._controller.getButtonId(binding.gamepadButton);
         return `${buttonId}=${binding.keyboardButton === -1 ? 'NULL' : toHex(binding.keyboardButton)}`;
     }
 

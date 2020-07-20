@@ -2,9 +2,9 @@ import * as ko from "knockout";
 import { remote } from "electron";
 import { FileSystem } from "./file-system";
 import { IKeyboardButton, WindowsKeyboard } from "./keyboard";
-import { KeyBinding, getGamepadButtonList } from "./key-binding";
+import { KeyBinding } from "./key-binding";
 import { AppInfo } from "./app-info";
-import { GamepadButtonConverter, KeyboardCodeConverter } from "./converters";
+import { IController } from "./controller/controller";
 
 const dialog = remote.dialog;
 
@@ -12,21 +12,21 @@ class MainWindowViewModel {
 
     private fileSystem: FileSystem;
     private _actionName: any;
-    private _buttonConverter: GamepadButtonConverter;
     private _keyboard: IKeyboardButton;
+    private readonly _controller: IController;
     private _currentFilePath: string;
 
     bindings: any;
 
     constructor(
         fileSystem: FileSystem,
-        buttonConverter: GamepadButtonConverter,
-        keyboard: IKeyboardButton
+        keyboard: IKeyboardButton,
+        controller: IController
     ) {
+        this._controller = controller;
         this.fileSystem = fileSystem;
         this.bindings = ko.observableArray([]);
         this._keyboard = keyboard;
-        this._buttonConverter = buttonConverter;
         this._actionName = ko.observable("");
     }
 
@@ -43,8 +43,9 @@ class MainWindowViewModel {
 
     createBindings() {
         let bindings: Array<KeyBinding> = [];
-        for (const prop in getGamepadButtonList()) {
-            const button = this._buttonConverter.toButtonName(parseInt(prop));
+        for (const prop in this._controller.getButtonList()) {
+            //const button = this._buttonConverter.toButtonName(parseInt(prop));
+            const button = this._controller.getButtonName(parseInt(prop));
             bindings.push(new KeyBinding(button, -1));
         }
         this.actionName = "new-bindings-template";
@@ -114,8 +115,8 @@ const appInfo = new AppInfo();
 
 ko.applyBindings(
     new MainWindowViewModel(
-        new FileSystem(new GamepadButtonConverter(), "utf8"),
-        new GamepadButtonConverter(),
-        appInfo.keyboard
+        new FileSystem(appInfo.controller, "utf8"),
+        appInfo.keyboard,
+        appInfo.controller
     )
 );

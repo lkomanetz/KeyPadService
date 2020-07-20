@@ -1,5 +1,7 @@
 import { IKeyboardButton } from "./keyboard/keyboard-button-interface";
 import { WindowsKeyboard, EmptyKeyboard } from "./keyboard";
+import { IController } from "./controller/controller";
+import { XboxController } from "./controller/xbox-controller";
 
 export class AppInfo {
     private _keyboard: IKeyboardButton;
@@ -15,5 +17,6 @@ export class AppInfo {
     }
 
     get keyboard(): IKeyboardButton { return this._keyboard; }
+    get controller(): IController { return new XboxController(); }
 
 }
