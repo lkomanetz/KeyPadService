@@ -1,4 +1,5 @@
-# The below mappings is for mapping a joystick button press to a keyboard key in the Linux OS
+# The below mappings is for mapping a joystick button press to a keyboard key in the Linux OS.
+# The file type should stay as TXT
 # Joystick Button Codes (using Xbox controller face buttons)
 # ---------------------
 # 0 -> A
