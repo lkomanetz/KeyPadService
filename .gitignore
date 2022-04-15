@@ -1,6 +1,10 @@
 # Build directory
 [Bb]uild/
 
+# IDE directories
+.vscode/
+.vs/
+
 # Compiled Object files
 *.slo
 *.lo

@@ -6,6 +6,7 @@
 #include <settings.h>
 #include <keymapping.h>
 #include <keybindconverter.h>
+#include <inputparameterparser.h>
 
 #if PLATFORM_LINUX
 #include <linuxjoystick.h>
@@ -41,13 +42,17 @@ int main (int argc, char** argv) {
 	Keyboard* pKeyboard = NULL;
 	Joystick* pJoystick = NULL;
 	ConsoleLogger logger;
+	InputParameterParser inputParser(argc, argv);
 	setupSignalHandler();
 
 	try {
 		Settings settings(settingsFileLocation.c_str());
 		settings.load();
 
-		std::string fileLocation = settings.getValue("keybindings_location");
+		std::string fileLocation = inputParser.cmdOptionExists("-f")
+			? inputParser.getCmdOption("-f")
+			: settings.getValue("keybindings_location");
+
 		KeyMapping keyMap = buildKeyMap(fileLocation);
 		pKeyboard = createKeyboard(&logger, &settings);
 		pJoystick = createJoystick(&logger, &settings);
@@ -142,7 +147,7 @@ KeyMapping buildKeyMap(std::string fileLocation) {
 
 	std::string line;
 	while (getline(inFile, line)) {
-		if (line.length() == 0) {
+		if (line.length() == 0 || line[0] == '#') {
 			continue;
 		}
 
