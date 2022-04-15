@@ -9,7 +9,7 @@ private:
     vector<string> _tokens;
 
 public:
-    InputParser(int& argc, char** argv);
+    InputParameterParser(int& argc, char** argv);
     bool cmdOptionExists(const string& option) const;
     const string& getCmdOption(const string& option) const;
 }
